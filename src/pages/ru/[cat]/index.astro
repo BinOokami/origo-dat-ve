@@ -1,0 +1,10 @@
+---
+import CategoryPage from '../../../components/CategoryPage.astro';
+import { catPaths } from '../../../lib/blog';
+import type { Category } from '../../../i18n';
+
+export const getStaticPaths = () => catPaths('ru');
+const { cat } = Astro.props as { cat: Category };
+---
+
+<CategoryPage cat={cat} lang="ru" />

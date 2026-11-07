@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import ProcessSteps from './ProcessSteps.astro';
+import WhyGrid from './WhyGrid.astro';
+import CtaBand from './CtaBand.astro';
+import { images } from '../data/site';
+import { getDict, langs, pagePath, hl, type Lang } from '../i18n';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const a = t.about;
+const home = pagePath(lang, 'home');
+const alternates = Object.fromEntries(langs.map((l) => [l, pagePath(l, 'about')]));
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'AboutPage',
+		name: t.meta.about.title,
+		description: t.meta.about.description,
+		url: abs(pagePath(lang, 'about')),
+		about: { '@id': abs(home) + '#org' },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: t.nav.home, item: abs(home) },
+			{ '@type': 'ListItem', position: 2, name: t.nav.about, item: abs(pagePath(lang, 'about')) },
+		],
+	},
+];
+---
+
+<Base lang={lang} page="about" title={t.meta.about.title} description={t.meta.about.description} keywords={t.meta.about.keywords} alternates={alternates} jsonLd={jsonLd}>
+	<section class="page-hero" style={`--hero-img:url('${images.about}')`}>
+		<div class="container">
+			<nav class="crumbs" aria-label="Breadcrumb"><a href={home}>{t.nav.home}</a><span>/</span><span aria-current="page">{t.nav.about}</span></nav>
+			<SectionHead eyebrow={a.eyebrow} title={a.title} sub={a.sub} center tag="h1" />
+			<p class="lead center-text">{a.intro}</p>
+			<div class="hl-grid">
+				{a.highlights.map((h) => (
+					<div class="hl-card">
+						<span class="why-ico"><Icon name={h.icon} size={26} /></span>
+						<div><b>{h.title}</b><p set:html={hl(h.text, t)} /></div>
+					</div>
+				))}
+			</div>
+			<p class="center-row">
+				<a class="btn btn-green btn-lg" href={`${home}#book`}><Icon name="ticket" size={18} />{t.hero.cta}</a>
+				<a class="btn btn-light" href={`${home}#routes`}>{a.ctaRoutes}</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="about-mission" aria-labelledby="am-title">
+		<div class="container mission-grid">
+			<div class="mission-img"><img src={images.mission} alt="" loading="lazy" width="720" height="540" /></div>
+			<div>
+				<SectionHead eyebrow={t.mission.eyebrow} title={a.missionTitle} id="am-title" />
+				<p class="lead">{a.missionText}</p>
+				<div class="values">
+					{a.values.map((v, i) => (
+						<div class="value"><span class="num">{i + 1}</span><div><b>{v.title}</b><p>{v.text}</p></div></div>
+					))}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ProcessSteps t={t} ctaHref={`${home}#book`} />
+	<WhyGrid t={t} ctaHref={`${home}#book`} />
+	<CtaBand t={t} bookHref={`${home}#book`} secondHref={`${home}#faq`} secondLabel={t.cta.question} />
+</Base>

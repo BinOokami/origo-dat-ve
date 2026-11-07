@@ -1,0 +1,63 @@
+---
+// Trang tổng hợp mọi chuyên mục: /blog/ (và /en/blog/, /ru/blog/)
+import Base from '../layouts/Base.astro';
+import SectionHead from './SectionHead.astro';
+import PostCard from './PostCard.astro';
+import { getDict, langs, categories, pagePath, catPath, type Lang } from '../i18n';
+import { postsFor, postUrl } from '../lib/blog';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const home = pagePath(lang, 'home');
+const posts = await postsFor(lang);
+const withPosts = categories.filter((c) => posts.some((p) => p.data.category === c));
+const alternates = Object.fromEntries(langs.map((l) => [l, pagePath(l, 'blog')]));
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
+		name: t.meta.blog.title,
+		description: t.meta.blog.description,
+		url: abs(pagePath(lang, 'blog')),
+		inLanguage: t.htmlLang,
+		blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: abs(postUrl(p)), datePublished: p.data.date.toISOString().slice(0, 10) })),
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: t.nav.home, item: abs(home) },
+			{ '@type': 'ListItem', position: 2, name: t.nav.blog, item: abs(pagePath(lang, 'blog')) },
+		],
+	},
+];
+---
+
+<Base lang={lang} page="blog" title={t.meta.blog.title} description={t.meta.blog.description} keywords={t.meta.blog.keywords} alternates={alternates} jsonLd={jsonLd}>
+	<section class="page-top">
+		<div class="container">
+			<nav class="crumbs" aria-label="Breadcrumb"><a href={home}>{t.nav.home}</a><span>/</span><span aria-current="page">{t.nav.blog}</span></nav>
+			<SectionHead eyebrow={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} tag="h1" />
+			<div class="cat-jump">
+				{categories.map((c) => <a class:list={['chip', c]} href={catPath(lang, c)}>{t.blog.cats[c]}</a>)}
+			</div>
+		</div>
+	</section>
+
+	{withPosts.map((c) => (
+		<section class="blog-cat">
+			<div class="container">
+				<div class="cat-head">
+					<h2 class:list={['news-cat', c]}>{t.blog.cats[c]}</h2>
+					<a class="more" href={catPath(lang, c)}>{t.blog.all} →</a>
+				</div>
+				<div class="post-grid">{posts.filter((p) => p.data.category === c).slice(0, 6).map((p) => <PostCard post={p} lang={lang} />)}</div>
+			</div>
+		</section>
+	))}
+	{withPosts.length === 0 && <section class="blog-cat"><div class="container"><p class="muted">{t.blog.empty}</p></div></section>}
+</Base>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: khi có tên miền thật, đổi thành https://tenmien.com/sitemap-index.xml
+Sitemap: https://binookami.github.io/origo-dat-ve/sitemap-index.xml

@@ -1,0 +1,200 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { site, routes, ticketPrice } from '../data/site';
+import { languages, langs, categories, getDict, pagePath, catPath, assetPath, type Lang, type PageKey } from '../i18n';
+
+interface Props {
+	lang: Lang;
+	page: PageKey | 'post';
+	title: string;
+	description: string;
+	// Đường dẫn của CÙNG trang này ở các ngôn ngữ (bắt buộc có ngôn ngữ hiện tại). Dùng cho canonical, hreflang, nút đổi ngôn ngữ.
+	alternates: Partial<Record<Lang, string>>;
+	keywords?: string[];
+	jsonLd?: object[];
+	ogType?: 'website' | 'article';
+	noindex?: boolean;
+}
+
+const { lang, page, title, description, alternates, keywords = [], jsonLd = [], ogType = 'website', noindex = false } = Astro.props;
+const t = getDict(lang);
+const abs = (path: string) => new URL(path, Astro.site).href;
+const canonical = abs(alternates[lang] ?? pagePath(lang));
+const home = pagePath(lang, 'home');
+const isHome = page === 'home';
+// Trên trang chủ dùng neo "#book"; trang khác dẫn về trang chủ
+const homeAnchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
+const routeLink = (id: string) => (isHome ? '#book' : `${home}?route=${id}#book`);
+const c = site.contact;
+const ogImage = abs(assetPath(site.ogImage));
+
+const nav = [
+	{ href: home, label: t.nav.home, on: isHome },
+	{ href: homeAnchor('routes'), label: t.nav.routes, on: false },
+	{ href: pagePath(lang, 'about'), label: t.nav.about, on: page === 'about' },
+];
+const navRight = [
+	{ href: pagePath(lang, 'blog'), label: t.nav.blog, on: page === 'blog' || page === 'post' },
+	{ href: homeAnchor('faq'), label: t.nav.faq, on: false },
+];
+const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? 'blog' : (page as PageKey));
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+		{noindex && <meta name="robots" content="noindex, follow" />}
+		<link rel="canonical" href={canonical} />
+		{langs.filter((l) => alternates[l]).map((l) => <link rel="alternate" hreflang={getDict(l).htmlLang} href={abs(alternates[l]!)} />)}
+		{alternates.vi && <link rel="alternate" hreflang="x-default" href={abs(alternates.vi)} />}
+		<meta name="theme-color" content="#0b1f6b" />
+		<link rel="icon" href={assetPath('favicon.ico')} sizes="any" />
+		<link rel="icon" type="image/png" href={assetPath('favicon.png')} />
+		<link rel="apple-touch-icon" href={assetPath('apple-touch-icon.png')} />
+		<meta property="og:site_name" content={site.brand} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content={t.ogLocale} />
+		{langs.filter((l) => l !== lang && alternates[l]).map((l) => <meta property="og:locale:alternate" content={getDict(l).ogLocale} />)}
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="generator" content={Astro.generator} />
+		{jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+	</head>
+	<body data-page={page}>
+		<a class="skip" href="#main">{t.nav.home}</a>
+		<header class="site">
+			<div class="bar">
+				<nav class="side left" aria-label="Menu">
+					{nav.map((n) => <a href={n.href} aria-current={n.on ? 'page' : undefined}>{n.label}</a>)}
+				</nav>
+
+				<a class="logo-mark" href={home} aria-label={site.brand}>
+					<img src={assetPath(site.logo)} alt={`${site.brand} – ${t.brandLine}`} width="160" height="72" fetchpriority="high" />
+				</a>
+
+				<nav class="side right" aria-label="Menu">
+					{navRight.map((n) => <a href={n.href} aria-current={n.on ? 'page' : undefined}>{n.label}</a>)}
+					<details class="lang-dd">
+						<summary aria-label={t.nav.language}><Icon name="globe" size={18} />{languages[lang].short}<Icon name="chevron" size={14} /></summary>
+						<ul>
+							{langs.map((l) => (
+								<li><a href={switchHref(l)} hreflang={getDict(l).htmlLang} lang={getDict(l).htmlLang} aria-current={l === lang ? 'true' : undefined}>{languages[l].label}</a></li>
+							))}
+						</ul>
+					</details>
+					<a class="btn btn-green btn-sm" href={homeAnchor('book')}><Icon name="ticket" size={18} />{t.nav.book}</a>
+				</nav>
+
+				<button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label={t.nav.menu} data-open={t.nav.menu} data-close={t.nav.close}>
+					<Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+				</button>
+			</div>
+
+			<div class="mnav" id="mnav" hidden>
+				<nav aria-label="Menu">
+					{[...nav, ...navRight].map((n) => <a href={n.href} aria-current={n.on ? 'page' : undefined}>{n.label}</a>)}
+				</nav>
+				<div class="mnav-langs" aria-label={t.nav.language}>
+					{langs.map((l) => (
+						<a href={switchHref(l)} hreflang={getDict(l).htmlLang} lang={getDict(l).htmlLang} class:list={[{ on: l === lang }]}>{languages[l].short}</a>
+					))}
+				</div>
+				<a class="btn btn-green" href={homeAnchor('book')}><Icon name="ticket" size={18} />{t.nav.book}</a>
+			</div>
+		</header>
+
+		<main id="main">
+			<slot />
+		</main>
+
+		<footer class="site-foot">
+			<div class="container">
+				<div class="cols">
+					<div class="brand-col">
+						<a class="foot-logo" href={home}><img src={assetPath(site.logo)} alt={site.brand} width="160" height="72" loading="lazy" /></a>
+						<p>{t.footer.about}</p>
+					</div>
+					<div>
+						<h2>{t.footer.routes}</h2>
+						<ul>
+							{routes.map((r) => (
+								<li><a href={routeLink(r.id)} data-route={isHome ? r.id : undefined}>{t.routeInfo[r.id].from} → {t.routeInfo[r.id].to}</a></li>
+							))}
+						</ul>
+					</div>
+					<div>
+						<h2>{t.footer.info}</h2>
+						<ul>
+							<li><a href={pagePath(lang, 'about')}>{t.nav.about}</a></li>
+							<li><a href={homeAnchor('routes')}>{t.nav.routes}</a></li>
+							<li><a href={homeAnchor('faq')}>{t.nav.faq}</a></li>
+							{categories.map((c) => <li><a href={catPath(lang, c)}>{t.blog.cats[c]}</a></li>)}
+						</ul>
+					</div>
+					<div>
+						<h2>{t.footer.contact}</h2>
+						<ul>
+							{c.hotline && <li><a href={`tel:${c.hotline}`}>{c.hotline}</a></li>}
+							{c.email && <li><a href={`mailto:${c.email}`}>{c.email}</a></li>}
+							{c.zalo && <li><a href={`https://zalo.me/${c.zalo}`}>Zalo</a></li>}
+							{c.whatsapp && <li><a href={`https://wa.me/${c.whatsapp}`}>WhatsApp</a></li>}
+							{c.telegram && <li><a href={`https://t.me/${c.telegram}`}>Telegram</a></li>}
+							{c.kakao && <li>KakaoTalk: {c.kakao}</li>}
+							{c.address && <li>{c.address}</li>}
+							{!c.hotline && !c.email && !c.whatsapp && !c.telegram && !c.zalo && <li>{t.footer.contactSoon}</li>}
+						</ul>
+						<div class="foot-langs">
+							{langs.map((l) => <a href={switchHref(l)} hreflang={getDict(l).htmlLang} lang={getDict(l).htmlLang}>{languages[l].label}</a>)}
+						</div>
+					</div>
+				</div>
+				<div class="copy">© {new Date().getFullYear()} {site.brand}. {t.footer.rights}</div>
+			</div>
+		</footer>
+
+		<!-- Thanh đặt vé dính dưới màn hình, chỉ hiện trên điện thoại -->
+		<a class="mbar" href={homeAnchor('book')}>
+			<span class="mbar-price"><small>{t.mobileBar.from}</small>{t.money(ticketPrice)}</span>
+			<span class="mbar-btn"><Icon name="ticket" size={18} />{t.mobileBar.book}</span>
+		</a>
+
+		<script>
+			// Menu điện thoại
+			const btn = document.querySelector<HTMLButtonElement>('.menu-btn')!;
+			const panel = document.getElementById('mnav')!;
+			const setOpen = (open: boolean) => {
+				panel.hidden = !open;
+				btn.setAttribute('aria-expanded', String(open));
+				btn.setAttribute('aria-label', (open ? btn.dataset.close : btn.dataset.open) ?? '');
+				document.body.classList.toggle('menu-open', open);
+			};
+			btn.addEventListener('click', () => setOpen(panel.hidden));
+			panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+			document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+
+			// Đóng menu ngôn ngữ khi bấm ra ngoài
+			const dd = document.querySelector<HTMLDetailsElement>('.lang-dd');
+			document.addEventListener('click', (e) => {
+				if (dd?.open && !dd.contains(e.target as Node)) dd.open = false;
+			});
+
+			// Ẩn thanh đặt vé dưới đáy khi form đặt vé đang hiện trên màn hình
+			const mbar = document.querySelector<HTMLElement>('.mbar')!;
+			const book = document.getElementById('book');
+			if (book && 'IntersectionObserver' in window) {
+				new IntersectionObserver(([en]) => mbar.classList.toggle('away', en.isIntersecting), { threshold: 0.05 }).observe(book);
+			}
+		</script>
+	</body>
+</html>

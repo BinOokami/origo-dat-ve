@@ -1,0 +1,68 @@
+---
+// Trang chuyên mục: /dich-vu/, /cam-nang-nha-trang/, /tin-tuc-nha-trang/ (và bản en, ru)
+import Base from '../layouts/Base.astro';
+import SectionHead from './SectionHead.astro';
+import PostCard from './PostCard.astro';
+import { site } from '../data/site';
+import { getDict, langs, categories, pagePath, catPath, type Category, type Lang } from '../i18n';
+import { postsFor, postUrl } from '../lib/blog';
+
+interface Props {
+	cat: Category;
+	lang: Lang;
+}
+const { cat, lang } = Astro.props;
+const t = getDict(lang);
+const name = t.blog.cats[cat];
+const desc = t.blog.catDesc[cat];
+const posts = (await postsFor(lang)).filter((p) => p.data.category === cat);
+const home = pagePath(lang, 'home');
+const url = catPath(lang, cat);
+const alternates = Object.fromEntries(langs.map((l) => [l, catPath(l, cat)]));
+const abs = (p: string) => new URL(p, Astro.site).href;
+const title = `${name} | ${site.brand}`;
+
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name,
+		description: desc,
+		url: abs(url),
+		inLanguage: t.htmlLang,
+		isPartOf: { '@type': 'Blog', name: t.meta.blog.title, url: abs(pagePath(lang, 'blog')) },
+		mainEntity: {
+			'@type': 'ItemList',
+			itemListElement: posts.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(postUrl(p)), name: p.data.title })),
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{ '@type': 'ListItem', position: 1, name: t.nav.home, item: abs(home) },
+			{ '@type': 'ListItem', position: 2, name: t.nav.blog, item: abs(pagePath(lang, 'blog')) },
+			{ '@type': 'ListItem', position: 3, name, item: abs(url) },
+		],
+	},
+];
+---
+
+<Base lang={lang} page="blog" title={title} description={desc} alternates={alternates} jsonLd={jsonLd} noindex={posts.length === 0}>
+	<section class="page-top">
+		<div class="container">
+			<nav class="crumbs" aria-label="Breadcrumb">
+				<a href={home}>{t.nav.home}</a><span>/</span><a href={pagePath(lang, 'blog')}>{t.nav.blog}</a><span>/</span><span aria-current="page">{name}</span>
+			</nav>
+			<SectionHead eyebrow={t.blog.eyebrow} title={name} sub={desc} tag="h1" />
+			<div class="cat-jump">
+				{categories.map((c) => <a class:list={['chip', c, { on: c === cat }]} href={catPath(lang, c)} aria-current={c === cat ? 'page' : undefined}>{t.blog.cats[c]}</a>)}
+			</div>
+		</div>
+	</section>
+	<section class="blog-cat">
+		<div class="container">
+			{posts.length ? <div class="post-grid">{posts.map((p) => <PostCard post={p} lang={lang} headingTag="h2" />)}</div> : <p class="muted">{t.blog.empty}</p>}
+		</div>
+	</section>
+</Base>

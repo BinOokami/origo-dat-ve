@@ -1,0 +1,39 @@
+---
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+import type { Dict } from '../i18n';
+
+interface Props {
+	t: Dict;
+	ctaHref: string;
+}
+const { t, ctaHref } = Astro.props;
+const p = t.process;
+const groups = [
+	{ ...p.booking, icon: 'ticket', cls: 'blue' },
+	{ ...p.pickup, icon: 'pin', cls: 'green' },
+];
+---
+
+<section id="process" class="process" aria-labelledby="process-title">
+	<div class="container">
+		<SectionHead eyebrow={p.eyebrow} title={p.title} sub={p.sub} center id="process-title" />
+		<div class="process-rows">
+			{groups.map((g) => (
+				<div class:list={['process-row', g.cls]} style={`--n:${g.steps.length}`}>
+					<h3 class="pr-title"><span class="pc-ico"><Icon name={g.icon} size={26} /></span>{g.title}</h3>
+					<ol class="pr-steps">
+						{g.steps.map((s, i) => (
+							<li>
+								<span class="num">{i + 1}</span>
+								<b>{s.title}</b>
+								<p>{s.text}</p>
+							</li>
+						))}
+					</ol>
+				</div>
+			))}
+		</div>
+		<p class="center-row"><a class="btn btn-green btn-lg" href={ctaHref}><Icon name="chat" size={20} />{p.cta}</a></p>
+	</div>
+</section>

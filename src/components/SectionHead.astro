@@ -1,0 +1,19 @@
+---
+// Đầu mục: dòng nhỏ "ORIGO · ..." + tiêu đề + mô tả (theo bố cục trang tham khảo)
+interface Props {
+	eyebrow: string;
+	title: string;
+	sub?: string;
+	center?: boolean;
+	light?: boolean;
+	tag?: 'h1' | 'h2';
+	id?: string;
+}
+const { eyebrow, title, sub, center = false, light = false, tag: Tag = 'h2', id } = Astro.props;
+---
+
+<div class:list={['section-head', { center, light }]}>
+	<p class="eyebrow"><span>Origo</span>{eyebrow}</p>
+	<Tag id={id}>{title}</Tag>
+	{sub && <p class="sub">{sub}</p>}
+</div>

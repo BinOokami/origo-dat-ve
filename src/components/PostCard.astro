@@ -1,0 +1,29 @@
+---
+import { getDict, catPath, type Lang } from '../i18n';
+import { postUrl, type Post } from '../lib/blog';
+
+interface Props {
+	post: Post;
+	lang: Lang;
+	headingTag?: 'h3' | 'h2';
+}
+const { post, lang, headingTag: H = 'h3' } = Astro.props;
+const t = getDict(lang);
+const d = post.data;
+const href = postUrl(post);
+---
+
+<article class="post-card">
+	<a class="pc-img" href={href} tabindex="-1" aria-hidden="true">
+		<img src={d.cover} alt="" loading="lazy" width="640" height="400" />
+	</a>
+	<div class="pc-body">
+		<p class="pc-meta">
+			<a class:list={['chip', 'chip-sm', d.category]} href={catPath(lang, d.category)}>{t.blog.cats[d.category]}</a>
+			<time datetime={d.date.toISOString().slice(0, 10)}>{d.date.toLocaleDateString(t.locale, { day: '2-digit', month: '2-digit', year: 'numeric' })}</time>
+		</p>
+		<H><a href={href}>{d.title}</a></H>
+		<p>{d.description}</p>
+		<a class="more" href={href}>{t.blog.readMore} →</a>
+	</div>
+</article>

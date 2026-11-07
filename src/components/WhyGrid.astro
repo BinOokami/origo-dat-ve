@@ -1,0 +1,29 @@
+---
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+import { hl, type Dict } from '../i18n';
+import { images } from '../data/site';
+
+interface Props {
+	t: Dict;
+	ctaHref: string;
+}
+const { t, ctaHref } = Astro.props;
+const w = t.why;
+---
+
+<section id="why" class="why band" style={`--band-img:url('${images.cta}')`} aria-labelledby="why-title">
+	<div class="container">
+		<SectionHead eyebrow={w.eyebrow} title={w.title} sub={w.sub} center light id="why-title" />
+		<div class="why-grid">
+			{w.items.map((x) => (
+				<div class="why-item">
+					<span class="why-ico"><Icon name={x.icon} size={28} /></span>
+					<h3>{x.title}</h3>
+					<p set:html={hl(x.text, t)} />
+				</div>
+			))}
+		</div>
+		<p class="center-row"><a class="btn btn-green btn-lg" href={ctaHref}><Icon name="ticket" size={20} />{w.cta}</a></p>
+	</div>
+</section>

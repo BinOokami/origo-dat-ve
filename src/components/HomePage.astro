@@ -1,0 +1,363 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import ProcessSteps from './ProcessSteps.astro';
+import WhyGrid from './WhyGrid.astro';
+import PostCard from './PostCard.astro';
+import { site, images, routes, stops, ticketPrice } from '../data/site';
+import { getDict, langs, categories, pagePath, catPath, assetPath, hl, type Lang } from '../i18n';
+import { postsFor } from '../lib/blog';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const f = t.form;
+const r = t.routes;
+
+const km = (n: number) => n.toLocaleString(t.locale) + ' km';
+const mapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+
+const posts = await postsFor(lang);
+// Trên trang chủ chỉ hiện chuyên mục đã có bài
+const homeCats = categories.filter((c) => posts.some((p) => p.data.category === c));
+
+const alternates = Object.fromEntries(langs.map((l) => [l, pagePath(l, 'home')]));
+const url = new URL(pagePath(lang, 'home'), Astro.site).href;
+const logoUrl = new URL(assetPath(site.logo), Astro.site).href;
+const jsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		'@id': url + '#website',
+		name: site.brand,
+		url,
+		inLanguage: t.htmlLang,
+		publisher: { '@id': url + '#org' },
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		'@id': url + '#org',
+		name: site.brand,
+		url,
+		logo: logoUrl,
+		slogan: t.slogan,
+		description: t.footer.about,
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name: t.hero.title,
+		serviceType: 'Airport shuttle',
+		description: t.meta.home.description,
+		provider: { '@id': url + '#org' },
+		areaServed: [
+			{ '@type': 'City', name: 'Nha Trang' },
+			{ '@type': 'Airport', name: 'Cam Ranh International Airport', iataCode: 'CXR' },
+		],
+		availableChannel: { '@type': 'ServiceChannel', serviceUrl: url + '#book' },
+		offers: {
+			'@type': 'Offer',
+			url: url + '#book',
+			priceCurrency: 'VND',
+			price: ticketPrice,
+			priceSpecification: { '@type': 'UnitPriceSpecification', price: ticketPrice, priceCurrency: 'VND', minPrice: ticketPrice, unitText: 'per person, one way' },
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: t.faq.items.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
+	},
+];
+---
+
+<Base lang={lang} page="home" title={t.meta.home.title} description={t.meta.home.description} keywords={t.meta.home.keywords} alternates={alternates} jsonLd={jsonLd}>
+	<!-- 1. HERO: bên trái phủ trắng, mờ dần sang phải để lộ ảnh -->
+	<section class="hero" style={`--hero-img:url('${images.hero}')`} aria-labelledby="hero-title">
+		<div class="container">
+			<div class="hero-inner">
+				<p class="kicker">{t.hero.kicker}</p>
+				<h1 id="hero-title">{t.hero.title}</h1>
+				<p class="hero-price">
+					<span>{t.hero.priceFrom}</span>
+					<strong class="price-tag">{t.priceLong}</strong>
+					<span class="unit">{t.hero.priceUnit}</span>
+				</p>
+				<a class="btn btn-green btn-lg" href="#book"><Icon name="ticket" />{t.hero.cta}</a>
+				<ul class="hero-chips">
+					{t.hero.chips.map((c) => <li><Icon name="trust" size={18} />{c}</li>)}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- 2. CHỌN CHIỀU + ĐIỂM ĐÓN/TRẢ -->
+	<section id="routes" class="routes" aria-labelledby="routes-title">
+		<div class="container">
+			<SectionHead eyebrow={r.eyebrow} title={r.title} sub={r.sub} center id="routes-title" />
+
+			<div class="dir-tabs" role="tablist" aria-label={r.eyebrow}>
+				{routes.map((rt, i) => (
+					<button type="button" role="tab" class="dir-tab" data-dir={rt.id} aria-selected={i === 0 ? 'true' : 'false'} aria-controls="stops-panel">
+						<Icon name={i === 0 ? 'plane' : 'pin'} size={20} />
+						<span>{t.routeInfo[rt.id].from}<b>→</b>{t.routeInfo[rt.id].to}</span>
+					</button>
+				))}
+			</div>
+
+			<div id="stops-panel" role="tabpanel" data-drop-title={r.dropTitle} data-pick-title={r.pickTitle} data-drop-tag={r.dropTag} data-pick-tag={r.pickTag}>
+				<h3 class="stops-title" id="stops-title">{r.dropTitle}</h3>
+				<div class="stops-grid">
+					{stops.map((s) => {
+						const info = t.stopInfo[s.id];
+						return (
+							<article class="stop-card">
+								<div class="stop-img">
+									<img src={s.image} alt={info.name} loading="lazy" width="640" height="400" />
+									<span class="stop-tag">{r.dropTag}</span>
+								</div>
+								<div class="stop-body">
+									<h4>{info.name}</h4>
+									<p class="addr"><Icon name="pin" size={16} />{info.address}</p>
+									<p class="desc">{info.desc}</p>
+									{(s.beachKm != null || s.centerKm != null) && (
+										<ul class="dist">
+											{s.beachKm != null && <li><span>{r.distBeach}</span><b>{km(s.beachKm)}</b></li>}
+											{s.centerKm != null && <li><span>{r.distCenter}</span><b>{km(s.centerKm)}</b></li>}
+										</ul>
+									)}
+									<div class="stop-actions">
+										{s.ready && <a class="btn btn-green btn-block" href="#book">{r.book}</a>}
+										{s.map && <a class="link" href={mapUrl(s.map)} target="_blank" rel="noopener"><Icon name="map" size={16} />{r.map}</a>}
+									</div>
+								</div>
+							</article>
+						);
+					})}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 3. SỨ MỆNH -->
+	<section id="mission" class="mission band" style={`--band-img:url('${images.mission}')`} aria-labelledby="mission-title">
+		<div class="container mission-grid">
+			<div class="mission-img"><img src={images.mission} alt="" loading="lazy" width="720" height="540" /></div>
+			<div>
+				<SectionHead eyebrow={t.mission.eyebrow} title={t.mission.title} light id="mission-title" />
+				<p class="lead">{t.mission.text}</p>
+				<a class="btn btn-light" href={pagePath(lang, 'about')}>{t.mission.more} <Icon name="arrow" size={18} /></a>
+			</div>
+		</div>
+	</section>
+
+	<!-- 4. QUY TRÌNH -->
+	<ProcessSteps t={t} ctaHref="#book" />
+
+	<!-- 5. VÌ SAO CHỌN ORIGO -->
+	<WhyGrid t={t} ctaHref="#book" />
+
+	<!-- 6. FORM ĐẶT VÉ: chỉ vài thông tin, còn lại nhân viên tư vấn. Gửi về Google Sheet qua Apps Script (site.formEndpoint) -->
+	<section id="book" class="book" aria-labelledby="book-title">
+		<div class="container">
+			<div class="booking-wrap">
+				<div class="book-intro">
+					<SectionHead eyebrow={f.eyebrow} title={f.title} sub={f.sub} light id="book-title" />
+					<p class="book-price">{f.priceLine} <strong class="price-tag">{t.priceLong}</strong><small>{f.priceUnit}</small></p>
+				</div>
+				<form
+					class="booking"
+					id="booking-form"
+					data-endpoint={site.formEndpoint}
+					data-price={ticketPrice}
+					data-locale={t.locale}
+					data-currency={f.currency}
+					data-estimate-more={f.estimateMore}
+					data-hint-in={f.timeHintIn}
+					data-hint-out={f.timeHintOut}
+					data-phone-err={f.phoneErr}
+					data-sending={f.sending}
+					data-ok={f.ok}
+					data-code-label={f.codeLabel}
+					data-demo={f.demo}
+					data-err={f.err}
+					novalidate
+				>
+					<input type="hidden" name="lang" value={lang} />
+					<input type="hidden" name="code" id="code" value="" />
+					<div class="grid">
+						<div class="wide">
+							<label for="name">{f.name}</label>
+							<input id="name" name="name" type="text" autocomplete="name" placeholder={f.namePh} required maxlength="80" />
+						</div>
+						<div class="wide">
+							<label for="phone">{f.phone}</label>
+							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+()\s.\-]{8,20}" />
+						</div>
+						<div class="full">
+							<label for="route">{f.route}</label>
+							<select id="route" name="route" required>
+								{routes.map((rt) => <option value={rt.id}>{t.routeInfo[rt.id].from} → {t.routeInfo[rt.id].to}</option>)}
+							</select>
+						</div>
+						<div>
+							<label for="date">{f.date}</label>
+							<input id="date" name="date" type="date" required />
+						</div>
+						<div>
+							<label for="time">{f.time}</label>
+							<input id="time" name="time" type="time" required aria-describedby="time-hint" />
+						</div>
+						<p class="hint full" id="time-hint">{f.timeHintIn}</p>
+						<div>
+							<label for="people">{f.people}</label>
+							<select id="people" name="people" required>
+								{Array.from({ length: 9 }, (_, i) => <option value={String(i + 1)}>{i + 1}</option>)}
+								<option value="10+">{f.peopleMore}</option>
+							</select>
+						</div>
+						<div>
+							<span class="lbl">{f.estimate}</span>
+							<output class="estimate" id="estimate" for="people" aria-live="polite">{ticketPrice.toLocaleString(t.locale)} {f.currency}</output>
+						</div>
+						<!-- honeypot chống bot -->
+						<div class="hp" aria-hidden="true">
+							<label for="website">{f.honeypot}</label>
+							<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+						</div>
+					</div>
+					<button class="btn btn-green btn-lg btn-block" type="submit" id="submit-btn"><Icon name="ticket" />{f.submit}</button>
+					<p class="privacy">{f.privacy}</p>
+					<p id="form-status" role="status" aria-live="polite"></p>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<!-- 7. BLOG: theo chuyên mục -->
+	<section id="news" class="news" aria-labelledby="news-title">
+		<div class="container">
+			<SectionHead eyebrow={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} center id="news-title" />
+			<div class="news-grid">
+				{homeCats.map((c) => (
+					<div class="news-col">
+						<div class="cat-head">
+							<h3 class:list={['news-cat', c]}>{t.blog.cats[c]}</h3>
+							<a class="more" href={catPath(lang, c)}>{t.blog.all} →</a>
+						</div>
+						{posts.filter((p) => p.data.category === c).slice(0, 2).map((p) => <PostCard post={p} lang={lang} />)}
+					</div>
+				))}
+			</div>
+			{homeCats.length === 0 && <p class="muted center-text">{t.blog.empty}</p>}
+			<p class="center-row"><a class="btn btn-light" href={pagePath(lang, 'blog')}>{t.blog.all} <Icon name="arrow" size={18} /></a></p>
+		</div>
+	</section>
+
+	<!-- 8. HỎI ĐÁP -->
+	<section id="faq" class="faq" aria-labelledby="faq-title">
+		<div class="container narrow">
+			<SectionHead eyebrow={t.faq.eyebrow} title={t.faq.title} center id="faq-title" />
+			{t.faq.items.map((x, i) => (
+				<details open={i === 0}>
+					<summary>{x.q}</summary>
+					<p set:html={hl(x.a, t)} />
+				</details>
+			))}
+		</div>
+	</section>
+
+	<script>
+		const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+		const form = el<HTMLFormElement>('booking-form');
+		const status = el('form-status');
+		const btn = el<HTMLButtonElement>('submit-btn');
+		const route = el<HTMLSelectElement>('route');
+		const phone = el<HTMLInputElement>('phone');
+		const panel = el('stops-panel');
+		const tabs = [...document.querySelectorAll<HTMLButtonElement>('.dir-tab')];
+
+		// Ngày nhỏ nhất = hôm nay theo giờ máy khách (không tính lúc build, vì trang tĩnh dựng trước nhiều ngày)
+		const now = new Date();
+		el<HTMLInputElement>('date').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+
+		// Đồng bộ chiều đi giữa mục chọn chiều và form
+		function setDir(dir: string) {
+			route.value = dir;
+			const fromAirport = dir === 'cxr-to-nha-trang';
+			tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.dir === dir)));
+			el('stops-title').textContent = (fromAirport ? panel.dataset.dropTitle : panel.dataset.pickTitle) ?? '';
+			const tag = (fromAirport ? panel.dataset.dropTag : panel.dataset.pickTag) ?? '';
+			panel.querySelectorAll('.stop-tag').forEach((s) => (s.textContent = tag));
+			el('time-hint').textContent = (fromAirport ? form.dataset.hintIn : form.dataset.hintOut) ?? '';
+		}
+		tabs.forEach((b) => b.addEventListener('click', () => setDir(b.dataset.dir!)));
+		route.addEventListener('change', () => setDir(route.value));
+		document.querySelectorAll<HTMLElement>('[data-route]').forEach((a) => a.addEventListener('click', () => setDir(a.dataset.route!)));
+
+		// Từ trang khác dẫn về: ?route=nha-trang-to-cxr#book
+		const qRoute = new URLSearchParams(location.search).get('route');
+		setDir(qRoute && [...route.options].some((o) => o.value === qRoute) ? qRoute : route.value);
+
+		phone.addEventListener('input', () => phone.setCustomValidity(''));
+
+		// Tạm tính theo số người (10+ thì để nhân viên báo giá)
+		const people = el<HTMLSelectElement>('people');
+		const estimate = el('estimate');
+		function updateEstimate() {
+			const n = Number(people.value);
+			estimate.textContent = Number.isFinite(n)
+				? `${(n * Number(form.dataset.price)).toLocaleString(form.dataset.locale)} ${form.dataset.currency}`
+				: (form.dataset.estimateMore ?? '');
+		}
+		people.addEventListener('change', updateEstimate);
+
+		// --- gửi form về Google Sheet (Apps Script). Thông điệp lấy từ data-* nên đúng ngôn ngữ của trang ---
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			status.className = '';
+			const digits = phone.value.replace(/\D/g, '');
+			phone.setCustomValidity(digits.length < 8 || digits.length > 15 ? (form.dataset.phoneErr ?? '') : '');
+			if (!form.checkValidity()) {
+				form.reportValidity();
+				return;
+			}
+			el<HTMLInputElement>('code').value = 'OG-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+			const data = Object.fromEntries(new FormData(form).entries());
+			if (data.website) return; // bot
+
+			const endpoint = form.dataset.endpoint;
+			btn.disabled = true;
+			status.textContent = form.dataset.sending ?? '';
+			try {
+				if (!endpoint) {
+					console.info('Booking (demo mode, not sent):', data);
+					await new Promise((r) => setTimeout(r, 400));
+				} else {
+					// text/plain để tránh preflight CORS với Apps Script; no-cors nên không đọc được phản hồi
+					await fetch(endpoint, {
+						method: 'POST',
+						mode: 'no-cors',
+						headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+						body: JSON.stringify(data),
+					});
+				}
+				status.className = 'ok';
+				status.textContent = `${(endpoint ? form.dataset.ok : form.dataset.demo) ?? ''} ${form.dataset.codeLabel}: ${data.code}`;
+				const dir = route.value;
+				form.reset();
+				setDir(dir);
+				updateEstimate();
+			} catch {
+				status.className = 'err';
+				status.textContent = form.dataset.err ?? '';
+			} finally {
+				btn.disabled = false;
+			}
+		});
+	</script>
+</Base>
