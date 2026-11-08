@@ -5,7 +5,7 @@ import SectionHead from './SectionHead.astro';
 import ProcessSteps from './ProcessSteps.astro';
 import WhyGrid from './WhyGrid.astro';
 import PostCard from './PostCard.astro';
-import { site, images, routes, stops, ticketPrice } from '../data/site';
+import { site, images, stops, ticketPrice } from '../data/site';
 import { getDict, langs, categories, pagePath, catPath, assetPath, hl, type Lang } from '../i18n';
 import { postsFor } from '../lib/blog';
 
@@ -95,22 +95,12 @@ const jsonLd = [
 		</div>
 	</section>
 
-	<!-- 2. CHỌN CHIỀU + ĐIỂM ĐÓN/TRẢ -->
+	<!-- 2. ĐIỂM TRẢ TẠI NHA TRANG (chỉ một chiều: sân bay Cam Ranh → Nha Trang) -->
 	<section id="routes" class="routes" aria-labelledby="routes-title">
 		<div class="container">
 			<SectionHead eyebrow={r.eyebrow} title={r.title} sub={r.sub} center id="routes-title" />
 
-			<div class="dir-tabs" role="tablist" aria-label={r.eyebrow}>
-				{routes.map((rt, i) => (
-					<button type="button" role="tab" class="dir-tab" data-dir={rt.id} aria-selected={i === 0 ? 'true' : 'false'} aria-controls="stops-panel">
-						<Icon name={i === 0 ? 'plane' : 'pin'} size={20} />
-						<span>{t.routeInfo[rt.id].from}<b>→</b>{t.routeInfo[rt.id].to}</span>
-					</button>
-				))}
-			</div>
-
-			<div id="stops-panel" role="tabpanel" data-drop-title={r.dropTitle} data-pick-title={r.pickTitle} data-drop-tag={r.dropTag} data-pick-tag={r.pickTag}>
-				<h3 class="stops-title" id="stops-title">{r.dropTitle}</h3>
+			<div id="stops-panel">
 				<div class="stops-grid">
 					{stops.map((s) => {
 						const info = t.stopInfo[s.id];
@@ -177,12 +167,8 @@ const jsonLd = [
 					data-locale={t.locale}
 					data-currency={f.currency}
 					data-estimate-more={f.estimateMore}
-					data-hint-in={f.timeHintIn}
-					data-hint-out={f.timeHintOut}
 					data-phone-err={f.phoneErr}
-					data-sending={f.sending}
 					data-ok={f.ok}
-					data-code-label={f.codeLabel}
 					data-demo={f.demo}
 					data-err={f.err}
 					novalidate
@@ -199,10 +185,13 @@ const jsonLd = [
 							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+()\s.\-]{8,20}" />
 						</div>
 						<div class="full">
-							<label for="route">{f.route}</label>
-							<select id="route" name="route" required>
-								{routes.map((rt) => <option value={rt.id}>{t.routeInfo[rt.id].from} → {t.routeInfo[rt.id].to}</option>)}
-							</select>
+							<span class="lbl">{f.route}</span>
+							<div class="locked-field" aria-readonly="true"><Icon name="plane" size={20} />{t.routeInfo['cxr-to-nha-trang'].from} → {t.routeInfo['cxr-to-nha-trang'].to}</div>
+							<input type="hidden" name="route" value="cxr-to-nha-trang" />
+						</div>
+						<div class="full">
+							<label for="origin">{f.origin}</label>
+							<input id="origin" name="origin" type="text" placeholder={f.originPh} required maxlength="60" autocomplete="off" />
 						</div>
 						<div>
 							<label for="date">{f.date}</label>
@@ -232,8 +221,14 @@ const jsonLd = [
 					</div>
 					<button class="btn btn-green btn-lg btn-block" type="submit" id="submit-btn"><Icon name="ticket" />{f.submit}</button>
 					<p class="privacy">{f.privacy}</p>
-					<p id="form-status" role="status" aria-live="polite"></p>
 				</form>
+				<!-- Hộp thoại trạng thái gửi: khóa trang khi đang xử lý, không đóng được bằng bấm ra ngoài hay Esc -->
+				<dialog id="status-dialog" class="status-dialog" aria-labelledby="dlg-title" aria-describedby="dlg-text" data-processing={f.processing} data-processing-hint={f.processingHint} data-ok-title={f.okTitle} data-err-title={f.errTitle}>
+					<div class="dlg-icon" aria-hidden="true"></div>
+					<h3 id="dlg-title"></h3>
+					<p id="dlg-text" role="status" aria-live="polite"></p>
+					<button type="button" class="btn btn-green" id="dlg-close" hidden>{f.close}</button>
+				</dialog>
 			</div>
 		</div>
 	</section>
@@ -274,40 +269,38 @@ const jsonLd = [
 	<script>
 		const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 		const form = el<HTMLFormElement>('booking-form');
-		const status = el('form-status');
+		const dlg = el<HTMLDialogElement>('status-dialog');
+		const dlgTitle = el('dlg-title');
+		const dlgText = el('dlg-text');
+		const dlgClose = el<HTMLButtonElement>('dlg-close');
 		const btn = el<HTMLButtonElement>('submit-btn');
-		const route = el<HTMLSelectElement>('route');
 		const phone = el<HTMLInputElement>('phone');
-		const panel = el('stops-panel');
-		const tabs = [...document.querySelectorAll<HTMLButtonElement>('.dir-tab')];
+		const people = el<HTMLSelectElement>('people');
+		const estimate = el('estimate');
+		let submitting = false; // chặn bấm gửi nhiều lần (double click) gây đơn trùng
+		let pendingCode = ''; // mã của lần gửi hiện tại; gửi lại sau khi lỗi dùng lại đúng mã này để Sheet không ghi trùng
+
+		function showDialog(state: 'loading' | 'ok' | 'err', title: string, text: string) {
+			dlg.dataset.state = state;
+			dlg.setAttribute('aria-busy', String(state === 'loading'));
+			dlgTitle.textContent = title;
+			dlgText.textContent = text;
+			dlgClose.hidden = state === 'loading';
+			if (!dlg.open) dlg.showModal();
+			if (state !== 'loading') dlgClose.focus();
+		}
+		// Đang xử lý thì không cho đóng: chặn Esc, và nếu trình duyệt vẫn đóng thì mở lại
+		dlg.addEventListener('cancel', (e) => submitting && e.preventDefault());
+		dlg.addEventListener('close', () => submitting && dlg.showModal());
+		dlgClose.addEventListener('click', () => dlg.close());
 
 		// Ngày nhỏ nhất = hôm nay theo giờ máy khách (không tính lúc build, vì trang tĩnh dựng trước nhiều ngày)
 		const now = new Date();
 		el<HTMLInputElement>('date').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
-		// Đồng bộ chiều đi giữa mục chọn chiều và form
-		function setDir(dir: string) {
-			route.value = dir;
-			const fromAirport = dir === 'cxr-to-nha-trang';
-			tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.dir === dir)));
-			el('stops-title').textContent = (fromAirport ? panel.dataset.dropTitle : panel.dataset.pickTitle) ?? '';
-			const tag = (fromAirport ? panel.dataset.dropTag : panel.dataset.pickTag) ?? '';
-			panel.querySelectorAll('.stop-tag').forEach((s) => (s.textContent = tag));
-			el('time-hint').textContent = (fromAirport ? form.dataset.hintIn : form.dataset.hintOut) ?? '';
-		}
-		tabs.forEach((b) => b.addEventListener('click', () => setDir(b.dataset.dir!)));
-		route.addEventListener('change', () => setDir(route.value));
-		document.querySelectorAll<HTMLElement>('[data-route]').forEach((a) => a.addEventListener('click', () => setDir(a.dataset.route!)));
-
-		// Từ trang khác dẫn về: ?route=nha-trang-to-cxr#book
-		const qRoute = new URLSearchParams(location.search).get('route');
-		setDir(qRoute && [...route.options].some((o) => o.value === qRoute) ? qRoute : route.value);
-
 		phone.addEventListener('input', () => phone.setCustomValidity(''));
 
 		// Tạm tính theo số người (10+ thì để nhân viên báo giá)
-		const people = el<HTMLSelectElement>('people');
-		const estimate = el('estimate');
 		function updateEstimate() {
 			const n = Number(people.value);
 			estimate.textContent = Number.isFinite(n)
@@ -316,46 +309,61 @@ const jsonLd = [
 		}
 		people.addEventListener('change', updateEstimate);
 
-		// --- gửi form về Google Sheet (Apps Script). Thông điệp lấy từ data-* nên đúng ngôn ngữ của trang ---
+		// --- gửi form về Google Sheet (Apps Script). Chỉ báo thành công khi Sheet xác nhận ĐÃ ghi xong ({ ok: true }) ---
 		form.addEventListener('submit', async (e) => {
 			e.preventDefault();
-			status.className = '';
+			if (submitting) return;
 			const digits = phone.value.replace(/\D/g, '');
 			phone.setCustomValidity(digits.length < 8 || digits.length > 15 ? (form.dataset.phoneErr ?? '') : '');
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
 			}
-			el<HTMLInputElement>('code').value = 'OG-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+			if (!pendingCode) pendingCode = 'OG-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+			el<HTMLInputElement>('code').value = pendingCode;
 			const data = Object.fromEntries(new FormData(form).entries());
 			if (data.website) return; // bot
 
 			const endpoint = form.dataset.endpoint;
+			const d = dlg.dataset;
+			submitting = true;
 			btn.disabled = true;
-			status.textContent = form.dataset.sending ?? '';
+			showDialog('loading', d.processing ?? '', d.processingHint ?? '');
+			const started = Date.now();
 			try {
 				if (!endpoint) {
 					console.info('Booking (demo mode, not sent):', data);
 					await new Promise((r) => setTimeout(r, 400));
 				} else {
-					// text/plain để tránh preflight CORS với Apps Script; no-cors nên không đọc được phản hồi
-					await fetch(endpoint, {
-						method: 'POST',
-						mode: 'no-cors',
-						headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-						body: JSON.stringify(data),
-					});
+					// text/plain để tránh preflight CORS với Apps Script. Quá 30 giây hoặc Sheet trả ok:false thì báo lỗi.
+					const ctl = new AbortController();
+					const timer = setTimeout(() => ctl.abort(), 30000);
+					try {
+						const res = await fetch(endpoint, {
+							method: 'POST',
+							headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+							body: JSON.stringify(data),
+							signal: ctl.signal,
+						});
+						const result = await res.json();
+						if (!res.ok || result?.ok !== true) throw new Error('not saved');
+					} finally {
+						clearTimeout(timer);
+					}
 				}
-				status.className = 'ok';
-				status.textContent = `${(endpoint ? form.dataset.ok : form.dataset.demo) ?? ''} ${form.dataset.codeLabel}: ${data.code}`;
-				const dir = route.value;
+				// Hộp "đang xử lý" hiện tối thiểu 0,7 giây để khách kịp thấy, không nháy rồi tắt
+				const rest = 700 - (Date.now() - started);
+				if (rest > 0) await new Promise((r) => setTimeout(r, rest));
+				submitting = false;
+				pendingCode = '';
+				showDialog('ok', d.okTitle ?? '', (endpoint ? form.dataset.ok : form.dataset.demo) ?? '');
 				form.reset();
-				setDir(dir);
 				updateEstimate();
 			} catch {
-				status.className = 'err';
-				status.textContent = form.dataset.err ?? '';
+				submitting = false;
+				showDialog('err', d.errTitle ?? '', form.dataset.err ?? '');
 			} finally {
+				submitting = false;
 				btn.disabled = false;
 			}
 		});

@@ -25,7 +25,7 @@ const home = pagePath(lang, 'home');
 const isHome = page === 'home';
 // Trên trang chủ dùng neo "#book"; trang khác dẫn về trang chủ
 const homeAnchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
-const routeLink = (id: string) => (isHome ? '#book' : `${home}?route=${id}#book`);
+const routeLink = () => homeAnchor('book');
 const c = site.contact;
 const ogImage = abs(assetPath(site.ogImage));
 
@@ -53,7 +53,7 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 		<link rel="canonical" href={canonical} />
 		{langs.filter((l) => alternates[l]).map((l) => <link rel="alternate" hreflang={getDict(l).htmlLang} href={abs(alternates[l]!)} />)}
 		{alternates.vi && <link rel="alternate" hreflang="x-default" href={abs(alternates.vi)} />}
-		<meta name="theme-color" content="#0b1f6b" />
+		<meta name="theme-color" content="#100c40" />
 		<link rel="icon" href={assetPath('favicon.ico')} sizes="any" />
 		<link rel="icon" type="image/png" href={assetPath('favicon.png')} />
 		<link rel="apple-touch-icon" href={assetPath('apple-touch-icon.png')} />
@@ -80,7 +80,7 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 				</nav>
 
 				<a class="logo-mark" href={home} aria-label={site.brand}>
-					<img src={assetPath(site.logo)} alt={`${site.brand} – ${t.brandLine}`} width="160" height="72" fetchpriority="high" />
+					<img src={assetPath(site.logo)} alt={`${site.brand} – ${t.brandLine}`} width="480" height="605" fetchpriority="high" />
 				</a>
 
 				<nav class="side right" aria-label="Menu">
@@ -122,14 +122,14 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 			<div class="container">
 				<div class="cols">
 					<div class="brand-col">
-						<a class="foot-logo" href={home}><img src={assetPath(site.logo)} alt={site.brand} width="160" height="72" loading="lazy" /></a>
+						<a class="foot-logo" href={home}><img src={assetPath(site.logo)} alt={site.brand} width="480" height="605" loading="lazy" /></a>
 						<p>{t.footer.about}</p>
 					</div>
 					<div>
 						<h2>{t.footer.routes}</h2>
 						<ul>
 							{routes.map((r) => (
-								<li><a href={routeLink(r.id)} data-route={isHome ? r.id : undefined}>{t.routeInfo[r.id].from} → {t.routeInfo[r.id].to}</a></li>
+								<li><a href={routeLink()}>{t.routeInfo[r.id].from} → {t.routeInfo[r.id].to}</a></li>
 							))}
 						</ul>
 					</div>

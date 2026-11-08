@@ -19,7 +19,7 @@ Vừa hạ cánh xuống **sân bay quốc tế Cam Ranh**, câu hỏi đầu ti
 
 ## Origo là gì?
 
-Origo cung cấp vé xe giữa sân bay Cam Ranh và trung tâm Nha Trang, theo cả hai chiều. Bạn đặt vé trước trên website, nhân viên Origo liên hệ xác nhận, và có xe đón bạn sau khi hạ cánh.
+Origo cung cấp vé xe từ sân bay Cam Ranh về trung tâm Nha Trang. Bạn đặt vé trước trên website, nhân viên Origo liên hệ xác nhận, và có xe đón bạn sau khi hạ cánh.
 
 ## Vì sao nên đi xe sân bay Origo?
 
@@ -33,7 +33,7 @@ Origo cung cấp vé xe giữa sân bay Cam Ranh và trung tâm Nha Trang, theo 
 - **70 Trần Nhật Duật:** cách biển Trần Phú khoảng 1,5 km, cách trung tâm khoảng 2 km.
 - **Đường Vành Đai:** cách biển Trần Phú khoảng 5 km, cách trung tâm khoảng 3 km.
 
-Chiều ngược lại, từ Nha Trang ra sân bay, bạn lên xe tại chính các điểm này.
+
 
 ## Đặt vé như thế nào?
 

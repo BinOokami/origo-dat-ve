@@ -36,7 +36,8 @@ export const site = {
 export const ticketPrice = 80000;
 
 // Một tuyến, hai chiều. Chiều đầu tiên là mặc định.
-export const routes = [{ id: 'cxr-to-nha-trang' }, { id: 'nha-trang-to-cxr' }] as const;
+// Hiện chỉ bán một chiều: sân bay Cam Ranh → Nha Trang. Muốn mở lại chiều ngược lại: thêm { id: 'nha-trang-to-cxr' } và các dòng chữ tương ứng trong i18n.
+export const routes = [{ id: 'cxr-to-nha-trang' }] as const;
 export type RouteId = (typeof routes)[number]['id'];
 
 // Điểm đón/trả trong Nha Trang. Tên, địa chỉ, mô tả nằm trong stopInfo của từng file i18n (theo id).

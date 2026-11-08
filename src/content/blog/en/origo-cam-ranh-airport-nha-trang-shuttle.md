@@ -19,7 +19,7 @@ Just landed at **Cam Ranh International Airport** and wondering how to get into 
 
 ## What is Origo?
 
-Origo sells shuttle tickets between Cam Ranh Airport and Nha Trang city centre, in both directions. You book online, our staff contact you to confirm, and a car is ready for you after landing.
+Origo sells shuttle tickets from Cam Ranh Airport to Nha Trang city centre. You book online, our staff contact you to confirm, and a car is ready for you after landing.
 
 ## Why ride with Origo?
 
@@ -33,7 +33,7 @@ Origo sells shuttle tickets between Cam Ranh Airport and Nha Trang city centre, 
 - **70 Trần Nhật Duật:** about 1.5 km from Trần Phú beach and 2 km from the city centre.
 - **Vành Đai Road:** about 5 km from Trần Phú beach and 3 km from the city centre.
 
-For the airport run, you board at the same points.
+
 
 ## How to book
 

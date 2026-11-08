@@ -1,6 +1,6 @@
 ---
 title: 'Origo mở bán vé xe sân bay Cam Ranh – Nha Trang từ 80.000đ'
-description: 'Origo bắt đầu nhận đặt vé xe sân bay Cam Ranh – trung tâm Nha Trang hai chiều, chỉ từ 80.000đ mỗi người, có xe sau 30 phút kể từ lúc hạ cánh.'
+description: 'Origo bắt đầu nhận đặt vé xe sân bay Cam Ranh – trung tâm Nha Trang, chỉ từ 80.000đ mỗi người, có xe sau 30 phút kể từ lúc hạ cánh.'
 lang: vi
 category: news
 date: 2026-11-07
@@ -20,7 +20,7 @@ reviewed: false
 ## Những điểm chính
 
 - **Giá vé:** chỉ từ <strong class="price-hl">80.000đ</strong> mỗi người, một mức giá duy nhất, không chọn loại xe.
-- **Hai chiều:** sân bay Cam Ranh → Nha Trang và Nha Trang → sân bay Cam Ranh.
+- **Một chiều:** sân bay Cam Ranh → Nha Trang.
 - **Có xe nhanh:** xe sẵn sàng sau 30 phút kể từ lúc máy bay hạ cánh.
 - **Điểm trả rõ ràng:** giai đoạn đầu có hai điểm là số 70 Trần Nhật Duật và đường Vành Đai. Origo sẽ bổ sung thêm điểm khi có thông tin mới.
 - **Biết trước tài xế:** trước giờ đón 15 phút, nhân viên gửi tên tài xế, biển số xe và khu vực đón.
