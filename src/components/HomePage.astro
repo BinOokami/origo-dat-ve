@@ -77,7 +77,7 @@ const jsonLd = [
 
 <Base lang={lang} page="home" title={t.meta.home.title} description={t.meta.home.description} keywords={t.meta.home.keywords} alternates={alternates} jsonLd={jsonLd}>
 	<!-- 1. HERO: bên trái phủ trắng, mờ dần sang phải để lộ ảnh -->
-	<section class="hero" style={`--hero-img:url('${images.hero}')`} aria-labelledby="hero-title">
+	<section class="hero" style={`--hero-img:url('${assetPath(images.hero)}');--hero-img-m:url('${assetPath(images.heroMobile)}')`} aria-labelledby="hero-title">
 		<div class="container">
 			<div class="hero-inner">
 				<p class="kicker">{t.hero.kicker}</p>
@@ -102,7 +102,7 @@ const jsonLd = [
 
 			<div id="stops-panel">
 				<div class="stops-grid">
-					{stops.map((s) => {
+					{stops.filter((s) => s.ready).map((s) => {
 						const info = t.stopInfo[s.id];
 						return (
 							<article class="stop-card">

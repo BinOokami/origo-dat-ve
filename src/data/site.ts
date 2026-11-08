@@ -6,7 +6,8 @@
 const u = (id: string, w = 1200) => `https://images.unsplash.com/photo-${id}?w=${w}&q=70&auto=format&fit=crop`;
 
 export const images = {
-	hero: u('1570125909232-eb263c188f7e', 1920), // TODO: ảnh banner thật (xe Origo), bên trái sẽ được phủ trắng
+	heroMobile: '/images/hero-mobile.jpg', // bản cắt riêng cho điện thoại (người + cửa xe)
+	hero: '/images/hero.jpg', // ảnh banner (tạo bằng AI, tạm); TODO: thay bằng ảnh chụp thật khi có. Bên trái được phủ trắng
 	about: u('1519046904884-53103b34b206', 1920), // TODO: ảnh thật cho trang giới thiệu
 	mission: u('1436491865332-7a61a109cc05', 1200), // TODO
 	cta: u('1507525428034-b723cf961d3e', 1800),

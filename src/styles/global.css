@@ -148,7 +148,7 @@ header.site .side > a:not(.btn):hover, header.site .side > a[aria-current='page'
 	position: relative; display: flex; align-items: center; min-height: min(92vh, 820px); padding: 150px 0 90px;
 	background:
 		linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.96) 28%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.15) 72%, rgba(255, 255, 255, 0) 85%),
-		var(--hero-img) center right / cover no-repeat;
+		var(--hero-img) 78% center / cover no-repeat;
 }
 .hero .container { width: 100%; }
 .hero-inner { max-width: 620px; }
@@ -179,7 +179,7 @@ header.site .side > a:not(.btn):hover, header.site .side > a[aria-current='page'
 .dir-tab[aria-selected='true'] { background: var(--navy); color: #fff; box-shadow: 0 8px 18px rgba(16, 12, 64, 0.25); }
 .dir-tab[aria-selected='true'] span b { color: var(--lime); }
 .stops-title { text-align: center; margin-bottom: 20px; }
-.stops-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stops-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 380px)); justify-content: center; gap: 20px; }
 .stop-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 14px rgba(16, 12, 64, 0.05); }
 .stop-img { position: relative; aspect-ratio: 16 / 10; background: var(--blue-soft); }
 .stop-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -405,7 +405,6 @@ footer .copy { border-top: 1px solid rgba(255, 255, 255, 0.14); padding-top: 18p
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1080px) {
 	.why-grid, .hl-grid { grid-template-columns: repeat(2, 1fr); }
-	.stops-grid { grid-template-columns: repeat(2, 1fr); }
 	footer .cols { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 860px) {
@@ -510,3 +509,11 @@ html:has(.status-dialog[open]) { overflow: hidden; }
 /* Ô "Chiều đi" khóa cứng (chỉ có một chiều) */
 .locked-field { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 11px 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--navy); font-weight: 700; cursor: not-allowed; }
 .locked-field svg { color: var(--blue); flex: none; }
+
+/* Điện thoại: ảnh cắt riêng đặt phía trên, chữ nằm dưới ảnh */
+@media (max-width: 760px) {
+	.hero { min-height: auto; padding: 0 0 40px; align-items: flex-end;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0) 56vw, #fff 92vw), var(--hero-img-m) center top / 100% auto no-repeat, #fff; }
+	.hero-inner { padding-top: 86vw; }
+	.hero .btn-lg { width: 100%; }
+}

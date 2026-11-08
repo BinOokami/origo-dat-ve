@@ -18,7 +18,7 @@ export const vi = {
 	// Từ khóa theo trang (đưa vào meta keywords và JSON-LD). Từ khóa chính đứng đầu.
 	meta: {
 		home: {
-			title: `Xe sân bay Cam Ranh – Nha Trang chỉ từ ${price} | Origo`,
+			title: 'Vé xe Sân bay Cam Ranh - Nha Trang giá rẻ | Origo',
 			description: `Vé xe từ sân bay Cam Ranh về trung tâm Nha Trang chỉ từ ${price}/người. Hạ cánh là có xe trong 30 phút, biết trước tài xế và biển số, không mặc cả. Đặt vé 1 phút.`,
 			keywords: ['xe sân bay Cam Ranh Nha Trang', 'vé xe sân bay Cam Ranh', 'xe từ sân bay Cam Ranh về Nha Trang', 'xe đưa đón sân bay Cam Ranh giá rẻ', 'xe Nha Trang đi sân bay Cam Ranh'],
 		},
