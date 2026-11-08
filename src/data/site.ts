@@ -18,7 +18,7 @@ export const site = {
 	ogImage: '/og-image.png', // 1200x630, dùng chung cho mọi ngôn ngữ
 
 	// TODO: link Apps Script web app (xem apps-script/README.md). Để trống = form chạy chế độ demo, chưa gửi đi đâu.
-	formEndpoint: 'https://script.google.com/macros/s/AKfycbwYIS_mhklAkgnu2VcChHFN1tguGl4_Wj1HFKzqDz0LkgtGlf0M7vZS1sRaNFqNT0nMRQ/exec',
+	formEndpoint: 'https://script.google.com/macros/s/AKfycbxmvJRcGbiHd9MSKfyGIRDCIR3N4vp_KvgGciny-aSlW5pltRI6ykctX5nskrmqOHY/exec',
 
 	// TODO: liên hệ thật
 	contact: {
