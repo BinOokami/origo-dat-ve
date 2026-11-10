@@ -15,8 +15,8 @@ export const images = {
 
 export const site = {
 	brand: 'Origo',
-	logo: '/logo.png', // 720x322, nền trong suốt
-	ogImage: '/og-image.png', // 1200x630, dùng chung cho mọi ngôn ngữ
+	logo: '/logo.png', // 480x605, nền trong suốt
+	ogImage: '/og-image.jpg', // 1200x630, cắt từ ảnh hero, dùng chung cho mọi ngôn ngữ
 
 	// TODO: link Apps Script web app (xem apps-script/README.md). Để trống = form chạy chế độ demo, chưa gửi đi đâu.
 	formEndpoint: 'https://script.google.com/macros/s/AKfycbxmvJRcGbiHd9MSKfyGIRDCIR3N4vp_KvgGciny-aSlW5pltRI6ykctX5nskrmqOHY/exec',

@@ -28,8 +28,8 @@ for (const [lang, prefix] of Object.entries(prefixes)) {
 
 // Địa chỉ site. Demo trên GitHub Pages: site 'https://binookami.github.io' + base '/origo-dat-ve'.
 // Khi có tên miền thật: đổi `site` thành https://tenmien.com và XÓA dòng `base`, đổi dòng Sitemap trong public/robots.txt.
-const SITE = 'https://binookami.github.io';
-const BASE = '/origo-dat-ve';
+const SITE = 'https://origo.io.vn';
+const BASE = '';
 
 // Link gõ tay trong bài Markdown dạng "/cam-nang-nha-trang/..." tự được thêm `base`, nên bỏ/đổi `base` không phải sửa từng bài.
 function rehypeBaseLinks() {
