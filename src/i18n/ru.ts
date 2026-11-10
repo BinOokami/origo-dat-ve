@@ -210,6 +210,8 @@ export const ru: Dict = {
 		info: 'Информация',
 		cats: 'Рубрики',
 		contact: 'Контакты',
+		followFb: 'Подписывайтесь',
+		followFbSub: 'Новости и обновления',
 		contactSoon: 'Контакты скоро появятся.',
 		rights: 'Все права защищены.',
 	},

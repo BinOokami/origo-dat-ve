@@ -23,6 +23,9 @@ export const site = {
 
 	// TODO: liên hệ thật
 	contact: {
+		facebook: 'https://www.facebook.com/profile.php?id=61595842513397', // trang Facebook của Origo
+		tiktok: 'https://www.tiktok.com/@origo.transfer', // kênh TikTok của Origo
+		tiktokHandle: '@origo.transfer',
 		hotline: '',
 		whatsapp: '',
 		telegram: '',

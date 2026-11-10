@@ -154,6 +154,18 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 							{c.address && <li>{c.address}</li>}
 							{!c.hotline && !c.email && !c.whatsapp && !c.telegram && !c.zalo && <li>{t.footer.contactSoon}</li>}
 						</ul>
+						{c.facebook && (
+							<a class="fb-card" href={c.facebook} target="_blank" rel="noopener noreferrer">
+								<span class="fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.7c0-.9.3-1.5 1.6-1.5h1.5V4.5c-.3 0-1.2-.1-2.2-.1-2.3 0-3.9 1.4-3.9 4v2.1H8v3h2.5V21Z"/></svg></span>
+								<span class="fb-text"><small>{t.footer.followFb}</small><b>{site.brand} Transfer</b></span>
+							</a>
+						)}
+						{c.tiktok && (
+							<a class="fb-card tt-card" href={c.tiktok} target="_blank" rel="noopener noreferrer">
+								<span class="fb-ico tt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M16.6 3c.3 2.4 1.7 4 4 4.2v3a7 7 0 0 1-4-1.3v6.2a6 6 0 1 1-6-6c.3 0 .6 0 .9.1v3.2a2.9 2.9 0 1 0 2 2.7V3Z"/></svg></span>
+								<span class="fb-text"><small>{t.footer.followFb}</small><b>{c.tiktokHandle}</b></span>
+							</a>
+						)}
 						<div class="foot-langs">
 							{langs.map((l) => <a href={switchHref(l)} hreflang={getDict(l).htmlLang} lang={getDict(l).htmlLang}>{languages[l].label}</a>)}
 						</div>

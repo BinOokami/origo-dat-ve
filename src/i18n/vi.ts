@@ -218,6 +218,8 @@ export const vi = {
 		info: 'Thông tin',
 		cats: 'Chuyên mục',
 		contact: 'Liên hệ',
+		followFb: 'Theo dõi chúng tôi',
+		followFbSub: 'Cập nhật tin tức và ưu đãi',
 		contactSoon: 'Thông tin liên hệ sẽ sớm cập nhật.',
 		rights: 'Bảo lưu mọi quyền.',
 	},

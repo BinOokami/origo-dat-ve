@@ -210,6 +210,8 @@ export const en: Dict = {
 		info: 'Information',
 		cats: 'Categories',
 		contact: 'Contact',
+		followFb: 'Follow us',
+		followFbSub: 'News and updates',
 		contactSoon: 'Contact details coming soon.',
 		rights: 'All rights reserved.',
 	},
