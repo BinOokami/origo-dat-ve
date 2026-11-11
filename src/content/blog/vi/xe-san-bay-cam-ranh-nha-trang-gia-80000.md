@@ -30,8 +30,8 @@ Origo cung cấp vé xe từ sân bay Cam Ranh về trung tâm Nha Trang. Bạn 
 
 ## Các điểm trả tại Nha Trang
 
-- **70 Trần Nhật Duật:** cách biển Trần Phú khoảng 1,5 km, cách trung tâm khoảng 2 km.
-- **Đường Vành Đai:** cách biển Trần Phú khoảng 5 km, cách trung tâm khoảng 3 km.
+- **Văn phòng Origo:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
+- **19 Nguyễn Đức Cảnh:** khu Nam Nha Trang.
 
 
 

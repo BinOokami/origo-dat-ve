@@ -65,15 +65,15 @@ export const ru: Dict = {
 		book: 'Забронировать',
 	},
 	stopInfo: {
-		'tran-nhat-duat': {
-			name: 'Trần Nhật Duật, 70',
-			address: 'ул. Trần Nhật Duật, 70, Нячанг',
-			desc: 'Рядом с центром, всего около 1,5 км до пляжа Чан Фу. Удобно для отелей у моря.',
+		'van-phong-origo': {
+			name: 'Офис Origo',
+			address: '85TT3-K98 Trần Nhật Duật, Нячанг, Кханьхоа',
+			desc: 'Высадка у офиса Origo в Нячанге.',
 		},
-		'vanh-dai': {
-			name: 'Дорога Vành Đai',
-			address: 'Дорога Vành Đai, Нячанг',
-			desc: 'На дороге Vành Đai, около 3 км от центра Нячанга.',
+		'nguyen-duc-canh': {
+			name: '19 Nguyễn Đức Cảnh',
+			address: '19 Nguyễn Đức Cảnh, южный Нячанг, Кханьхоа',
+			desc: 'Высадка на юге Нячанга.',
 		},
 		'stop-3': {
 			name: '[Точка 3, уточняется]',
@@ -210,6 +210,8 @@ export const ru: Dict = {
 		info: 'Информация',
 		cats: 'Рубрики',
 		contact: 'Контакты',
+		hotline: 'Горячая линия',
+		scanZalo: 'Сканируйте, чтобы написать в Zalo',
 		followFb: 'Подписывайтесь',
 		followFbSub: 'Новости и обновления',
 		contactSoon: 'Контакты скоро появятся.',

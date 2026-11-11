@@ -65,15 +65,15 @@ export const en: Dict = {
 		book: 'Book this stop',
 	},
 	stopInfo: {
-		'tran-nhat-duat': {
-			name: '70 Trần Nhật Duật',
-			address: '70 Trần Nhật Duật Street, Nha Trang',
-			desc: 'Close to the centre, only about 1.5 km from Trần Phú beach. Handy for beachfront hotels.',
+		'van-phong-origo': {
+			name: 'Origo Office',
+			address: '85TT3-K98 Trần Nhật Duật, Nha Trang, Khánh Hòa',
+			desc: 'Drop-off at the Origo office in Nha Trang.',
 		},
-		'vanh-dai': {
-			name: 'Vành Đai Road',
-			address: 'Vành Đai Road, Nha Trang',
-			desc: 'On Vành Đai Road, about 3 km from Nha Trang city centre.',
+		'nguyen-duc-canh': {
+			name: '19 Nguyễn Đức Cảnh',
+			address: '19 Nguyễn Đức Cảnh, South Nha Trang, Khánh Hòa',
+			desc: 'Drop-off in the south of Nha Trang.',
 		},
 		'stop-3': {
 			name: '[Stop 3, to be updated]',
@@ -210,6 +210,8 @@ export const en: Dict = {
 		info: 'Information',
 		cats: 'Categories',
 		contact: 'Contact',
+		hotline: 'Hotline',
+		scanZalo: 'Scan to chat on Zalo',
 		followFb: 'Follow us',
 		followFbSub: 'News and updates',
 		contactSoon: 'Contact details coming soon.',

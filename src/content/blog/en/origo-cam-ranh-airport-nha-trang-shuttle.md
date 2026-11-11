@@ -30,8 +30,8 @@ Origo sells shuttle tickets from Cam Ranh Airport to Nha Trang city centre. You 
 
 ## Drop-off points in Nha Trang
 
-- **70 Trần Nhật Duật:** about 1.5 km from Trần Phú beach and 2 km from the city centre.
-- **Vành Đai Road:** about 5 km from Trần Phú beach and 3 km from the city centre.
+- **Origo office:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
+- **19 Nguyễn Đức Cảnh:** South Nha Trang.
 
 
 

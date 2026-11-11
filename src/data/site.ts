@@ -26,7 +26,8 @@ export const site = {
 		facebook: 'https://www.facebook.com/profile.php?id=61595842513397', // trang Facebook của Origo
 		tiktok: 'https://www.tiktok.com/@origo.transfer', // kênh TikTok của Origo
 		tiktokHandle: '@origo.transfer',
-		hotline: '',
+		hotline: '0325 392 290',
+		zaloQr: '/images/zalo-qr.png', // mã QR Zalo, chỉ hiện trên máy tính
 		whatsapp: '',
 		telegram: '',
 		kakao: '',
@@ -46,10 +47,10 @@ export type RouteId = (typeof routes)[number]['id'];
 
 // Điểm đón/trả trong Nha Trang. Tên, địa chỉ, mô tả nằm trong stopInfo của từng file i18n (theo id).
 // beachKm = cách biển Nha Trang (đường Trần Phú), centerKm = cách trung tâm Nha Trang. null = chưa có số, không hiện dòng đó.
-// map = chuỗi tìm trên Google Maps. ready = false: thẻ vẫn hiện (để thấy chỗ trống) nhưng không có trong form đặt vé.
+// map = chuỗi tìm trên Google Maps hoặc link Google Maps (bắt đầu bằng http). ready = false: thẻ vẫn hiện (để thấy chỗ trống) nhưng không có trong form đặt vé.
 export const stops = [
-	{ id: 'tran-nhat-duat', beachKm: 1.5 as number | null, centerKm: 2 as number | null, image: u('1519046904884-53103b34b206', 800), map: '70 Trần Nhật Duật, Nha Trang', ready: true }, // TODO: ảnh thật
-	{ id: 'vanh-dai', beachKm: 5 as number | null, centerKm: 3 as number | null, image: u('1507525428034-b723cf961d3e', 800), map: 'Đường Vành Đai, Nha Trang', ready: true }, // TODO: ảnh thật, số nhà / vị trí cụ thể
+	{ id: 'van-phong-origo', beachKm: null as number | null, centerKm: null as number | null, image: u('1519046904884-53103b34b206', 800), map: 'https://maps.app.goo.gl/ix8Kyvup3xgpreao9', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
+	{ id: 'nguyen-duc-canh', beachKm: null as number | null, centerKm: null as number | null, image: u('1507525428034-b723cf961d3e', 800), map: 'https://maps.app.goo.gl/YTzQbefgMKGQrJG29', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
 	{ id: 'stop-3', beachKm: null as number | null, centerKm: null as number | null, image: u('1570125909232-eb263c188f7e', 800), map: '', ready: false }, // TODO: điểm thứ 3 chưa có thông tin
 ];
 export type StopId = (typeof stops)[number]['id'];

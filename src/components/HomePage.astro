@@ -18,7 +18,7 @@ const f = t.form;
 const r = t.routes;
 
 const km = (n: number) => n.toLocaleString(t.locale) + ' km';
-const mapUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const mapUrl = (q: string) => (q.startsWith('http') ? q : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`);
 
 const posts = await postsFor(lang);
 // Trên trang chủ chỉ hiện chuyên mục đã có bài

@@ -68,15 +68,15 @@ export const vi = {
 	},
 	// Id khớp với stops trong site.ts
 	stopInfo: {
-		'tran-nhat-duat': {
-			name: '70 Trần Nhật Duật',
-			address: 'Số 70 Trần Nhật Duật, Nha Trang',
-			desc: 'Ngay gần trung tâm, chỉ khoảng 1,5 km ra biển Trần Phú. Tiện về các khách sạn khu phố biển.',
+		'van-phong-origo': {
+			name: 'Văn phòng Origo',
+			address: '85TT3-K98 Trần Nhật Duật, Nha Trang, Khánh Hòa',
+			desc: 'Điểm trả tại văn phòng Origo ở Nha Trang.',
 		},
-		'vanh-dai': {
-			name: 'Đường Vành Đai',
-			address: 'Đường Vành Đai, Nha Trang', // TODO: số nhà / vị trí cụ thể
-			desc: 'Nằm trên đường Vành Đai, cách trung tâm Nha Trang khoảng 3 km.',
+		'nguyen-duc-canh': {
+			name: '19 Nguyễn Đức Cảnh',
+			address: '19 Nguyễn Đức Cảnh, Nam Nha Trang, Khánh Hòa',
+			desc: 'Điểm trả ở khu Nam Nha Trang.',
 		},
 		'stop-3': {
 			name: '[Điểm 3, cập nhật sau]', // TODO
@@ -218,6 +218,8 @@ export const vi = {
 		info: 'Thông tin',
 		cats: 'Chuyên mục',
 		contact: 'Liên hệ',
+		hotline: 'Hotline',
+		scanZalo: 'Quét mã để nhắn Zalo',
 		followFb: 'Theo dõi chúng tôi',
 		followFbSub: 'Cập nhật tin tức và ưu đãi',
 		contactSoon: 'Thông tin liên hệ sẽ sớm cập nhật.',
