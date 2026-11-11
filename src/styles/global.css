@@ -251,7 +251,7 @@ header.site .side > a:not(.btn):hover, header.site .side > a[aria-current='page'
 }
 .booking-wrap .section-head { margin-bottom: 18px; }
 .book-price { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: #fff; font-weight: 700; font-size: 1.1rem; margin: 0; }
-.book-price small { flex-basis: 100%; color: rgba(255, 255, 255, 0.8); font-weight: 500; font-size: 0.9rem; }
+.book-price .per { color: #fff; font-weight: 800; font-size: 1.3rem; margin-left: -6px; }
 form.booking { background: #fff; color: var(--ink); border-radius: 22px; padding: 24px; }
 .hint { margin: -6px 0 0; font-size: 0.85rem; color: var(--blue-text); font-weight: 600; }
 .btn-block { width: 100%; min-width: 0; margin-top: 18px; padding-inline: 16px; }
@@ -551,3 +551,32 @@ html:has(.status-dialog[open]) { overflow: hidden; }
 .warn { margin: -6px 0 0; font-size: 0.9rem; font-weight: 700; color: #b42318; }
 .warn a { color: #b42318; text-decoration: underline; }
 select option.soon { color: #8a87a8; }
+
+/* Chọn giờ đón: một ô; bấm 1 lần mở bảng 3 cột (Giờ, Phút, AM/PM) cùng cuộn */
+.time-wrap { position: relative; }
+.time-box {
+	position: relative; display: flex; align-items: center; justify-content: flex-start; width: 100%; min-height: 52px; padding: 0 36px 0 14px;
+	font: inherit; font-size: 1.1rem; color: var(--ink); text-align: left; cursor: pointer;
+	border: 1px solid var(--border); border-radius: 12px; background: #fff;
+}
+.time-box:focus-visible, .time-box[aria-expanded="true"] { outline: 2px solid var(--blue); outline-offset: 1px; }
+.time-box::after { content: ''; position: absolute; right: 14px; top: 50%; width: 8px; height: 8px; margin-top: -6px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); pointer-events: none; }
+.time-text { display: inline-flex; align-items: baseline; gap: 5px; letter-spacing: 0.02em; }
+.time-text b { font-weight: 800; color: var(--muted); min-width: 1.4em; text-align: center; }
+.time-text i { font-style: normal; font-weight: 800; color: var(--muted); }
+.time-box.filled .time-text b, .time-box.filled .time-text i { color: var(--ink); }
+.time-proxy { position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; min-height: 0; padding: 0; border: 0; opacity: 0; pointer-events: none; }
+.time-panel {
+	position: absolute; z-index: 40; right: 0; top: calc(100% + 6px); display: flex; gap: 6px; width: min(260px, calc(100vw - 48px)); padding: 8px;
+	border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: 0 18px 40px rgba(20, 10, 80, 0.22);
+}
+.time-panel[hidden] { display: none; }
+.time-col { flex: 1; display: flex; flex-direction: column; gap: 4px; max-height: 232px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 2px; }
+.time-col button {
+	flex: none; min-height: 46px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
+	font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--ink);
+}
+.time-col button:hover:not(:disabled) { background: #eef4ff; color: var(--blue-text); }
+.time-col button.on, .time-col button.on:hover { background: var(--blue); color: #fff; font-weight: 800; }
+.time-col button:disabled { color: #c5c1da; cursor: not-allowed; }
+.time-col button:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }

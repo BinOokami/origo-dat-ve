@@ -18,11 +18,8 @@ const f = t.form;
 const r = t.routes;
 const c = site.contact;
 const hotlineTel = c.hotline.split(' ').join('');
-// Khung giờ đón: 05:00 đến 23:00, cách nhau 30 phút
-const slots = Array.from({ length: 37 }, (_, i) => {
-	const m = 300 + i * 30;
-	return String(Math.floor(m / 60)).padStart(2, '0') + ':' + (m % 60 === 0 ? '00' : '30');
-});
+// Giờ đón chọn bằng 3 ô: Giờ (1-12) : Phút (00 hoặc 30) : AM/PM. Phục vụ 05:00 đến 23:00, cách nhau 30 phút.
+const hours12 = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
 
 const km = (n: number) => n.toLocaleString(t.locale) + ' km';
 const mapUrl = (q: string) => (q.startsWith('http') ? q : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`);
@@ -164,7 +161,7 @@ const jsonLd = [
 			<div class="booking-wrap">
 				<div class="book-intro">
 					<SectionHead eyebrow={f.eyebrow} title={f.title} sub={f.sub} light id="book-title" />
-					<p class="book-price">{f.priceLine} <strong class="price-tag">{t.priceLong}</strong><small>{f.priceUnit}</small></p>
+					<p class="book-price"><span>{f.priceLine}</span> <strong class="price-tag">{t.priceLong}</strong><span class="per">{f.priceUnit}</span></p>
 				</div>
 				<form
 					class="booking"
@@ -208,14 +205,27 @@ const jsonLd = [
 							<label for="date">{f.date}</label>
 							<input id="date" name="date" type="date" required />
 						</div>
-						<div>
-							<label for="time">{f.time}</label>
-							<select id="time" name="time" required aria-describedby="time-hint time-warn">
-								<option value="">{f.timeChoose}</option>
-								{slots.map((v) => <option value={v}>{v}</option>)}
-							</select>
+						<div class="time-wrap" id="time-wrap">
+							<label for="time-btn" id="time-label">{f.time}</label>
+							<button type="button" id="time-btn" class="time-box" aria-haspopup="dialog" aria-expanded="false" aria-controls="time-panel" aria-describedby="time-hint time-warn">
+								<span class="time-text"><b id="tt-h">--</b><i>:</i><b id="tt-m">--</b><b id="tt-p">--</b></span>
+							</button>
+							<div class="time-panel" id="time-panel" role="dialog" aria-labelledby="time-label" hidden>
+								<div class="time-col" data-col="h" role="group" aria-label={f.timeHour}>
+									{hours12.map((v) => <button type="button" data-v={v}>{v}</button>)}
+								</div>
+								<div class="time-col" data-col="m" role="group" aria-label={f.timeMinute}>
+									<button type="button" data-v="00">00</button>
+									<button type="button" data-v="30">30</button>
+								</div>
+								<div class="time-col" data-col="p" role="group" aria-label={f.timePeriod}>
+									<button type="button" data-v="AM">AM</button>
+									<button type="button" data-v="PM">PM</button>
+								</div>
+							</div>
+							<input type="text" id="time" name="time" class="time-proxy" required tabindex="-1" aria-hidden="true" autocomplete="off" />
 						</div>
-						<p class="hint full" id="time-hint">{f.timeHint}</p>
+						<p class="hint full" id="time-hint">{f.timeHint} {f.outOfHours}</p>
 						<p class="warn full" id="time-warn" role="alert" hidden data-msg={`${f.tooSoon} ${c.hotline}`}>{f.tooSoon} <a href={`tel:${hotlineTel}`}>{c.hotline}</a></p>
 						<div>
 							<label for="people">{f.people}</label>
@@ -292,7 +302,11 @@ const jsonLd = [
 		const phone = el<HTMLInputElement>('phone');
 		const emailEl = el<HTMLInputElement>('email');
 		const dateEl = el<HTMLInputElement>('date');
-		const timeEl = el<HTMLSelectElement>('time');
+		const timeEl = el<HTMLInputElement>('time'); // ô ẩn, luôn giữ giờ dạng 24 giờ HH:MM để gửi lên máy chủ
+		const timeBtn = el<HTMLButtonElement>('time-btn');
+		const timePanel = el('time-panel');
+		const timeWrap = el('time-wrap');
+		const sel = { h: '', m: '', p: '' }; // giờ 12 (01-12), phút (00/30), buổi (AM/PM)
 		const timeWarn = el('time-warn');
 		const people = el<HTMLSelectElement>('people');
 		const estimate = el('estimate');
@@ -326,19 +340,74 @@ const jsonLd = [
 		dateEl.min = vnToday();
 		dateEl.max = addDays(vnToday(), 90);
 
+		// Ghép Giờ : Phút : AM/PM thành HH:MM dạng 24 giờ. Chưa chọn đủ thì trả chuỗi rỗng.
+		function composeTime() {
+			if (!sel.h || !sel.m || !sel.p) return '';
+			const h12 = Number(sel.h);
+			const h24 = sel.p === 'AM' ? h12 % 12 : (h12 % 12) + 12;
+			return String(h24).padStart(2, '0') + ':' + sel.m;
+		}
+		// Chỉ cho chọn trong giờ phục vụ 05:00 - 23:00: mục nào không hợp lệ thì làm mờ và không chọn được
+		const hourOff = (h: string) => sel.p === 'AM' && (Number(h) < 5 || Number(h) === 12); // AM: chỉ 5 đến 11 giờ sáng
+		const minOff = (m: string) => m === '30' && sel.p === 'PM' && sel.h === '11'; // 11:30 PM đã quá giờ phục vụ
+		const colBtns = (c: string) => [...timePanel.querySelectorAll<HTMLButtonElement>(`.time-col[data-col="${c}"] button`)];
+		function syncOptions() {
+			if (sel.h && hourOff(sel.h)) sel.h = '';
+			if (sel.m && minOff(sel.m)) sel.m = '';
+			colBtns('h').forEach((b) => ((b.disabled = hourOff(b.dataset.v!)), b.classList.toggle('on', b.dataset.v === sel.h)));
+			colBtns('m').forEach((b) => ((b.disabled = minOff(b.dataset.v!)), b.classList.toggle('on', b.dataset.v === sel.m)));
+			colBtns('p').forEach((b) => b.classList.toggle('on', b.dataset.v === sel.p));
+			el('tt-h').textContent = sel.h || '--';
+			el('tt-m').textContent = sel.m || '--';
+			el('tt-p').textContent = sel.p || '--';
+			timeBtn.classList.toggle('filled', !!composeTime());
+		}
 		// Khung quá sát giờ vẫn chọn được nhưng hiện thông báo kèm hotline và không cho gửi
 		function checkSoon() {
+			syncOptions();
+			timeEl.value = composeTime();
 			const soon = !!(dateEl.value && timeEl.value && slotTooSoon(dateEl.value, timeEl.value));
 			timeWarn.hidden = !soon;
 			timeEl.setCustomValidity(soon ? (timeWarn.dataset.msg ?? '') : '');
 			return soon;
 		}
 		function refreshSlots() {
-			[...timeEl.options].forEach((o) => o.classList.toggle('soon', !!(o.value && dateEl.value && slotTooSoon(dateEl.value, o.value))));
 			checkSoon();
 		}
+		// Bảng chọn giờ: bấm 1 lần mở cả 3 cột (Giờ, Phút, AM/PM) cùng lúc, cuộn và chọn
+		function openTime(open: boolean) {
+			timePanel.hidden = !open;
+			timeBtn.setAttribute('aria-expanded', String(open));
+			if (open) {
+				syncOptions();
+				// cuộn mỗi cột tới mục đang chọn (hoặc giờ phục vụ đầu tiên) để khỏi phải tìm
+				timePanel.querySelectorAll<HTMLElement>('.time-col').forEach((col) => {
+					const on = col.querySelector<HTMLElement>('button.on') ?? col.querySelector<HTMLElement>('button:not(:disabled)');
+					if (on) col.scrollTop = on.offsetTop - col.offsetTop - 44;
+				});
+			}
+		}
+		timeBtn.addEventListener('click', () => openTime(timePanel.hidden));
+		timePanel.addEventListener('click', (e) => {
+			const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-v]');
+			if (!b || b.disabled) return;
+			const col = (b.parentElement as HTMLElement).dataset.col as 'h' | 'm' | 'p';
+			sel[col] = b.dataset.v!;
+			checkSoon();
+			if (composeTime()) openTime(false); // chọn đủ 3 mục thì tự đóng
+		});
+		document.addEventListener('click', (e) => {
+			if (!timePanel.hidden && !timeWrap.contains(e.target as Node)) openTime(false);
+		});
+		timeWrap.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && !timePanel.hidden) {
+				openTime(false);
+				timeBtn.focus();
+			}
+		});
+		// Báo lỗi "chưa chọn giờ" của trình duyệt thì mở luôn bảng chọn
+		timeEl.addEventListener('invalid', () => openTime(true));
 		dateEl.addEventListener('change', refreshSlots);
-		timeEl.addEventListener('change', checkSoon);
 		setInterval(refreshSlots, 60000);
 
 		emailEl.addEventListener('input', () => emailEl.setCustomValidity(''));
