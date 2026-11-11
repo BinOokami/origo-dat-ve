@@ -16,6 +16,13 @@ const { lang } = Astro.props;
 const t = getDict(lang);
 const f = t.form;
 const r = t.routes;
+const c = site.contact;
+const hotlineTel = c.hotline.split(' ').join('');
+// Khung giờ đón: 05:00 đến 23:00, cách nhau 30 phút
+const slots = Array.from({ length: 37 }, (_, i) => {
+	const m = 300 + i * 30;
+	return String(Math.floor(m / 60)).padStart(2, '0') + ':' + (m % 60 === 0 ? '00' : '30');
+});
 
 const km = (n: number) => n.toLocaleString(t.locale) + ' km';
 const mapUrl = (q: string) => (q.startsWith('http') ? q : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`);
@@ -168,13 +175,13 @@ const jsonLd = [
 					data-currency={f.currency}
 					data-estimate-more={f.estimateMore}
 					data-phone-err={f.phoneErr}
+					data-email-err={f.emailErr}
 					data-ok={f.ok}
 					data-demo={f.demo}
 					data-err={f.err}
 					novalidate
 				>
 					<input type="hidden" name="lang" value={lang} />
-					<input type="hidden" name="code" id="code" value="" />
 					<div class="grid">
 						<div class="wide">
 							<label for="name">{f.name}</label>
@@ -183,6 +190,10 @@ const jsonLd = [
 						<div class="wide">
 							<label for="phone">{f.phone}</label>
 							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+()\s.\-]{8,20}" />
+						</div>
+						<div class="full">
+							<label for="email">{f.email}</label>
+							<input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder={f.emailPh} required maxlength="120" />
 						</div>
 						<div class="full">
 							<span class="lbl">{f.route}</span>
@@ -199,9 +210,13 @@ const jsonLd = [
 						</div>
 						<div>
 							<label for="time">{f.time}</label>
-							<input id="time" name="time" type="time" required aria-describedby="time-hint" />
+							<select id="time" name="time" required aria-describedby="time-hint time-warn">
+								<option value="">{f.timeChoose}</option>
+								{slots.map((v) => <option value={v}>{v}</option>)}
+							</select>
 						</div>
-						<p class="hint full" id="time-hint">{f.timeHintIn}</p>
+						<p class="hint full" id="time-hint">{f.timeHint}</p>
+						<p class="warn full" id="time-warn" role="alert" hidden data-msg={`${f.tooSoon} ${c.hotline}`}>{f.tooSoon} <a href={`tel:${hotlineTel}`}>{c.hotline}</a></p>
 						<div>
 							<label for="people">{f.people}</label>
 							<select id="people" name="people" required>
@@ -275,10 +290,14 @@ const jsonLd = [
 		const dlgClose = el<HTMLButtonElement>('dlg-close');
 		const btn = el<HTMLButtonElement>('submit-btn');
 		const phone = el<HTMLInputElement>('phone');
+		const emailEl = el<HTMLInputElement>('email');
+		const dateEl = el<HTMLInputElement>('date');
+		const timeEl = el<HTMLSelectElement>('time');
+		const timeWarn = el('time-warn');
 		const people = el<HTMLSelectElement>('people');
 		const estimate = el('estimate');
 		let submitting = false; // chặn bấm gửi nhiều lần (double click) gây đơn trùng
-		let pendingCode = ''; // mã của lần gửi hiện tại; gửi lại sau khi lỗi dùng lại đúng mã này để Sheet không ghi trùng
+		let pendingRid = ''; // mã nội bộ của lần gửi hiện tại; gửi lại sau khi lỗi dùng lại đúng mã này để Sheet không ghi trùng
 
 		function showDialog(state: 'loading' | 'ok' | 'err', title: string, text: string) {
 			dlg.dataset.state = state;
@@ -294,9 +313,35 @@ const jsonLd = [
 		dlg.addEventListener('close', () => submitting && dlg.showModal());
 		dlgClose.addEventListener('click', () => dlg.close());
 
-		// Ngày nhỏ nhất = hôm nay theo giờ máy khách (không tính lúc build, vì trang tĩnh dựng trước nhiều ngày)
-		const now = new Date();
-		el<HTMLInputElement>('date').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+		// --- Ngày và khung giờ đón: tính theo GIỜ VIỆT NAM (không theo múi giờ máy khách) ---
+		const LEAD_MS = 60 * 60 * 1000; // đặt trước tối thiểu 1 giờ
+		const vnFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit' });
+		const vnToday = () => vnFmt.format(new Date()); // YYYY-MM-DD
+		function addDays(iso: string, n: number) {
+			const d = new Date(iso + 'T00:00:00Z');
+			d.setUTCDate(d.getUTCDate() + n);
+			return d.toISOString().slice(0, 10);
+		}
+		const slotTooSoon = (date: string, hhmm: string) => Date.parse(`${date}T${hhmm}:00+07:00`) - Date.now() < LEAD_MS;
+		dateEl.min = vnToday();
+		dateEl.max = addDays(vnToday(), 90);
+
+		// Khung quá sát giờ vẫn chọn được nhưng hiện thông báo kèm hotline và không cho gửi
+		function checkSoon() {
+			const soon = !!(dateEl.value && timeEl.value && slotTooSoon(dateEl.value, timeEl.value));
+			timeWarn.hidden = !soon;
+			timeEl.setCustomValidity(soon ? (timeWarn.dataset.msg ?? '') : '');
+			return soon;
+		}
+		function refreshSlots() {
+			[...timeEl.options].forEach((o) => o.classList.toggle('soon', !!(o.value && dateEl.value && slotTooSoon(dateEl.value, o.value))));
+			checkSoon();
+		}
+		dateEl.addEventListener('change', refreshSlots);
+		timeEl.addEventListener('change', checkSoon);
+		setInterval(refreshSlots, 60000);
+
+		emailEl.addEventListener('input', () => emailEl.setCustomValidity(''));
 
 		phone.addEventListener('input', () => phone.setCustomValidity(''));
 
@@ -315,13 +360,15 @@ const jsonLd = [
 			if (submitting) return;
 			const digits = phone.value.replace(/\D/g, '');
 			phone.setCustomValidity(digits.length < 8 || digits.length > 15 ? (form.dataset.phoneErr ?? '') : '');
+			const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim());
+			emailEl.setCustomValidity(okEmail ? '' : (form.dataset.emailErr ?? ''));
+			checkSoon();
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
 			}
-			if (!pendingCode) pendingCode = 'OG-' + Math.random().toString(36).slice(2, 7).toUpperCase();
-			el<HTMLInputElement>('code').value = pendingCode;
-			const data = Object.fromEntries(new FormData(form).entries());
+			if (!pendingRid) pendingRid = 'R' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+			const data = { ...Object.fromEntries(new FormData(form).entries()), rid: pendingRid };
 			if (data.website) return; // bot
 
 			const endpoint = form.dataset.endpoint;
@@ -346,7 +393,7 @@ const jsonLd = [
 							signal: ctl.signal,
 						});
 						const result = await res.json();
-						if (!res.ok || result?.ok !== true) throw new Error('not saved');
+						if (!res.ok || result?.ok !== true) throw Object.assign(new Error('not saved'), { code: result?.error });
 					} finally {
 						clearTimeout(timer);
 					}
@@ -355,13 +402,15 @@ const jsonLd = [
 				const rest = 700 - (Date.now() - started);
 				if (rest > 0) await new Promise((r) => setTimeout(r, rest));
 				submitting = false;
-				pendingCode = '';
+				pendingRid = '';
 				showDialog('ok', d.okTitle ?? '', (endpoint ? form.dataset.ok : form.dataset.demo) ?? '');
 				form.reset();
+				refreshSlots();
 				updateEstimate();
-			} catch {
+			} catch (e) {
 				submitting = false;
-				showDialog('err', d.errTitle ?? '', form.dataset.err ?? '');
+				const code = (e as { code?: string }).code;
+				showDialog('err', d.errTitle ?? '', code === 'too_soon' || code === 'invalid_slot' ? (timeWarn.dataset.msg ?? '') : (form.dataset.err ?? ''));
 			} finally {
 				submitting = false;
 				btn.disabled = false;

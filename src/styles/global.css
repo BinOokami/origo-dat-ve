@@ -546,3 +546,8 @@ html:has(.status-dialog[open]) { overflow: hidden; }
 .book .btn:hover, footer .btn:hover { box-shadow: 0 10px 24px rgba(242, 109, 10, 0.4); }
 
 .brand-col p { max-width: 330px; text-wrap: balance; }
+
+/* Cảnh báo khung giờ quá sát: hiện kèm số hotline */
+.warn { margin: -6px 0 0; font-size: 0.9rem; font-weight: 700; color: #b42318; }
+.warn a { color: #b42318; text-decoration: underline; }
+select option.soon { color: #8a87a8; }
