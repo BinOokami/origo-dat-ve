@@ -372,6 +372,7 @@ const jsonLd = [
 		const MAX_PEOPLE = 50;
 		function updateEstimate() {
 			const n = Number(people.value);
+			estimate.classList.toggle('contact', n > MAX_PEOPLE); // chữ liên hệ nhỏ hơn để ô không cao lên
 			estimate.textContent =
 				n > MAX_PEOPLE
 					? (form.dataset.estimateMore ?? '')

@@ -621,3 +621,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { cursor: pointe
 /* Cảnh báo nhóm đông trên 50 người: nền đỏ nhạt, số hotline bấm gọi */
 .warn { margin: -6px 0 0; padding: 8px 6px; border-radius: 10px; background: #fef3f2; border: 1px solid #fda29b; color: #b42318; font-weight: 600; font-size: clamp(0.6rem, 2.9vw, 0.88rem); white-space: nowrap; text-align: center; }
 .warn[hidden] { display: none; }
+
+/* Ô Tạm tính khi nhóm trên 50 người: chữ nhỏ lại để chiều cao ô không đổi (không nhảy bố cục) */
+.estimate.contact { font-size: clamp(0.74rem, 3.4vw, 0.98rem); line-height: 1.2; white-space: normal; }
