@@ -617,3 +617,7 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { cursor: pointe
 /* Nhãn chuyên mục và ngày đăng trong thẻ bài: .pc-meta là thẻ <p> nên bị quy tắc cắt 2 dòng (.pc-body p, display -webkit-box) ghi đè display:flex, làm hai phần dính nhau. Đặt lại flex và khoảng cách */
 .pc-body .pc-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; overflow: visible; -webkit-line-clamp: unset; }
 .pc-body .pc-meta time { white-space: nowrap; }
+
+/* Cảnh báo nhóm đông trên 50 người: nền đỏ nhạt, số hotline bấm gọi */
+.warn { margin: -6px 0 0; padding: 8px 6px; border-radius: 10px; background: #fef3f2; border: 1px solid #fda29b; color: #b42318; font-weight: 600; font-size: clamp(0.6rem, 2.9vw, 0.88rem); white-space: nowrap; text-align: center; }
+.warn[hidden] { display: none; }

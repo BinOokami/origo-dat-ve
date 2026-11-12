@@ -174,7 +174,9 @@ const jsonLd = [
 					data-price={ticketPrice}
 					data-locale={t.locale}
 					data-currency={f.currency}
-					data-estimate-more={f.estimateMore}
+					data-estimate-more={`${f.estimateMore}: ${c.hotline.split(' ').join(' ')}`}
+					data-people-err={f.peopleErr}
+					data-people-over={f.peopleOver}
 					data-phone-err={f.phoneErr}
 					data-email-err={f.emailErr}
 					data-step-err={f.stepErr}
@@ -217,15 +219,13 @@ const jsonLd = [
 						<p class="hint full" id="time-hint">{f.timeHint}</p>
 						<div>
 							<label for="people">{f.people}</label>
-							<select id="people" name="people" required>
-								{Array.from({ length: 9 }, (_, i) => <option value={String(i + 1)}>{i + 1}</option>)}
-								<option value="10+">{f.peopleMore}</option>
-							</select>
+							<input id="people" name="people" type="text" inputmode="numeric" pattern="[0-9]*" value="1" maxlength="3" autocomplete="off" required />
 						</div>
 						<div>
 							<span class="lbl">{f.estimate}</span>
 							<output class="estimate" id="estimate" for="people" aria-live="polite">{ticketPrice.toLocaleString(t.locale)} {f.currency}</output>
 						</div>
+						<p class="warn full" id="people-warn" role="alert" hidden>{f.peopleOver}</p>
 						<!-- honeypot chống bot -->
 						<div class="hp" aria-hidden="true">
 							<label for="website">{f.honeypot}</label>
@@ -292,7 +292,8 @@ const jsonLd = [
 		const dtEl = el<HTMLInputElement>('dt'); // ô chọn ngày + giờ (datetime-local, bước 30 phút)
 		const dateEl = el<HTMLInputElement>('date'); // ô ẩn YYYY-MM-DD gửi lên máy chủ
 		const timeEl = el<HTMLInputElement>('time'); // ô ẩn HH:MM (24 giờ) gửi lên máy chủ
-		const people = el<HTMLSelectElement>('people');
+		const people = el<HTMLInputElement>('people');
+		const peopleWarn = el('people-warn');
 		const estimate = el('estimate');
 		let submitting = false; // chặn bấm gửi nhiều lần (double click) gây đơn trùng
 		let pendingRid = ''; // mã nội bộ của lần gửi hiện tại; gửi lại sau khi lỗi dùng lại đúng mã này để Sheet không ghi trùng
@@ -367,14 +368,26 @@ const jsonLd = [
 
 		phone.addEventListener('input', () => phone.setCustomValidity(''));
 
-		// Tạm tính theo số người (10+ thì để nhân viên báo giá)
+		// Số người: chỉ nhập số, từ 1 đến 50. Trên 50 thì hiện hotline, không cho gửi (nhân viên xử lý thủ công)
+		const MAX_PEOPLE = 50;
 		function updateEstimate() {
 			const n = Number(people.value);
-			estimate.textContent = Number.isFinite(n)
-				? `${(n * Number(form.dataset.price)).toLocaleString(form.dataset.locale)} ${form.dataset.currency}`
-				: (form.dataset.estimateMore ?? '');
+			estimate.textContent =
+				n > MAX_PEOPLE
+					? (form.dataset.estimateMore ?? '')
+					: n >= 1
+						? `${(n * Number(form.dataset.price)).toLocaleString(form.dataset.locale)} ${form.dataset.currency}`
+						: '—';
 		}
-		people.addEventListener('change', updateEstimate);
+		function updatePeople() {
+			people.value = people.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 3); // bỏ ký tự không phải số và số 0 đứng đầu
+			const n = Number(people.value);
+			const over = n > MAX_PEOPLE;
+			peopleWarn.hidden = !over;
+			people.setCustomValidity(over ? (form.dataset.peopleOver ?? '') : n < 1 ? (form.dataset.peopleErr ?? '') : '');
+			updateEstimate();
+		}
+		people.addEventListener('input', updatePeople);
 
 		// --- gửi form về Google Sheet (Apps Script). Chỉ báo thành công khi Sheet xác nhận ĐÃ ghi xong ({ ok: true }) ---
 		form.addEventListener('submit', async (e) => {
@@ -385,6 +398,7 @@ const jsonLd = [
 			const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim());
 			emailEl.setCustomValidity(okEmail ? '' : (form.dataset.emailErr ?? ''));
 			syncDateTime();
+			updatePeople();
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
@@ -428,7 +442,7 @@ const jsonLd = [
 				showDialog('ok', d.okTitle ?? '', (endpoint ? form.dataset.ok : form.dataset.demo) ?? '');
 				form.reset();
 				syncDateTime();
-				updateEstimate();
+				updatePeople();
 			} catch (e) {
 				submitting = false;
 				showDialog('err', d.errTitle ?? '', form.dataset.err ?? '');
