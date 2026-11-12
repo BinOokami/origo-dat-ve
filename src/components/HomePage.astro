@@ -17,9 +17,6 @@ const t = getDict(lang);
 const f = t.form;
 const r = t.routes;
 const c = site.contact;
-const hotlineTel = c.hotline.split(' ').join('');
-// Giờ đón chọn bằng 3 ô: Giờ (1-12) : Phút (00 hoặc 30) : AM/PM. Phục vụ 05:00 đến 23:00, cách nhau 30 phút.
-const hours12 = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
 
 const km = (n: number) => n.toLocaleString(t.locale) + ' km';
 const mapUrl = (q: string) => (q.startsWith('http') ? q : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`);
@@ -111,7 +108,7 @@ const jsonLd = [
 						return (
 							<article class="stop-card">
 								<div class="stop-img">
-									<img src={s.image} alt={info.name} loading="lazy" width="640" height="400" />
+									<img src={s.image.startsWith('http') ? s.image : assetPath(s.image)} alt={info.name} loading="lazy" width="640" height="400" />
 									<span class="stop-tag">{r.dropTag}</span>
 								</div>
 								<div class="stop-body">
@@ -138,9 +135,9 @@ const jsonLd = [
 	</section>
 
 	<!-- 3. SỨ MỆNH -->
-	<section id="mission" class="mission band" style={`--band-img:url('${images.mission}')`} aria-labelledby="mission-title">
+	<section id="mission" class="mission band" style={`--band-img:url('${images.cta}')`} aria-labelledby="mission-title">
 		<div class="container mission-grid">
-			<div class="mission-img"><img src={images.mission} alt="" loading="lazy" width="720" height="540" /></div>
+			<div class="mission-img"><img src={assetPath(images.mission)} alt="" loading="lazy" width="1400" height="788" /></div>
 			<div>
 				<SectionHead eyebrow={t.mission.eyebrow} title={t.mission.title} light id="mission-title" />
 				<p class="lead">{t.mission.text}</p>
@@ -158,10 +155,17 @@ const jsonLd = [
 	<!-- 6. FORM ĐẶT VÉ: chỉ vài thông tin, còn lại nhân viên tư vấn. Gửi về Google Sheet qua Apps Script (site.formEndpoint) -->
 	<section id="book" class="book" aria-labelledby="book-title">
 		<div class="container">
-			<div class="booking-wrap">
+			<div class="booking-wrap" style={`--book-img:url('${assetPath(images.heroMobile)}')`}>
 				<div class="book-intro">
 					<SectionHead eyebrow={f.eyebrow} title={f.title} sub={f.sub} light id="book-title" />
 					<p class="book-price"><span>{f.priceLine}</span> <strong class="price-tag">{t.priceLong}</strong><span class="per">{f.priceUnit}</span></p>
+					<ul class="book-points">
+						{t.hero.chips.map((c) => <li><Icon name="trust" size={20} />{c}</li>)}
+					</ul>
+					<a class="book-hotline" href={`tel:${c.hotline.split(' ').join('')}`}>
+						<Icon name="phone" size={20} />
+						<span>{f.hotlineCta}<b>{c.hotline}</b></span>
+					</a>
 				</div>
 				<form
 					class="booking"
@@ -173,6 +177,7 @@ const jsonLd = [
 					data-estimate-more={f.estimateMore}
 					data-phone-err={f.phoneErr}
 					data-email-err={f.emailErr}
+					data-step-err={f.stepErr}
 					data-ok={f.ok}
 					data-demo={f.demo}
 					data-err={f.err}
@@ -186,7 +191,7 @@ const jsonLd = [
 						</div>
 						<div class="wide">
 							<label for="phone">{f.phone}</label>
-							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+()\s.\-]{8,20}" />
+							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+\(\)\s.\-]{8,20}" />
 						</div>
 						<div class="full">
 							<label for="email">{f.email}</label>
@@ -201,32 +206,15 @@ const jsonLd = [
 							<label for="origin">{f.origin}</label>
 							<input id="origin" name="origin" type="text" placeholder={f.originPh} required maxlength="60" autocomplete="off" />
 						</div>
-						<div>
-							<label for="date">{f.date}</label>
-							<input id="date" name="date" type="date" required />
+						<div class="full">
+							<label for="dt">{f.dateTime}</label>
+							<!-- Một ô chọn cả ngày và giờ (lịch + cột giờ/phút/AM-PM của trình duyệt). step=1800 giây: phút chỉ có 00 và 30 -->
+							<input id="dt" type="datetime-local" step="1800" required aria-describedby="time-hint" />
+							<!-- hai ô ẩn giữ định dạng cũ (date YYYY-MM-DD, time HH:MM 24 giờ) để gửi lên Apps Script không đổi -->
+							<input type="hidden" id="date" name="date" />
+							<input type="hidden" id="time" name="time" />
 						</div>
-						<div class="time-wrap" id="time-wrap">
-							<label for="time-btn" id="time-label">{f.time}</label>
-							<button type="button" id="time-btn" class="time-box" aria-haspopup="dialog" aria-expanded="false" aria-controls="time-panel" aria-describedby="time-hint time-warn">
-								<span class="time-text"><b id="tt-h">--</b><i>:</i><b id="tt-m">--</b><b id="tt-p">--</b></span>
-							</button>
-							<div class="time-panel" id="time-panel" role="dialog" aria-labelledby="time-label" hidden>
-								<div class="time-col" data-col="h" role="group" aria-label={f.timeHour}>
-									{hours12.map((v) => <button type="button" data-v={v}>{v}</button>)}
-								</div>
-								<div class="time-col" data-col="m" role="group" aria-label={f.timeMinute}>
-									<button type="button" data-v="00">00</button>
-									<button type="button" data-v="30">30</button>
-								</div>
-								<div class="time-col" data-col="p" role="group" aria-label={f.timePeriod}>
-									<button type="button" data-v="AM">AM</button>
-									<button type="button" data-v="PM">PM</button>
-								</div>
-							</div>
-							<input type="text" id="time" name="time" class="time-proxy" required tabindex="-1" aria-hidden="true" autocomplete="off" />
-						</div>
-						<p class="hint full" id="time-hint">{f.timeHint} {f.outOfHours}</p>
-						<p class="warn full" id="time-warn" role="alert" hidden data-msg={`${f.tooSoon} ${c.hotline}`}>{f.tooSoon} <a href={`tel:${hotlineTel}`}>{c.hotline}</a></p>
+						<p class="hint full" id="time-hint">{f.timeHint}</p>
 						<div>
 							<label for="people">{f.people}</label>
 							<select id="people" name="people" required>
@@ -301,13 +289,9 @@ const jsonLd = [
 		const btn = el<HTMLButtonElement>('submit-btn');
 		const phone = el<HTMLInputElement>('phone');
 		const emailEl = el<HTMLInputElement>('email');
-		const dateEl = el<HTMLInputElement>('date');
-		const timeEl = el<HTMLInputElement>('time'); // ô ẩn, luôn giữ giờ dạng 24 giờ HH:MM để gửi lên máy chủ
-		const timeBtn = el<HTMLButtonElement>('time-btn');
-		const timePanel = el('time-panel');
-		const timeWrap = el('time-wrap');
-		const sel = { h: '', m: '', p: '' }; // giờ 12 (01-12), phút (00/30), buổi (AM/PM)
-		const timeWarn = el('time-warn');
+		const dtEl = el<HTMLInputElement>('dt'); // ô chọn ngày + giờ (datetime-local, bước 30 phút)
+		const dateEl = el<HTMLInputElement>('date'); // ô ẩn YYYY-MM-DD gửi lên máy chủ
+		const timeEl = el<HTMLInputElement>('time'); // ô ẩn HH:MM (24 giờ) gửi lên máy chủ
 		const people = el<HTMLSelectElement>('people');
 		const estimate = el('estimate');
 		let submitting = false; // chặn bấm gửi nhiều lần (double click) gây đơn trùng
@@ -327,8 +311,8 @@ const jsonLd = [
 		dlg.addEventListener('close', () => submitting && dlg.showModal());
 		dlgClose.addEventListener('click', () => dlg.close());
 
-		// --- Ngày và khung giờ đón: tính theo GIỜ VIỆT NAM (không theo múi giờ máy khách) ---
-		const LEAD_MS = 60 * 60 * 1000; // đặt trước tối thiểu 1 giờ
+		// --- Ngày và giờ đón: một ô datetime-local (bước 30 phút), tính theo GIỜ VIỆT NAM ---
+		// TẠM THỜI cho đặt mọi khung giờ (00:00 đến 23:30), không giới hạn đặt trước bao lâu; sẽ siết lại sau.
 		const vnFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit' });
 		const vnToday = () => vnFmt.format(new Date()); // YYYY-MM-DD
 		function addDays(iso: string, n: number) {
@@ -336,79 +320,48 @@ const jsonLd = [
 			d.setUTCDate(d.getUTCDate() + n);
 			return d.toISOString().slice(0, 10);
 		}
-		const slotTooSoon = (date: string, hhmm: string) => Date.parse(`${date}T${hhmm}:00+07:00`) - Date.now() < LEAD_MS;
-		dateEl.min = vnToday();
-		dateEl.max = addDays(vnToday(), 90);
-
-		// Ghép Giờ : Phút : AM/PM thành HH:MM dạng 24 giờ. Chưa chọn đủ thì trả chuỗi rỗng.
-		function composeTime() {
-			if (!sel.h || !sel.m || !sel.p) return '';
-			const h12 = Number(sel.h);
-			const h24 = sel.p === 'AM' ? h12 % 12 : (h12 % 12) + 12;
-			return String(h24).padStart(2, '0') + ':' + sel.m;
+		function setRange() {
+			dtEl.min = vnToday() + 'T00:00'; // mốc 00:00 để các bước 30 phút luôn rơi vào :00 và :30
+			dtEl.max = addDays(vnToday(), 90) + 'T23:30';
 		}
-		// Chỉ cho chọn trong giờ phục vụ 05:00 - 23:00: mục nào không hợp lệ thì làm mờ và không chọn được
-		const hourOff = (h: string) => sel.p === 'AM' && (Number(h) < 5 || Number(h) === 12); // AM: chỉ 5 đến 11 giờ sáng
-		const minOff = (m: string) => m === '30' && sel.p === 'PM' && sel.h === '11'; // 11:30 PM đã quá giờ phục vụ
-		const colBtns = (c: string) => [...timePanel.querySelectorAll<HTMLButtonElement>(`.time-col[data-col="${c}"] button`)];
-		function syncOptions() {
-			if (sel.h && hourOff(sel.h)) sel.h = '';
-			if (sel.m && minOff(sel.m)) sel.m = '';
-			colBtns('h').forEach((b) => ((b.disabled = hourOff(b.dataset.v!)), b.classList.toggle('on', b.dataset.v === sel.h)));
-			colBtns('m').forEach((b) => ((b.disabled = minOff(b.dataset.v!)), b.classList.toggle('on', b.dataset.v === sel.m)));
-			colBtns('p').forEach((b) => b.classList.toggle('on', b.dataset.v === sel.p));
-			el('tt-h').textContent = sel.h || '--';
-			el('tt-m').textContent = sel.m || '--';
-			el('tt-p').textContent = sel.p || '--';
-			timeBtn.classList.toggle('filled', !!composeTime());
+		setRange();
+		setInterval(setRange, 60000);
+		// Tách giá trị "YYYY-MM-DDTHH:MM" thành ngày và giờ 24 giờ cho hai ô ẩn
+		function syncDateTime() {
+			const [d = '', t = ''] = dtEl.value.split('T');
+			dateEl.value = d;
+			timeEl.value = t.slice(0, 5);
+			// Giờ lệch mốc 30 phút (vd 3:33): thay câu báo lỗi mặc định của trình duyệt bằng câu dễ hiểu
+			dtEl.setCustomValidity('');
+			if (dtEl.validity.stepMismatch) dtEl.setCustomValidity(form.dataset.stepErr ?? '');
 		}
-		// Khung quá sát giờ vẫn chọn được nhưng hiện thông báo kèm hotline và không cho gửi
-		function checkSoon() {
-			syncOptions();
-			timeEl.value = composeTime();
-			const soon = !!(dateEl.value && timeEl.value && slotTooSoon(dateEl.value, timeEl.value));
-			timeWarn.hidden = !soon;
-			timeEl.setCustomValidity(soon ? (timeWarn.dataset.msg ?? '') : '');
-			return soon;
+		const pad2 = (n: number) => String(n).padStart(2, '0');
+		// Mốc 30 phút gần nhất tiếp theo (giờ Việt Nam), dạng YYYY-MM-DDTHH:MM. Dùng làm giá trị mở đầu để bảng chọn chỉ có 00 và 30
+		function nextSlot() {
+			const slot = Math.ceil((Date.now() + 7 * 3600000) / 1800000) * 1800000;
+			return new Date(slot).toISOString().slice(0, 16);
 		}
-		function refreshSlots() {
-			checkSoon();
+		// Trình duyệt tự điền giờ hiện tại (vd 03:39) khi chọn ngày: đưa về mốc 30 phút ngay bên dưới (03:30)
+		function snapToSlot() {
+			const [d = '', t = ''] = dtEl.value.split('T');
+			const [h, m] = t.split(':').map(Number);
+			if (d && t && m % 30 !== 0) dtEl.value = `${d}T${pad2(h)}:${m < 30 ? '00' : '30'}`;
 		}
-		// Bảng chọn giờ: bấm 1 lần mở cả 3 cột (Giờ, Phút, AM/PM) cùng lúc, cuộn và chọn
-		function openTime(open: boolean) {
-			timePanel.hidden = !open;
-			timeBtn.setAttribute('aria-expanded', String(open));
-			if (open) {
-				syncOptions();
-				// cuộn mỗi cột tới mục đang chọn (hoặc giờ phục vụ đầu tiên) để khỏi phải tìm
-				timePanel.querySelectorAll<HTMLElement>('.time-col').forEach((col) => {
-					const on = col.querySelector<HTMLElement>('button.on') ?? col.querySelector<HTMLElement>('button:not(:disabled)');
-					if (on) col.scrollTop = on.offsetTop - col.offsetTop - 44;
-				});
+		dtEl.addEventListener('input', syncDateTime);
+		dtEl.addEventListener('change', () => {
+			snapToSlot();
+			syncDateTime();
+		});
+		// Bấm vào bất kỳ chỗ nào của ô là mở bảng chọn (không chỉ biểu tượng lịch); trình duyệt không hỗ trợ thì bỏ qua
+		dtEl.addEventListener('click', () => {
+			if (!dtEl.value) {
+				dtEl.value = nextSlot(); // ô trống: điền sẵn mốc 00/30 kế tiếp để bảng chọn không hiện phút lẻ
+				syncDateTime();
 			}
-		}
-		timeBtn.addEventListener('click', () => openTime(timePanel.hidden));
-		timePanel.addEventListener('click', (e) => {
-			const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-v]');
-			if (!b || b.disabled) return;
-			const col = (b.parentElement as HTMLElement).dataset.col as 'h' | 'm' | 'p';
-			sel[col] = b.dataset.v!;
-			checkSoon();
-			if (composeTime()) openTime(false); // chọn đủ 3 mục thì tự đóng
+			try {
+				dtEl.showPicker();
+			} catch {}
 		});
-		document.addEventListener('click', (e) => {
-			if (!timePanel.hidden && !timeWrap.contains(e.target as Node)) openTime(false);
-		});
-		timeWrap.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && !timePanel.hidden) {
-				openTime(false);
-				timeBtn.focus();
-			}
-		});
-		// Báo lỗi "chưa chọn giờ" của trình duyệt thì mở luôn bảng chọn
-		timeEl.addEventListener('invalid', () => openTime(true));
-		dateEl.addEventListener('change', refreshSlots);
-		setInterval(refreshSlots, 60000);
 
 		emailEl.addEventListener('input', () => emailEl.setCustomValidity(''));
 
@@ -431,7 +384,7 @@ const jsonLd = [
 			phone.setCustomValidity(digits.length < 8 || digits.length > 15 ? (form.dataset.phoneErr ?? '') : '');
 			const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim());
 			emailEl.setCustomValidity(okEmail ? '' : (form.dataset.emailErr ?? ''));
-			checkSoon();
+			syncDateTime();
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
@@ -474,12 +427,11 @@ const jsonLd = [
 				pendingRid = '';
 				showDialog('ok', d.okTitle ?? '', (endpoint ? form.dataset.ok : form.dataset.demo) ?? '');
 				form.reset();
-				refreshSlots();
+				syncDateTime();
 				updateEstimate();
 			} catch (e) {
 				submitting = false;
-				const code = (e as { code?: string }).code;
-				showDialog('err', d.errTitle ?? '', code === 'too_soon' || code === 'invalid_slot' ? (timeWarn.dataset.msg ?? '') : (form.dataset.err ?? ''));
+				showDialog('err', d.errTitle ?? '', form.dataset.err ?? '');
 			} finally {
 				submitting = false;
 				btn.disabled = false;

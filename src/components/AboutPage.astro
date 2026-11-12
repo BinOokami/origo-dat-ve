@@ -6,7 +6,7 @@ import ProcessSteps from './ProcessSteps.astro';
 import WhyGrid from './WhyGrid.astro';
 import CtaBand from './CtaBand.astro';
 import { images } from '../data/site';
-import { getDict, langs, pagePath, hl, type Lang } from '../i18n';
+import { getDict, langs, pagePath, assetPath, hl, type Lang } from '../i18n';
 
 interface Props {
 	lang: Lang;
@@ -60,7 +60,7 @@ const jsonLd = [
 
 	<section class="about-mission" aria-labelledby="am-title">
 		<div class="container mission-grid">
-			<div class="mission-img"><img src={images.mission} alt="" loading="lazy" width="720" height="540" /></div>
+			<div class="mission-img"><img src={assetPath(images.mission)} alt="" loading="lazy" width="1400" height="788" /></div>
 			<div>
 				<SectionHead eyebrow={t.mission.eyebrow} title={a.missionTitle} id="am-title" />
 				<p class="lead">{a.missionText}</p>

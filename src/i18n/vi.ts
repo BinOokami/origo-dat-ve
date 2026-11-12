@@ -18,7 +18,7 @@ export const vi = {
 	// Từ khóa theo trang (đưa vào meta keywords và JSON-LD). Từ khóa chính đứng đầu.
 	meta: {
 		home: {
-			title: 'Vé xe Sân bay Cam Ranh - Nha Trang giá rẻ | Origo',
+			title: 'Vé xe rẻ Sân bay Cam Ranh - Nha Trang | Origo',
 			description: `Vé xe từ sân bay Cam Ranh về trung tâm Nha Trang chỉ từ ${price}/người. Hạ cánh là có xe trong 30 phút, biết trước tài xế và biển số, không mặc cả. Đặt vé 1 phút.`,
 			keywords: ['xe sân bay Cam Ranh Nha Trang', 'vé xe sân bay Cam Ranh', 'xe từ sân bay Cam Ranh về Nha Trang', 'xe đưa đón sân bay Cam Ranh giá rẻ', 'xe Nha Trang đi sân bay Cam Ranh'],
 		},
@@ -131,8 +131,7 @@ export const vi = {
 		estimate: 'Tạm tính',
 		estimateMore: 'Báo giá khi liên hệ',
 		peopleMore: '10 người trở lên',
-		date: 'Ngày đón',
-		time: 'Giờ đón',
+		dateTime: 'Thời gian đón',
 		name: 'Họ tên',
 		namePh: 'Nguyễn Văn A',
 		phone: 'Số điện thoại (Zalo)',
@@ -141,12 +140,9 @@ export const vi = {
 		email: 'Email',
 		emailPh: 'ten@email.com',
 		emailErr: 'Email chưa đúng.',
-		timeHour: 'Giờ',
-		timeMinute: 'Phút',
-		timePeriod: 'Buổi',
-		outOfHours: 'Giờ phục vụ từ 5:00 AM đến 11:00 PM.',
+		hotlineCta: 'Liên hệ hotline để được tư vấn thêm',
+		stepErr: 'Giờ đón chỉ chọn theo mốc 30 phút (ví dụ 3:00 hay 3:30). Vui lòng chọn lại giờ khác.',
 		timeHint: 'Xe sẽ có mặt trễ nhất 15 phút so với khung giờ bạn chọn.',
-		tooSoon: 'Sát khung giờ, vui lòng liên hệ hotline để đặt chuyến xe ngay:',
 		honeypot: 'Để trống',
 		submit: 'Gửi yêu cầu đặt vé',
 		sending: 'Đang gửi...',

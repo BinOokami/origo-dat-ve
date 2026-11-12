@@ -9,7 +9,7 @@ export const images = {
 	heroMobile: '/images/hero-mobile.jpg', // bản cắt riêng cho điện thoại (người + cửa xe)
 	hero: '/images/hero.jpg', // ảnh banner (tạo bằng AI, tạm); TODO: thay bằng ảnh chụp thật khi có. Bên trái được phủ trắng
 	about: u('1519046904884-53103b34b206', 1920), // TODO: ảnh thật cho trang giới thiệu
-	mission: u('1436491865332-7a61a109cc05', 1200), // TODO
+	mission: '/images/ket-noi-hanh-trinh.webp', // ảnh khung Sứ mệnh (cũng dùng làm nền band)
 	cta: u('1507525428034-b723cf961d3e', 1800),
 };
 
@@ -49,8 +49,8 @@ export type RouteId = (typeof routes)[number]['id'];
 // beachKm = cách biển Nha Trang (đường Trần Phú), centerKm = cách trung tâm Nha Trang. null = chưa có số, không hiện dòng đó.
 // map = chuỗi tìm trên Google Maps hoặc link Google Maps (bắt đầu bằng http). ready = false: thẻ vẫn hiện (để thấy chỗ trống) nhưng không có trong form đặt vé.
 export const stops = [
-	{ id: 'van-phong-origo', beachKm: null as number | null, centerKm: null as number | null, image: u('1519046904884-53103b34b206', 800), map: 'https://maps.app.goo.gl/ix8Kyvup3xgpreao9', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
-	{ id: 'nguyen-duc-canh', beachKm: null as number | null, centerKm: null as number | null, image: u('1507525428034-b723cf961d3e', 800), map: 'https://maps.app.goo.gl/YTzQbefgMKGQrJG29', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
+	{ id: 'van-phong-origo', beachKm: null as number | null, centerKm: null as number | null, image: '/images/diem-van-phong.webp', map: 'https://maps.app.goo.gl/ix8Kyvup3xgpreao9', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
+	{ id: 'nguyen-duc-canh', beachKm: null as number | null, centerKm: null as number | null, image: '/images/diem-nguyen-duc-canh.webp', map: 'https://maps.app.goo.gl/YTzQbefgMKGQrJG29', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
 	{ id: 'stop-3', beachKm: null as number | null, centerKm: null as number | null, image: u('1570125909232-eb263c188f7e', 800), map: '', ready: false }, // TODO: điểm thứ 3 chưa có thông tin
 ];
 export type StopId = (typeof stops)[number]['id'];
