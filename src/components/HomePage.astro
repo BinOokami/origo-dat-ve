@@ -179,7 +179,7 @@ const jsonLd = [
 					data-people-over={f.peopleOver}
 					data-phone-err={f.phoneErr}
 					data-email-err={f.emailErr}
-					data-step-err={f.stepErr}
+					data-flight-err={f.flightErr}
 					data-ok={f.ok}
 					data-demo={f.demo}
 					data-err={f.err}
@@ -204,14 +204,18 @@ const jsonLd = [
 							<div class="locked-field" aria-readonly="true"><Icon name="plane" size={20} />{t.routeInfo['cxr-to-nha-trang'].from} → {t.routeInfo['cxr-to-nha-trang'].to}</div>
 							<input type="hidden" name="route" value="cxr-to-nha-trang" />
 						</div>
-						<div class="full">
+						<div class="wide">
 							<label for="origin">{f.origin}</label>
 							<input id="origin" name="origin" type="text" placeholder={f.originPh} required maxlength="60" autocomplete="off" />
 						</div>
+						<div class="wide">
+							<label for="flight">{f.flight}</label>
+							<input id="flight" name="flight" type="text" placeholder={f.flightPh} required maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" />
+						</div>
 						<div class="full">
 							<label for="dt">{f.dateTime}</label>
-							<!-- Một ô chọn cả ngày và giờ (lịch + cột giờ/phút/AM-PM của trình duyệt). step=1800 giây: phút chỉ có 00 và 30 -->
-							<input id="dt" type="datetime-local" step="1800" required aria-describedby="time-hint" />
+							<!-- Một ô chọn cả ngày và giờ HẠ CÁNH (phút bất kỳ vì giờ bay không theo mốc 30 phút) -->
+							<input id="dt" type="datetime-local" required aria-describedby="time-hint" />
 							<!-- hai ô ẩn giữ định dạng cũ (date YYYY-MM-DD, time HH:MM 24 giờ) để gửi lên Apps Script không đổi -->
 							<input type="hidden" id="date" name="date" />
 							<input type="hidden" id="time" name="time" />
@@ -289,7 +293,8 @@ const jsonLd = [
 		const btn = el<HTMLButtonElement>('submit-btn');
 		const phone = el<HTMLInputElement>('phone');
 		const emailEl = el<HTMLInputElement>('email');
-		const dtEl = el<HTMLInputElement>('dt'); // ô chọn ngày + giờ (datetime-local, bước 30 phút)
+		const dtEl = el<HTMLInputElement>('dt'); // ô chọn ngày + giờ hạ cánh (datetime-local)
+		const flightEl = el<HTMLInputElement>('flight'); // ô mã chuyến bay
 		const dateEl = el<HTMLInputElement>('date'); // ô ẩn YYYY-MM-DD gửi lên máy chủ
 		const timeEl = el<HTMLInputElement>('time'); // ô ẩn HH:MM (24 giờ) gửi lên máy chủ
 		const people = el<HTMLInputElement>('people');
@@ -312,8 +317,7 @@ const jsonLd = [
 		dlg.addEventListener('close', () => submitting && dlg.showModal());
 		dlgClose.addEventListener('click', () => dlg.close());
 
-		// --- Ngày và giờ đón: một ô datetime-local (bước 30 phút), tính theo GIỜ VIỆT NAM ---
-		// TẠM THỜI cho đặt mọi khung giờ (00:00 đến 23:30), không giới hạn đặt trước bao lâu; sẽ siết lại sau.
+		// --- Ngày giờ HẠ CÁNH tại Cam Ranh: một ô datetime-local (phút bất kỳ vì giờ bay không theo mốc 30 phút), tính theo GIỜ VIỆT NAM ---
 		const vnFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit' });
 		const vnToday = () => vnFmt.format(new Date()); // YYYY-MM-DD
 		function addDays(iso: string, n: number) {
@@ -322,8 +326,8 @@ const jsonLd = [
 			return d.toISOString().slice(0, 10);
 		}
 		function setRange() {
-			dtEl.min = vnToday() + 'T00:00'; // mốc 00:00 để các bước 30 phút luôn rơi vào :00 và :30
-			dtEl.max = addDays(vnToday(), 90) + 'T23:30';
+			dtEl.min = vnToday() + 'T00:00';
+			dtEl.max = addDays(vnToday(), 90) + 'T23:59';
 		}
 		setRange();
 		setInterval(setRange, 60000);
@@ -332,37 +336,22 @@ const jsonLd = [
 			const [d = '', t = ''] = dtEl.value.split('T');
 			dateEl.value = d;
 			timeEl.value = t.slice(0, 5);
-			// Giờ lệch mốc 30 phút (vd 3:33): thay câu báo lỗi mặc định của trình duyệt bằng câu dễ hiểu
-			dtEl.setCustomValidity('');
-			if (dtEl.validity.stepMismatch) dtEl.setCustomValidity(form.dataset.stepErr ?? '');
-		}
-		const pad2 = (n: number) => String(n).padStart(2, '0');
-		// Mốc 30 phút gần nhất tiếp theo (giờ Việt Nam), dạng YYYY-MM-DDTHH:MM. Dùng làm giá trị mở đầu để bảng chọn chỉ có 00 và 30
-		function nextSlot() {
-			const slot = Math.ceil((Date.now() + 7 * 3600000) / 1800000) * 1800000;
-			return new Date(slot).toISOString().slice(0, 16);
-		}
-		// Trình duyệt tự điền giờ hiện tại (vd 03:39) khi chọn ngày: đưa về mốc 30 phút ngay bên dưới (03:30)
-		function snapToSlot() {
-			const [d = '', t = ''] = dtEl.value.split('T');
-			const [h, m] = t.split(':').map(Number);
-			if (d && t && m % 30 !== 0) dtEl.value = `${d}T${pad2(h)}:${m < 30 ? '00' : '30'}`;
 		}
 		dtEl.addEventListener('input', syncDateTime);
-		dtEl.addEventListener('change', () => {
-			snapToSlot();
-			syncDateTime();
-		});
+		dtEl.addEventListener('change', syncDateTime);
 		// Bấm vào bất kỳ chỗ nào của ô là mở bảng chọn (không chỉ biểu tượng lịch); trình duyệt không hỗ trợ thì bỏ qua
 		dtEl.addEventListener('click', () => {
-			if (!dtEl.value) {
-				dtEl.value = nextSlot(); // ô trống: điền sẵn mốc 00/30 kế tiếp để bảng chọn không hiện phút lẻ
-				syncDateTime();
-			}
 			try {
 				dtEl.showPicker();
 			} catch {}
 		});
+
+		// --- Mã chuyến bay: tự viết hoa, bỏ khoảng trắng và dấu; dạng 2 ký tự hãng + 1 đến 4 số (+ 1 chữ tùy chọn), ví dụ VJ123 ---
+		function updateFlight() {
+			flightEl.value = flightEl.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7);
+			flightEl.setCustomValidity(/^[A-Z0-9]{2}\d{1,4}[A-Z]?$/.test(flightEl.value) ? '' : (form.dataset.flightErr ?? ''));
+		}
+		flightEl.addEventListener('input', updateFlight);
 
 		emailEl.addEventListener('input', () => emailEl.setCustomValidity(''));
 
@@ -399,6 +388,7 @@ const jsonLd = [
 			const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim());
 			emailEl.setCustomValidity(okEmail ? '' : (form.dataset.emailErr ?? ''));
 			syncDateTime();
+				updateFlight();
 			updatePeople();
 			if (!form.checkValidity()) {
 				form.reportValidity();
