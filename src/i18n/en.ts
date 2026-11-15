@@ -142,7 +142,7 @@ export const en: Dict = {
 		emailPh: 'name@email.com',
 		emailErr: 'Please enter a valid email.',
 		hotlineCta: 'Call our hotline for more advice',
-		timeHint: 'Enter the scheduled landing time on your ticket. Our staff will check your flight and arrange your ride.',
+		timeHint: 'Our staff will check your flight and arrange your ride.',
 		honeypot: 'Leave empty',
 		submit: 'Send booking request',
 		sending: 'Sending...',

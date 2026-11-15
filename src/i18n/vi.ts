@@ -145,7 +145,7 @@ export const vi = {
 		emailPh: 'ten@email.com',
 		emailErr: 'Email chưa đúng.',
 		hotlineCta: 'Liên hệ hotline để được tư vấn thêm',
-		timeHint: 'Nhập giờ hạ cánh dự kiến trên vé máy bay. Nhân viên sẽ kiểm tra chuyến bay và xếp xe đón bạn.',
+		timeHint: 'Nhân viên sẽ kiểm tra chuyến bay và xếp xe đón bạn.',
 		honeypot: 'Để trống',
 		submit: 'Gửi yêu cầu đặt vé',
 		sending: 'Đang gửi...',
