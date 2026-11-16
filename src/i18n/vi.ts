@@ -141,9 +141,6 @@ export const vi = {
 		phone: 'Số điện thoại (Zalo)',
 		phonePh: '0905 123 456',
 		phoneErr: 'Số điện thoại chưa đúng.',
-		email: 'Email',
-		emailPh: 'ten@email.com',
-		emailErr: 'Email chưa đúng.',
 		hotlineCta: 'Liên hệ hotline để được tư vấn thêm',
 		timeHint: 'Nhân viên sẽ kiểm tra chuyến bay và xếp xe đón bạn.',
 		honeypot: 'Để trống',
@@ -157,7 +154,7 @@ export const vi = {
 		ok: 'Nhân viên Origo sẽ liên hệ với bạn trong ít phút.',
 		demo: 'Chế độ demo: form chạy được nhưng chưa nối Google Sheet.',
 		err: 'Chưa gửi được. Vui lòng thử lại hoặc liên hệ trực tiếp.',
-		privacy: 'Mã vé và thông tin xe sẽ gửi qua email này. Thông tin liên hệ được chia sẻ với đơn vị vận chuyển chỉ để đón bạn.',
+		privacy: 'Mã vé và thông tin xe sẽ được nhân viên tư vấn và gửi cho bạn qua Zalo.\nThông tin liên hệ chỉ được chia sẻ với đơn vị vận chuyển để đón bạn.',
 	},
 	blog: {
 		eyebrow: 'Tin tức',

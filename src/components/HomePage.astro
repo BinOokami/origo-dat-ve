@@ -178,7 +178,6 @@ const jsonLd = [
 					data-people-err={f.peopleErr}
 					data-people-over={f.peopleOver}
 					data-phone-err={f.phoneErr}
-					data-email-err={f.emailErr}
 					data-flight-err={f.flightErr}
 					data-ok={f.ok}
 					data-demo={f.demo}
@@ -194,10 +193,6 @@ const jsonLd = [
 						<div class="wide">
 							<label for="phone">{f.phone}</label>
 							<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder={f.phonePh} required pattern="[0-9+\(\)\s.\-]{8,20}" />
-						</div>
-						<div class="full">
-							<label for="email">{f.email}</label>
-							<input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder={f.emailPh} required maxlength="120" />
 						</div>
 						<div class="full">
 							<span class="lbl">{f.route}</span>
@@ -292,7 +287,6 @@ const jsonLd = [
 		const dlgClose = el<HTMLButtonElement>('dlg-close');
 		const btn = el<HTMLButtonElement>('submit-btn');
 		const phone = el<HTMLInputElement>('phone');
-		const emailEl = el<HTMLInputElement>('email');
 		const dtEl = el<HTMLInputElement>('dt'); // ô chọn ngày + giờ hạ cánh (datetime-local)
 		const flightEl = el<HTMLInputElement>('flight'); // ô mã chuyến bay
 		const dateEl = el<HTMLInputElement>('date'); // ô ẩn YYYY-MM-DD gửi lên máy chủ
@@ -353,8 +347,6 @@ const jsonLd = [
 		}
 		flightEl.addEventListener('input', updateFlight);
 
-		emailEl.addEventListener('input', () => emailEl.setCustomValidity(''));
-
 		phone.addEventListener('input', () => phone.setCustomValidity(''));
 
 		// Số người: chỉ nhập số, từ 1 đến 50. Trên 50 thì hiện hotline, không cho gửi (nhân viên xử lý thủ công)
@@ -385,8 +377,6 @@ const jsonLd = [
 			if (submitting) return;
 			const digits = phone.value.replace(/\D/g, '');
 			phone.setCustomValidity(digits.length < 8 || digits.length > 15 ? (form.dataset.phoneErr ?? '') : '');
-			const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim());
-			emailEl.setCustomValidity(okEmail ? '' : (form.dataset.emailErr ?? ''));
 			syncDateTime();
 				updateFlight();
 			updatePeople();
