@@ -1,5 +1,5 @@
 import type { Dict } from './vi';
-import { ticketPrice, priceTiers } from '../data/site';
+import { ticketPrice } from '../data/site';
 
 // Bản tiếng Nga (dịch từ vi.ts). TODO: người bản ngữ Nga soát lại trước khi chạy thật.
 const money = (n: number) => n.toLocaleString('ru-RU') + ' донгов';
@@ -126,7 +126,7 @@ export const ru: Dict = {
 		people: 'Количество человек',
 		currency: 'VND',
 		estimate: 'Предварительно',
-		priceTiers: 'Цена за человека: ' + priceTiers.map((t, i) => (i === priceTiers.length - 1 ? 'от ' : '') + t.min + ' чел. ' + money(t.price)).join(' · ') + '.',
+		priceTiers: 'Чем больше мест, тем ниже цена.',
 		estimateMore: 'Связь',
 		peopleErr: 'Введите количество человек от 1 до 50.',
 		peopleOver: 'Группы более 50 человек: свяжитесь с Origo для подбора транспорта.',

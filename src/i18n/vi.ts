@@ -1,4 +1,4 @@
-import { ticketPrice, priceTiers } from '../data/site';
+import { ticketPrice } from '../data/site';
 
 // Bản tiếng Việt: NGÔN NGỮ GỐC. Các file en.ts, ru.ts phải có đúng cấu trúc này (kiểu Dict).
 // Mọi chỗ có giá tiền (t.price, t.priceLong) được tự bôi đậm nổi bật bằng hàm hl() trong index.ts.
@@ -129,7 +129,7 @@ export const vi = {
 		people: 'Số người',
 		currency: 'VNĐ',
 		estimate: 'Tạm tính',
-		priceTiers: 'Giá mỗi người: ' + priceTiers.map((t, i) => (i === priceTiers.length - 1 ? 'từ ' : '') + t.min + ' người ' + money(t.price)).join(' · ') + '.',
+		priceTiers: 'Càng đặt nhiều, giá càng rẻ.',
 		estimateMore: 'Liên hệ',
 		peopleErr: 'Nhập số người từ 1 đến 50.',
 		peopleOver: 'Nhóm quá 50 người, liên hệ trực tiếp Origo để xếp xe.',

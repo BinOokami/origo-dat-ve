@@ -1,5 +1,5 @@
 import type { Dict } from './vi';
-import { ticketPrice, priceTiers } from '../data/site';
+import { ticketPrice } from '../data/site';
 
 // Bản tiếng Anh (dịch từ vi.ts). TODO: người dùng tiếng Anh tốt soát lại trước khi chạy thật.
 const money = (n: number) => n.toLocaleString('en-US') + ' VND';
@@ -126,7 +126,7 @@ export const en: Dict = {
 		people: 'Passengers',
 		currency: 'VND',
 		estimate: 'Estimated total',
-		priceTiers: 'Price per person: ' + priceTiers.map((t, i) => (i === priceTiers.length - 1 ? t.min + '+ passengers ' : t.min + (t.min === 1 ? ' passenger ' : ' passengers ')) + money(t.price)).join(' · ') + '.',
+		priceTiers: 'The more you book, the cheaper it gets.',
 		estimateMore: 'Contact',
 		peopleErr: 'Enter a number of passengers from 1 to 50.',
 		peopleOver: 'Groups over 50, please contact Origo directly to arrange vehicles.',
