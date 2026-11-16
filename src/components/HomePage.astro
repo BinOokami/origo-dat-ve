@@ -5,7 +5,7 @@ import SectionHead from './SectionHead.astro';
 import ProcessSteps from './ProcessSteps.astro';
 import WhyGrid from './WhyGrid.astro';
 import PostCard from './PostCard.astro';
-import { site, images, stops, ticketPrice } from '../data/site';
+import { site, images, stops, ticketPrice, priceTiers } from '../data/site';
 import { getDict, langs, categories, pagePath, catPath, assetPath, hl, type Lang } from '../i18n';
 import { postsFor } from '../lib/blog';
 
@@ -171,7 +171,7 @@ const jsonLd = [
 					class="booking"
 					id="booking-form"
 					data-endpoint={site.formEndpoint}
-					data-price={ticketPrice}
+					data-tiers={JSON.stringify(priceTiers)}
 					data-locale={t.locale}
 					data-currency={f.currency}
 					data-estimate-more={`${f.estimateMore}: ${c.hotline.split(' ').join(' ')}`}
@@ -224,6 +224,7 @@ const jsonLd = [
 							<span class="lbl">{f.estimate}</span>
 							<output class="estimate" id="estimate" for="people" aria-live="polite">{ticketPrice.toLocaleString(t.locale)} {f.currency}</output>
 						</div>
+						<p class="hint full">{f.priceTiers}</p>
 						<p class="warn full" id="people-warn" role="alert" hidden>{f.peopleOver}</p>
 						<!-- honeypot chống bot -->
 						<div class="hp" aria-hidden="true">
@@ -351,6 +352,9 @@ const jsonLd = [
 
 		// Số người: chỉ nhập số, từ 1 đến 50. Trên 50 thì hiện hotline, không cho gửi (nhân viên xử lý thủ công)
 		const MAX_PEOPLE = 50;
+		// Bảng giá theo số người (từ min người trở lên thì mỗi người trả price)
+		const tiers: { min: number; price: number }[] = JSON.parse(form.dataset.tiers ?? '[]');
+		const unitPrice = (n: number) => tiers.reduce((p, t) => (n >= t.min ? t.price : p), tiers[0]?.price ?? 0);
 		function updateEstimate() {
 			const n = Number(people.value);
 			estimate.classList.toggle('contact', n > MAX_PEOPLE); // chữ liên hệ nhỏ hơn để ô không cao lên
@@ -358,7 +362,7 @@ const jsonLd = [
 				n > MAX_PEOPLE
 					? (form.dataset.estimateMore ?? '')
 					: n >= 1
-						? `${(n * Number(form.dataset.price)).toLocaleString(form.dataset.locale)} ${form.dataset.currency}`
+						? `${(n * unitPrice(n)).toLocaleString(form.dataset.locale)} ${form.dataset.currency}`
 						: '—';
 		}
 		function updatePeople() {

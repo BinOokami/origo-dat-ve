@@ -40,6 +40,16 @@ export const site = {
 // Giá vé "chỉ từ", tính theo người, mỗi chiều (VND). Hiển thị nổi bật ở mọi nơi qua hàm hl() trong src/i18n/index.ts.
 export const ticketPrice = 80000;
 
+// Bảng giá theo số người trong một đơn: từ `min` người trở lên thì mỗi người trả `price` (VND). Phải khớp PRICE_TIERS trong Apps Script (Code.gs).
+export const priceTiers = [
+	{ min: 1, price: 80000 },
+	{ min: 2, price: 70000 },
+	{ min: 3, price: 60000 },
+	{ min: 4, price: 55000 },
+];
+export const priceFor = (n: number) => priceTiers.reduce((p, t) => (n >= t.min ? t.price : p), priceTiers[0].price);
+export const totalFor = (n: number) => n * priceFor(n);
+
 // Một tuyến, hai chiều. Chiều đầu tiên là mặc định.
 // Hiện chỉ bán một chiều: sân bay Cam Ranh → Nha Trang. Muốn mở lại chiều ngược lại: thêm { id: 'nha-trang-to-cxr' } và các dòng chữ tương ứng trong i18n.
 export const routes = [{ id: 'cxr-to-nha-trang' }] as const;
