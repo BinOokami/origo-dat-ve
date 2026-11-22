@@ -16,13 +16,13 @@ export const en: Dict = {
 	slogan: 'A smart way to save on your trip',
 	meta: {
 		home: {
-			title: `Cam Ranh Airport to Nha Trang Shuttle from ${price} | Origo`,
-			description: `Cam Ranh Airport (CXR) to Nha Trang city centre from ${price} per person. A car within 30 minutes of landing, driver and plate sent in advance, no haggling. Book in 1 minute.`,
+			title: `Cam Ranh Airport to Nha Trang Shuttle, Dropped at Your Hotel, from ${price} | Origo`,
+			description: `Cam Ranh Airport (CXR) to your hotel in Nha Trang from ${price} per person. A car within 30 minutes of landing, dropped right at your hotel, driver and plate sent in advance, no haggling. Book in 1 minute.`,
 			keywords: ['Cam Ranh airport to Nha Trang', 'Cam Ranh airport shuttle', 'Nha Trang airport transfer cheap', 'Cam Ranh airport bus', 'Nha Trang to Cam Ranh airport'],
 		},
 		about: {
-			title: 'About Origo – Affordable Cam Ranh Airport Shuttle',
-			description: 'Origo makes getting from Cam Ranh Airport to Nha Trang city centre affordable, safe and fast: clear prices, known driver, a car within 30 minutes.',
+			title: 'About Origo – Cam Ranh Airport Shuttle to Your Hotel',
+			description: 'Origo takes you from Cam Ranh Airport straight to your hotel in Nha Trang, affordably, safely and fast: clear prices, known driver, a car within 30 minutes.',
 			keywords: ['Origo', 'Cam Ranh airport shuttle', 'Nha Trang airport transfer'],
 		},
 		blog: {
@@ -44,12 +44,16 @@ export const en: Dict = {
 	},
 	hero: {
 		kicker: 'A smart way to save on your trip',
-		title: 'Cam Ranh Airport – Nha Trang City Centre Shuttle',
+		titleTop: 'Affordable Shuttle',
+		title: 'Cam Ranh Airport – Nha Trang',
+		titleAccent: 'Dropped at Your Hotel',
+		// Cỡ chữ từng dòng tiêu đề (đơn vị cqw = % bề rộng khung) để 3 dòng dài gần bằng nhau. Đổi chữ thì chỉnh lại cho khớp.
+		fit: [7.6, 6.0, 7.8],
 		priceFrom: 'From',
 		priceUnit: '/ person',
 		cta: 'Book now',
-		chips: ['A ride is ready the moment you land', 'Driver and plate sent in advance', 'Clear price, no haggling'],
-		imgAlt: 'Shuttle from Cam Ranh Airport to Nha Trang city centre',
+		chips: ['A ride is ready the moment you land', 'Dropped right at your hotel', 'Clear price, no haggling'],
+		imgAlt: 'Shuttle from Cam Ranh Airport to your hotel in Nha Trang',
 	},
 	routeInfo: {
 		'cxr-to-nha-trang': { from: 'Cam Ranh Airport', to: 'Nha Trang' },
@@ -57,7 +61,7 @@ export const en: Dict = {
 	routes: {
 		eyebrow: 'Drop-off points',
 		title: 'Where we drop you in Nha Trang',
-		sub: 'Fixed drop-off points right in Nha Trang centre. Know exactly where you get off.',
+		sub: 'Dropped at your hotel, or at the Origo office. Our staff will agree the drop-off with you after you book.',
 		dropTag: 'Drop-off',
 		distBeach: 'To Trần Phú beach',
 		distCenter: 'To city centre',
@@ -70,10 +74,10 @@ export const en: Dict = {
 			address: '85TT3-K98 Trần Nhật Duật, Nha Trang, Khánh Hòa',
 			desc: 'Drop-off at the Origo office in Nha Trang.',
 		},
-		'nguyen-duc-canh': {
-			name: '19 Nguyễn Đức Cảnh',
-			address: '19 Nguyễn Đức Cảnh, South Nha Trang, Khánh Hòa',
-			desc: 'Drop-off in the south of Nha Trang.',
+		'khach-san': {
+			name: 'Drop-off at your hotel',
+			address: 'Within Nha Trang',
+			desc: 'Our staff will confirm the drop-off location with you.',
 		},
 		'stop-3': {
 			name: '[Stop 3, to be updated]',
@@ -96,7 +100,7 @@ export const en: Dict = {
 			steps: [
 				{ title: 'Book online', text: 'Leave your name, phone, flight number and landing time. Under a minute.' },
 				{ title: 'We contact you', text: 'Origo staff call or message you.' },
-				{ title: 'Confirm details', text: 'Pickup time, number of passengers, drop-off point and requests.' },
+				{ title: 'Confirm details', text: 'Pickup time, number of passengers, drop-off (your hotel or the Origo office) and requests.' },
 				{ title: 'Pay and get your ticket code', text: 'Pay as instructed and get your ticket code right away.' },
 			],
 		},
@@ -104,20 +108,20 @@ export const en: Dict = {
 	},
 	why: {
 		eyebrow: 'Why Origo',
-		title: 'Cheaper than a taxi, safer than finding a ride',
+		title: 'Door-to-door, cheaper than a taxi, safer than finding a ride',
 		sub: '4 promises Origo makes to every passenger.',
 		items: [
 			{ icon: 'price', title: 'Cheap and clear', text: `From ${price} per person, much cheaper than a regular taxi. Price known upfront, no haggling.` },
+			{ icon: 'pin', title: 'Dropped at your hotel', text: 'We take you straight to your hotel in Nha Trang, or to the Origo office if you prefer. No getting lost.' },
 			{ icon: 'fast', title: 'A car when you land', text: 'Rides run continuously. You will have a car within 30 minutes of landing.' },
 			{ icon: 'trust', title: 'Transparent and reliable', text: 'Driver name and plate sent before pickup. Origo confirms them and supports you throughout.' },
-			{ icon: 'pin', title: 'Clear drop-off points', text: 'Fixed drop-off points in Nha Trang centre with address and map. No getting lost.' },
 		],
 		cta: 'Book now',
 	},
 	form: {
 		eyebrow: 'Book',
-		title: 'Step off the plane, your ride is waiting',
-		sub: 'Origo staff will contact you within a few minutes to confirm.',
+		title: 'Land, and we take you to your hotel',
+		sub: 'Origo staff will contact you within a few minutes to confirm and discuss your hotel drop-off location with you.',
 		priceLine: 'Ticket price',
 		priceUnit: '/ person',
 		route: 'Direction',
@@ -169,7 +173,7 @@ export const en: Dict = {
 		empty: 'Articles coming soon.',
 		back: 'All articles',
 		published: 'Published',
-		ctaTitle: `To Nha Trang centre from ${price}`,
+		ctaTitle: `To your Nha Trang hotel from ${price}`,
 		ctaText: 'Book ahead, land, and have a car within 30 minutes.',
 		ctaBtn: 'Book now',
 		related: 'More articles',
@@ -183,7 +187,7 @@ export const en: Dict = {
 			{ q: 'How far is Cam Ranh Airport from Nha Trang?', a: 'About 35 km. Travel time depends on traffic and your drop-off point.' },
 			{ q: 'How do I recognise my car and driver?', a: '15 minutes before pickup we send you the driver name, plate number and meeting area. Please check them before getting in.' },
 			{ q: 'How do I pay?', a: 'After our staff confirm your trip details, you pay as instructed and receive your ticket code.' },
-			{ q: 'Where are the drop-off points in Nha Trang?', a: 'At fixed points in Nha Trang city centre, see the Drop-off points section.' },
+			{ q: 'Where are the drop-off points in Nha Trang?', a: 'At your hotel or at the Origo office, see the Drop-off points section. Our staff will agree it with you after you book.' },
 			{ q: 'What if my flight is delayed?', a: 'Message us your flight number and new landing time and we will rearrange your ride.' },
 			{ q: 'Extra luggage or travelling with children?', a: 'Let our staff know when they contact you and they will advise.' },
 		],
@@ -191,13 +195,13 @@ export const en: Dict = {
 	about: {
 		eyebrow: 'About Origo',
 		title: 'About Origo',
-		sub: 'Affordable Cam Ranh Airport – Nha Trang city centre shuttle',
-		intro: 'Origo is a shuttle ticket service from Cam Ranh International Airport to Nha Trang city centre. We get you into town at a fair price, with clear information and support from booking to drop-off.',
+		sub: 'Affordable Cam Ranh Airport – Nha Trang shuttle, dropped at your hotel',
+		intro: 'Origo is a shuttle ticket service from Cam Ranh International Airport to Nha Trang, dropping you right at your hotel. We get you into town at a fair price, with clear information and support from booking to drop-off.',
 		highlights: [
 			{ icon: 'price', title: 'Affordable', text: `From ${price} per person.` },
 			{ icon: 'trust', title: 'Safe', text: 'Know your driver and plate in advance.' },
 			{ icon: 'fast', title: 'Fast', text: 'A ride is ready the moment you land.' },
-			{ icon: 'pin', title: 'Clear', text: 'Fixed drop-off points with a map.' },
+			{ icon: 'pin', title: 'Door to door', text: 'Dropped at your hotel, or at the Origo office.' },
 		],
 		missionTitle: 'Connecting airport journeys, so every trip feels lighter.',
 		missionText: 'Origo aims to help travellers move between Cam Ranh Airport and Nha Trang in a more convenient, clear and reassuring way. Through shared rides and planning ahead, Origo wants to offer one more affordable way to travel, and to stay with passengers from the moment they start looking until the trip is done.',
@@ -208,9 +212,9 @@ export const en: Dict = {
 		],
 		ctaRoutes: 'See drop-off points',
 	},
-	cta: { title: 'Landed? Let’s get you into town!', text: `From ${price} per person. Book in under a minute.`, book: 'Book now', question: 'FAQ' },
+	cta: { title: 'Landed? Let’s get you to your hotel!', text: `From ${price} per person. Book in under a minute.`, book: 'Book now', question: 'FAQ' },
 	footer: {
-		about: 'Origo – shuttle tickets from Cam Ranh Airport to Nha Trang city centre: affordable, safe and fast.',
+		about: 'Origo – shuttle tickets from Cam Ranh Airport to your hotel in Nha Trang: affordable, safe and fast.',
 		routes: 'Directions',
 		info: 'Information',
 		cats: 'Categories',

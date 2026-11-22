@@ -1,6 +1,6 @@
 ---
-title: 'Origo: vé xe sân bay Cam Ranh – trung tâm Nha Trang chỉ từ 80.000đ'
-description: 'Giới thiệu dịch vụ vé xe từ sân bay Cam Ranh về trung tâm Nha Trang của Origo: giá chỉ từ 80.000đ/người, có xe trong 30 phút, điểm đón trả rõ ràng.'
+title: 'Origo: vé xe sân bay Cam Ranh – trung tâm Nha Trang chỉ từ 90.000đ'
+description: 'Giới thiệu dịch vụ vé xe từ sân bay Cam Ranh về trung tâm Nha Trang của Origo: giá chỉ từ 90.000đ/người, có xe trong 30 phút, điểm đón trả rõ ràng.'
 lang: vi
 category: service
 date: 2026-11-07
@@ -15,7 +15,7 @@ translationKey: origo-intro
 reviewed: false
 ---
 
-Vừa hạ cánh xuống **sân bay quốc tế Cam Ranh**, câu hỏi đầu tiên của nhiều hành khách là: về trung tâm Nha Trang bằng cách nào cho nhanh, an toàn mà không tốn kém? **Origo** ra đời để trả lời câu hỏi đó với vé xe **chỉ từ <strong class="price-hl">80.000đ</strong> mỗi người**.
+Vừa hạ cánh xuống **sân bay quốc tế Cam Ranh**, câu hỏi đầu tiên của nhiều hành khách là: về trung tâm Nha Trang bằng cách nào cho nhanh, an toàn mà không tốn kém? **Origo** ra đời để trả lời câu hỏi đó với vé xe **chỉ từ <strong class="price-hl">90.000đ</strong> mỗi người**.
 
 ## Origo là gì?
 
@@ -23,15 +23,15 @@ Origo cung cấp vé xe từ sân bay Cam Ranh về trung tâm Nha Trang. Bạn 
 
 ## Vì sao nên đi xe sân bay Origo?
 
-- **Giá rẻ:** chỉ từ <strong class="price-hl">80.000đ</strong> mỗi người, rẻ hơn nhiều so với taxi truyền thống trên cùng quãng đường.
+- **Giá rẻ:** chỉ từ <strong class="price-hl">90.000đ</strong> mỗi người, rẻ hơn nhiều so với taxi truyền thống trên cùng quãng đường.
 - **Nhanh chóng:** xe chạy liên tục, bạn chắc chắn có xe trong vòng 30 phút kể từ khi máy bay hạ cánh.
 - **Uy tín:** trước giờ đón, bạn nhận tên tài xế và biển số xe. Origo là đơn vị trung gian xác nhận thông tin và hỗ trợ bạn suốt chuyến đi.
-- **Điểm đón trả rõ ràng:** các điểm cố định trong trung tâm Nha Trang, có địa chỉ và bản đồ.
+- **Điểm trả rõ ràng:** trả tận khách sạn của bạn, hoặc tại văn phòng Origo ở Nha Trang.
 
 ## Các điểm trả tại Nha Trang
 
+- **Tại khách sạn của bạn:** xe đưa thẳng đến khách sạn, nhân viên hỏi tên khách sạn sau khi bạn đặt vé.
 - **Văn phòng Origo:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
-- **19 Nguyễn Đức Cảnh:** khu Nam Nha Trang.
 
 
 

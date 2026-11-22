@@ -1,6 +1,6 @@
 ---
-title: 'Origo: Cam Ranh Airport to Nha Trang shuttle from 80,000 VND'
-description: 'Meet Origo, the affordable Cam Ranh Airport – Nha Trang city centre shuttle: from 80,000 VND per person, a car within 30 minutes, clear drop-off points.'
+title: 'Origo: Cam Ranh Airport to Nha Trang shuttle from 90,000 VND'
+description: 'Meet Origo, the affordable Cam Ranh Airport – Nha Trang city centre shuttle: from 90,000 VND per person, a car within 30 minutes, clear drop-off points.'
 lang: en
 category: service
 date: 2026-11-07
@@ -15,7 +15,7 @@ translationKey: origo-intro
 reviewed: false
 ---
 
-Just landed at **Cam Ranh International Airport** and wondering how to get into Nha Trang quickly, safely and without overspending? **Origo** offers shuttle tickets **from <strong class="price-hl">80,000 VND</strong> per person**.
+Just landed at **Cam Ranh International Airport** and wondering how to get into Nha Trang quickly, safely and without overspending? **Origo** offers shuttle tickets **from <strong class="price-hl">90,000 VND</strong> per person**.
 
 ## What is Origo?
 
@@ -23,15 +23,15 @@ Origo sells shuttle tickets from Cam Ranh Airport to Nha Trang city centre. You 
 
 ## Why ride with Origo?
 
-- **Affordable:** from <strong class="price-hl">80,000 VND</strong> per person, much cheaper than a regular taxi on the same route.
+- **Affordable:** from <strong class="price-hl">90,000 VND</strong> per person, much cheaper than a regular taxi on the same route.
 - **Fast:** rides run continuously, so you will have a car within 30 minutes of landing.
 - **Reliable:** before pickup you receive the driver name and plate number. Origo confirms them and supports you throughout the trip.
-- **Clear stops:** fixed points in Nha Trang city centre, with address and map.
+- **Clear drop-off:** at your hotel, or at the Origo office in Nha Trang.
 
 ## Drop-off points in Nha Trang
 
+- **At your hotel:** we take you straight there, our staff ask for the hotel name after you book.
 - **Origo office:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
-- **19 Nguyễn Đức Cảnh:** South Nha Trang.
 
 
 

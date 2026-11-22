@@ -16,7 +16,7 @@ faq:
   - q: 'Sân bay Cam Ranh cách trung tâm Nha Trang bao xa?'
     a: 'Khoảng 35 km về phía nam trung tâm Nha Trang.'
   - q: 'Cách nào rẻ mà vẫn nhanh để về trung tâm Nha Trang?'
-    a: 'Xe sân bay giá rẻ như Origo: chỉ từ 80.000đ mỗi người, có xe trong vòng 30 phút sau khi hạ cánh.'
+    a: 'Xe sân bay giá rẻ như Origo: chỉ từ 90.000đ mỗi người, có xe trong vòng 30 phút sau khi hạ cánh.'
 translationKey: cxr-to-nha-trang-guide
 reviewed: false
 ---
@@ -37,7 +37,7 @@ Tài xế chờ sẵn, đưa thẳng về nơi ở. Phù hợp với nhóm đôn
 
 ## 4. Xe sân bay giá rẻ như Origo
 
-Một lựa chọn ở giữa: **chỉ từ <strong class="price-hl">80.000đ</strong> mỗi người**, rẻ hơn nhiều so với taxi, có xe trong vòng 30 phút sau khi hạ cánh, trả khách tại các điểm cố định trong trung tâm Nha Trang. Trước giờ đón, bạn nhận tên tài xế và biển số xe để yên tâm.
+Một lựa chọn ở giữa: **chỉ từ <strong class="price-hl">90.000đ</strong> mỗi người**, rẻ hơn nhiều so với taxi, có xe trong vòng 30 phút sau khi hạ cánh, trả khách tận khách sạn hoặc tại văn phòng Origo ở Nha Trang. Trước giờ đón, bạn nhận tên tài xế và biển số xe để yên tâm.
 
 ## Nên chọn cách nào?
 

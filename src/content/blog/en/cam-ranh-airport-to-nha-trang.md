@@ -16,7 +16,7 @@ faq:
   - q: 'How far is Cam Ranh Airport from Nha Trang city centre?'
     a: 'About 35 km south of Nha Trang city centre.'
   - q: 'What is a cheap but fast way into Nha Trang?'
-    a: 'A budget airport shuttle like Origo: from 80,000 VND per person, with a car within 30 minutes of landing.'
+    a: 'A budget airport shuttle like Origo: from 90,000 VND per person, with a car within 30 minutes of landing.'
 translationKey: cxr-to-nha-trang-guide
 reviewed: false
 ---
@@ -37,7 +37,7 @@ A driver waits for you and takes you to the door. Great for families and groups.
 
 ## 4. Budget airport shuttle like Origo
 
-A middle ground: **from <strong class="price-hl">80,000 VND</strong> per person**, much cheaper than a taxi, a car within 30 minutes of landing, and drop-off at fixed points in Nha Trang centre. Before pickup you receive the driver name and plate number.
+A middle ground: **from <strong class="price-hl">90,000 VND</strong> per person**, much cheaper than a taxi, a car within 30 minutes of landing, and drop-off at your hotel or at the Origo office in Nha Trang. Before pickup you receive the driver name and plate number.
 
 ## Which one should you choose?
 

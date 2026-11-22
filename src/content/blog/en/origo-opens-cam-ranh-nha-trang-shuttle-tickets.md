@@ -1,6 +1,6 @@
 ---
-title: 'Origo opens Cam Ranh – Nha Trang shuttle tickets from 80,000 VND'
-description: 'Origo now takes bookings for a shuttle between Cam Ranh Airport and central Nha Trang, from 80,000 VND per person, with a ride 30 minutes after landing.'
+title: 'Origo opens Cam Ranh – Nha Trang shuttle tickets from 90,000 VND'
+description: 'Origo now takes bookings for a shuttle between Cam Ranh Airport and central Nha Trang, from 90,000 VND per person, with a ride 30 minutes after landing.'
 lang: en
 category: news
 date: 2026-11-07
@@ -19,10 +19,10 @@ reviewed: false
 
 ## Key points
 
-- **Ticket price:** from <strong class="price-hl">80,000 VND</strong> per person, one flat price, no vehicle choice.
+- **Ticket price:** from <strong class="price-hl">90,000 VND</strong> per person, one flat price, no vehicle choice.
 - **One way:** Cam Ranh Airport → Nha Trang.
 - **Quick pickup:** a ride is ready 30 minutes after your plane lands.
-- **Clear drop-off points:** two at first, the Origo office (85TT3-K98 Tran Nhat Duat) and 19 Nguyen Duc Canh (South Nha Trang). More will be added as details are confirmed.
+- **Clear drop-off:** at your hotel, or at the Origo office (85TT3-K98 Tran Nhat Duat).
 - **Know your driver:** 15 minutes before pickup we send the driver's name, plate number and meeting area.
 
 ## How to book

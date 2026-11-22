@@ -38,14 +38,14 @@ export const site = {
 };
 
 // Giá vé "chỉ từ", tính theo người, mỗi chiều (VND). Hiển thị nổi bật ở mọi nơi qua hàm hl() trong src/i18n/index.ts.
-export const ticketPrice = 80000;
+export const ticketPrice = 90000;
 
 // Bảng giá theo số người trong một đơn: từ `min` người trở lên thì mỗi người trả `price` (VND). Phải khớp PRICE_TIERS trong Apps Script (Code.gs).
 export const priceTiers = [
-	{ min: 1, price: 80000 },
-	{ min: 2, price: 70000 },
-	{ min: 3, price: 60000 },
-	{ min: 4, price: 55000 },
+	{ min: 1, price: 90000 },
+	{ min: 2, price: 80000 },
+	{ min: 3, price: 70000 },
+	{ min: 4, price: 65000 },
 ];
 export const priceFor = (n: number) => priceTiers.reduce((p, t) => (n >= t.min ? t.price : p), priceTiers[0].price);
 export const totalFor = (n: number) => n * priceFor(n);
@@ -59,8 +59,8 @@ export type RouteId = (typeof routes)[number]['id'];
 // beachKm = cách biển Nha Trang (đường Trần Phú), centerKm = cách trung tâm Nha Trang. null = chưa có số, không hiện dòng đó.
 // map = chuỗi tìm trên Google Maps hoặc link Google Maps (bắt đầu bằng http). ready = false: thẻ vẫn hiện (để thấy chỗ trống) nhưng không có trong form đặt vé.
 export const stops = [
+	{ id: 'khach-san', beachKm: null as number | null, centerKm: null as number | null, image: '/images/diem-khach-san.webp', map: '', ready: true }, // trả tại khách sạn của khách: không có địa chỉ cố định, không có bản đồ; TODO: ảnh khách sạn thật
 	{ id: 'van-phong-origo', beachKm: null as number | null, centerKm: null as number | null, image: '/images/diem-van-phong.webp', map: 'https://maps.app.goo.gl/ix8Kyvup3xgpreao9', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
-	{ id: 'nguyen-duc-canh', beachKm: null as number | null, centerKm: null as number | null, image: '/images/diem-nguyen-duc-canh.webp', map: 'https://maps.app.goo.gl/YTzQbefgMKGQrJG29', ready: true }, // TODO: ảnh thật; số km chưa có nên không hiện
 	{ id: 'stop-3', beachKm: null as number | null, centerKm: null as number | null, image: u('1570125909232-eb263c188f7e', 800), map: '', ready: false }, // TODO: điểm thứ 3 chưa có thông tin
 ];
 export type StopId = (typeof stops)[number]['id'];

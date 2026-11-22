@@ -51,7 +51,7 @@ const jsonLd = [
 	{
 		'@context': 'https://schema.org',
 		'@type': 'Service',
-		name: t.hero.title,
+		name: `${t.hero.titleTop} ${t.hero.title}, ${t.hero.titleAccent}`,
 		serviceType: 'Airport shuttle',
 		description: t.meta.home.description,
 		provider: { '@id': url + '#org' },
@@ -82,7 +82,7 @@ const jsonLd = [
 		<div class="container">
 			<div class="hero-inner">
 				<p class="kicker">{t.hero.kicker}</p>
-				<h1 id="hero-title">{t.hero.title}</h1>
+				<h1 id="hero-title" style={`--s1:${t.hero.fit[0]};--s2:${t.hero.fit[1]};--s3:${t.hero.fit[2]}`}><span class="l1">{t.hero.titleTop}</span><span class="l2">{t.hero.title}</span><span class="accent">{t.hero.titleAccent}</span></h1>
 				<p class="hero-price">
 					<span>{t.hero.priceFrom}</span>
 					<strong class="price-tag">{t.priceLong}</strong>
@@ -113,7 +113,7 @@ const jsonLd = [
 								</div>
 								<div class="stop-body">
 									<h4>{info.name}</h4>
-									<p class="addr"><Icon name="pin" size={16} />{info.address}</p>
+									{info.address && <p class="addr"><Icon name="pin" size={16} />{info.address}</p>}
 									<p class="desc">{info.desc}</p>
 									{(s.beachKm != null || s.centerKm != null) && (
 										<ul class="dist">
@@ -121,9 +121,9 @@ const jsonLd = [
 											{s.centerKm != null && <li><span>{r.distCenter}</span><b>{km(s.centerKm)}</b></li>}
 										</ul>
 									)}
+									{s.map && <p class="stop-map"><a class="link" href={mapUrl(s.map)} target="_blank" rel="noopener"><Icon name="map" size={16} />{r.map}</a></p>}
 									<div class="stop-actions">
 										{s.ready && <a class="btn btn-green btn-block" href="#book">{r.book}</a>}
-										{s.map && <a class="link" href={mapUrl(s.map)} target="_blank" rel="noopener"><Icon name="map" size={16} />{r.map}</a>}
 									</div>
 								</div>
 							</article>
