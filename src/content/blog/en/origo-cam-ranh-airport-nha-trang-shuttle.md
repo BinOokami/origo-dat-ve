@@ -31,7 +31,7 @@ Origo sells shuttle tickets from Cam Ranh Airport to Nha Trang city centre. You 
 ## Drop-off points in Nha Trang
 
 - **At your hotel:** we take you straight there, our staff ask for the hotel name after you book.
-- **Origo office:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
+- **Origo office:** K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa.
 
 
 

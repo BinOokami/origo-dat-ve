@@ -22,7 +22,7 @@ reviewed: false
 - **Ticket price:** from <strong class="price-hl">90,000 VND</strong> per person, one flat price, no vehicle choice.
 - **One way:** Cam Ranh Airport → Nha Trang.
 - **Quick pickup:** a ride is ready 30 minutes after your plane lands.
-- **Clear drop-off:** at your hotel, or at the Origo office (85TT3-K98 Tran Nhat Duat).
+- **Clear drop-off:** at your hotel, or at the Origo office (K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa).
 - **Know your driver:** 15 minutes before pickup we send the driver's name, plate number and meeting area.
 
 ## How to book

@@ -74,7 +74,7 @@ export const vi = {
 	stopInfo: {
 		'van-phong-origo': {
 			name: 'Văn phòng Origo',
-			address: '85TT3-K98 Trần Nhật Duật, Nha Trang, Khánh Hòa',
+			address: 'K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa',
 			desc: 'Điểm trả tại văn phòng Origo ở Nha Trang.',
 		},
 		'khach-san': {

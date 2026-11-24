@@ -31,7 +31,7 @@ Origo cung cấp vé xe từ sân bay Cam Ranh về trung tâm Nha Trang. Bạn 
 ## Các điểm trả tại Nha Trang
 
 - **Tại khách sạn của bạn:** xe đưa thẳng đến khách sạn, nhân viên hỏi tên khách sạn sau khi bạn đặt vé.
-- **Văn phòng Origo:** 85TT3-K98 Trần Nhật Duật, Nha Trang.
+- **Văn phòng Origo:** K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa.
 
 
 

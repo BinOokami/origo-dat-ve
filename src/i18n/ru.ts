@@ -71,7 +71,7 @@ export const ru: Dict = {
 	stopInfo: {
 		'van-phong-origo': {
 			name: 'Офис Origo',
-			address: '85TT3-K98 Trần Nhật Duật, Нячанг, Кханьхоа',
+			address: 'K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa',
 			desc: 'Высадка у офиса Origo в Нячанге.',
 		},
 		'khach-san': {

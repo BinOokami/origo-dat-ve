@@ -22,7 +22,7 @@ reviewed: false
 - **Giá vé:** chỉ từ <strong class="price-hl">90.000đ</strong> mỗi người, một mức giá duy nhất, không chọn loại xe.
 - **Một chiều:** sân bay Cam Ranh → Nha Trang.
 - **Có xe nhanh:** xe sẵn sàng sau 30 phút kể từ lúc máy bay hạ cánh.
-- **Điểm trả rõ ràng:** trả tận khách sạn của bạn, hoặc tại Văn phòng Origo (85TT3-K98 Trần Nhật Duật).
+- **Điểm trả rõ ràng:** trả tận khách sạn của bạn, hoặc tại Văn phòng Origo (K98 Đ. Trần Nhật Duật Nối Dài, P. Nha Trang, Khánh Hòa).
 - **Biết trước tài xế:** trước giờ đón 15 phút, nhân viên gửi tên tài xế, biển số xe và khu vực đón.
 
 ## Cách đặt vé
