@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { prefixes, categorySlugs } from './src/i18n/slugs.mjs';
+import { features, isBlogPath } from './src/data/features.mjs';
 
 // Sitemap chỉ chứa trang được phép lập chỉ mục, khớp với thẻ noindex trong trang:
 // - bài chưa có người soát (không có "reviewed: true")
@@ -60,7 +61,10 @@ export default defineConfig({
 	integrations: [
 		sitemap({
 			i18n: { defaultLocale: 'vi', locales: { vi: 'vi-VN', en: 'en-US', ru: 'ru-RU' } },
-			filter: (page) => !excluded.some((p) => new URL(page).pathname === BASE.replace(/\/$/, '') + p),
+			filter: (page) => {
+				const path = new URL(page).pathname.slice(BASE.replace(/\/$/, '').length);
+				return !excluded.includes(path) && (features.blog || !isBlogPath(path));
+			},
 		}),
 	],
 });

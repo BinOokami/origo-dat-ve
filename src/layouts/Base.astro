@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { site, routes, ticketPrice } from '../data/site';
+import { features } from '../data/features.mjs';
 import { languages, langs, categories, getDict, pagePath, catPath, assetPath, type Lang, type PageKey } from '../i18n';
 
 interface Props {
@@ -32,11 +33,12 @@ const ogImage = abs(assetPath(site.ogImage));
 const nav = [
 	{ href: home, label: t.nav.home, on: isHome },
 	{ href: homeAnchor('routes'), label: t.nav.routes, on: false },
-	{ href: pagePath(lang, 'about'), label: t.nav.about, on: page === 'about' },
 ];
+// "Giới thiệu" nằm bên phải logo để hai bên menu cân nhau khi Tin tức và Hỏi đáp đang ẩn
 const navRight = [
-	{ href: pagePath(lang, 'blog'), label: t.nav.blog, on: page === 'blog' || page === 'post' },
-	{ href: homeAnchor('faq'), label: t.nav.faq, on: false },
+	{ href: pagePath(lang, 'about'), label: t.nav.about, on: page === 'about' },
+	...(features.blog ? [{ href: pagePath(lang, 'blog'), label: t.nav.blog, on: page === 'blog' || page === 'post' }] : []),
+	...(features.faq ? [{ href: homeAnchor('faq'), label: t.nav.faq, on: false }] : []),
 ];
 const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? 'blog' : (page as PageKey));
 ---
@@ -93,7 +95,7 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 							))}
 						</ul>
 					</details>
-					<a class="btn btn-green btn-sm" href={homeAnchor('book')}><Icon name="ticket" size={18} />{t.nav.book}</a>
+					<a class="btn btn-green btn-sm" href={homeAnchor('book')}><Icon name="car" size={18} />{t.nav.book}</a>
 				</nav>
 
 				<button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label={t.nav.menu} data-open={t.nav.menu} data-close={t.nav.close}>
@@ -110,7 +112,7 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 						<a href={switchHref(l)} hreflang={getDict(l).htmlLang} lang={getDict(l).htmlLang} class:list={[{ on: l === lang }]}>{languages[l].short}</a>
 					))}
 				</div>
-				<a class="btn btn-green" href={homeAnchor('book')}><Icon name="ticket" size={18} />{t.nav.book}</a>
+				<a class="btn btn-green" href={homeAnchor('book')}><Icon name="car" size={18} />{t.nav.book}</a>
 			</div>
 		</header>
 
@@ -133,8 +135,8 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 							))}
 							<li><a href={pagePath(lang, 'about')}>{t.nav.about}</a></li>
 							<li><a href={homeAnchor('routes')}>{t.nav.routes}</a></li>
-							<li><a href={homeAnchor('faq')}>{t.nav.faq}</a></li>
-							{categories.map((c) => <li><a href={catPath(lang, c)}>{t.blog.cats[c]}</a></li>)}
+							{features.faq && <li><a href={homeAnchor('faq')}>{t.nav.faq}</a></li>}
+							{features.blog && categories.map((c) => <li><a href={catPath(lang, c)}>{t.blog.cats[c]}</a></li>)}
 						</ul>
 					</div>
 					<div class="contact-col">
@@ -182,10 +184,10 @@ const switchHref = (l: Lang) => alternates[l] ?? pagePath(l, page === 'post' ? '
 			</div>
 		</footer>
 
-		<!-- Thanh đặt vé dính dưới màn hình, chỉ hiện trên điện thoại -->
+		<!-- Thanh đặt xe dính dưới màn hình, chỉ hiện trên điện thoại -->
 		<a class="mbar" href={homeAnchor('book')}>
 			<span class="mbar-price"><small>{t.mobileBar.from}</small>{t.money(ticketPrice)}</span>
-			<span class="mbar-btn"><Icon name="ticket" size={18} />{t.mobileBar.book}</span>
+			<span class="mbar-btn"><Icon name="car" size={18} />{t.mobileBar.book}</span>
 		</a>
 
 		<script>

@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Icon from './Icon.astro';
 import SectionHead from './SectionHead.astro';
-import ProcessSteps from './ProcessSteps.astro';
 import WhyGrid from './WhyGrid.astro';
 import PostCard from './PostCard.astro';
 import { site, images, stops, ticketPrice, priceTiers } from '../data/site';
+import { features } from '../data/features.mjs';
 import { getDict, langs, categories, pagePath, catPath, assetPath, hl, type Lang } from '../i18n';
 import { postsFor } from '../lib/blog';
 
@@ -52,7 +52,7 @@ const jsonLd = [
 		'@context': 'https://schema.org',
 		'@type': 'Service',
 		name: `${t.hero.titleTop} ${t.hero.title}, ${t.hero.titleAccent}`,
-		serviceType: 'Airport shuttle',
+		serviceType: 'Airport transfer',
 		description: t.meta.home.description,
 		provider: { '@id': url + '#org' },
 		areaServed: [
@@ -68,11 +68,10 @@ const jsonLd = [
 			priceSpecification: { '@type': 'UnitPriceSpecification', price: ticketPrice, priceCurrency: 'VND', minPrice: ticketPrice, unitText: 'per person, one way' },
 		},
 	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'FAQPage',
-		mainEntity: t.faq.items.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
-	},
+	// Chỉ khai FAQ cho máy tìm kiếm khi phần Hỏi đáp thật sự hiện trên trang
+	...(features.faq
+		? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: t.faq.items.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })) }]
+		: []),
 ];
 ---
 
@@ -88,7 +87,7 @@ const jsonLd = [
 					<strong class="price-tag">{t.priceLong}</strong>
 					<span class="unit">{t.hero.priceUnit}</span>
 				</p>
-				<a class="btn btn-green btn-lg" href="#book"><Icon name="ticket" />{t.hero.cta}</a>
+				<a class="btn btn-green btn-lg" href="#book"><Icon name="car" />{t.hero.cta}</a>
 				<ul class="hero-chips">
 					{t.hero.chips.map((c) => <li><Icon name="trust" size={18} />{c}</li>)}
 				</ul>
@@ -134,25 +133,10 @@ const jsonLd = [
 		</div>
 	</section>
 
-	<!-- 3. SỨ MỆNH -->
-	<section id="mission" class="mission band" style={`--band-img:url('${images.cta}')`} aria-labelledby="mission-title">
-		<div class="container mission-grid">
-			<div class="mission-img"><img src={assetPath(images.mission)} alt="" loading="lazy" width="1400" height="788" /></div>
-			<div>
-				<SectionHead eyebrow={t.mission.eyebrow} title={t.mission.title} light id="mission-title" />
-				<p class="lead">{t.mission.text}</p>
-				<a class="btn btn-light" href={pagePath(lang, 'about')}>{t.mission.more} <Icon name="arrow" size={18} /></a>
-			</div>
-		</div>
-	</section>
-
-	<!-- 4. QUY TRÌNH -->
-	<ProcessSteps t={t} ctaHref="#book" />
-
-	<!-- 5. VÌ SAO CHỌN ORIGO -->
+	<!-- 3. VÌ SAO CHỌN ORIGO -->
 	<WhyGrid t={t} ctaHref="#book" />
 
-	<!-- 6. FORM ĐẶT VÉ: chỉ vài thông tin, còn lại nhân viên tư vấn. Gửi về Google Sheet qua Apps Script (site.formEndpoint) -->
+	<!-- 4. FORM ĐẶT XE: chỉ vài thông tin, còn lại nhân viên tư vấn. Gửi về Google Sheet qua Apps Script (site.formEndpoint) -->
 	<section id="book" class="book" aria-labelledby="book-title">
 		<div class="container">
 			<div class="booking-wrap" style={`--book-img:url('${assetPath(images.heroMobile)}')`}>
@@ -232,7 +216,7 @@ const jsonLd = [
 							<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
 						</div>
 					</div>
-					<button class="btn btn-green btn-lg btn-block" type="submit" id="submit-btn"><Icon name="ticket" />{f.submit}</button>
+					<button class="btn btn-green btn-lg btn-block" type="submit" id="submit-btn"><Icon name="car" />{f.submit}</button>
 					<p class="privacy">{f.privacy}</p>
 				</form>
 				<!-- Hộp thoại trạng thái gửi: khóa trang khi đang xử lý, không đóng được bằng bấm ra ngoài hay Esc -->
@@ -246,38 +230,54 @@ const jsonLd = [
 		</div>
 	</section>
 
-	<!-- 7. BLOG: theo chuyên mục -->
-	<section id="news" class="news" aria-labelledby="news-title">
-		<div class="container">
-			<SectionHead eyebrow={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} center id="news-title" />
-			<div class="news-grid">
-				{homeCats.map((c) => (
-					<div class="news-col">
-						<div class="cat-head">
-							<h3 class:list={['news-cat', c]}>{t.blog.cats[c]}</h3>
-							<a class="more" href={catPath(lang, c)}>{t.blog.all} →</a>
+	<!-- 5. BLOG: theo chuyên mục (tạm ẩn, bật ở src/data/features.mjs) -->
+	{features.blog && (
+		<section id="news" class="news" aria-labelledby="news-title">
+			<div class="container">
+				<SectionHead eyebrow={t.blog.eyebrow} title={t.blog.title} sub={t.blog.sub} center id="news-title" />
+				<div class="news-grid">
+					{homeCats.map((c) => (
+						<div class="news-col">
+							<div class="cat-head">
+								<h3 class:list={['news-cat', c]}>{t.blog.cats[c]}</h3>
+								<a class="more" href={catPath(lang, c)}>{t.blog.all} →</a>
+							</div>
+							{posts.filter((p) => p.data.category === c).slice(0, 2).map((p) => <PostCard post={p} lang={lang} />)}
 						</div>
-						{posts.filter((p) => p.data.category === c).slice(0, 2).map((p) => <PostCard post={p} lang={lang} />)}
-					</div>
-				))}
+					))}
+				</div>
+				{homeCats.length === 0 && <p class="muted center-text">{t.blog.empty}</p>}
+				<p class="center-row"><a class="btn btn-light" href={pagePath(lang, 'blog')}>{t.blog.all} <Icon name="arrow" size={18} /></a></p>
 			</div>
-			{homeCats.length === 0 && <p class="muted center-text">{t.blog.empty}</p>}
-			<p class="center-row"><a class="btn btn-light" href={pagePath(lang, 'blog')}>{t.blog.all} <Icon name="arrow" size={18} /></a></p>
+		</section>
+	)}
+
+	<!-- 6. SỨ MỆNH (cuối trang) -->
+	<section id="mission" class="mission band" style={`--band-img:url('${images.cta}')`} aria-labelledby="mission-title">
+		<div class="container mission-grid">
+			<div class="mission-img"><img src={assetPath(images.mission)} alt="" loading="lazy" width="1400" height="788" /></div>
+			<div>
+				<SectionHead eyebrow={t.mission.eyebrow} title={t.mission.title} light id="mission-title" />
+				<p class="lead">{t.mission.text}</p>
+				<a class="btn btn-light" href={pagePath(lang, 'about')}>{t.mission.more} <Icon name="arrow" size={18} /></a>
+			</div>
 		</div>
 	</section>
 
-	<!-- 8. HỎI ĐÁP -->
-	<section id="faq" class="faq" aria-labelledby="faq-title">
-		<div class="container narrow">
-			<SectionHead eyebrow={t.faq.eyebrow} title={t.faq.title} center id="faq-title" />
-			{t.faq.items.map((x, i) => (
-				<details open={i === 0}>
-					<summary>{x.q}</summary>
-					<p set:html={hl(x.a, t)} />
-				</details>
-			))}
-		</div>
-	</section>
+	<!-- 7. HỎI ĐÁP (tạm ẩn) -->
+	{features.faq && (
+		<section id="faq" class="faq" aria-labelledby="faq-title">
+			<div class="container narrow">
+				<SectionHead eyebrow={t.faq.eyebrow} title={t.faq.title} center id="faq-title" />
+				{t.faq.items.map((x, i) => (
+					<details open={i === 0}>
+						<summary>{x.q}</summary>
+						<p set:html={hl(x.a, t)} />
+					</details>
+				))}
+			</div>
+		</section>
+	)}
 
 	<script>
 		const el = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

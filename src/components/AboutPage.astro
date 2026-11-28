@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Icon from './Icon.astro';
 import SectionHead from './SectionHead.astro';
-import ProcessSteps from './ProcessSteps.astro';
 import WhyGrid from './WhyGrid.astro';
 import CtaBand from './CtaBand.astro';
 import { images } from '../data/site';
+import { features } from '../data/features.mjs';
 import { getDict, langs, pagePath, assetPath, hl, type Lang } from '../i18n';
 
 interface Props {
@@ -52,7 +52,7 @@ const jsonLd = [
 				))}
 			</div>
 			<p class="center-row">
-				<a class="btn btn-green btn-lg" href={`${home}#book`}><Icon name="ticket" size={18} />{t.hero.cta}</a>
+				<a class="btn btn-green btn-lg" href={`${home}#book`}><Icon name="car" size={18} />{t.hero.cta}</a>
 				<a class="btn btn-light" href={`${home}#routes`}>{a.ctaRoutes}</a>
 			</p>
 		</div>
@@ -73,7 +73,6 @@ const jsonLd = [
 		</div>
 	</section>
 
-	<ProcessSteps t={t} ctaHref={`${home}#book`} />
 	<WhyGrid t={t} ctaHref={`${home}#book`} />
-	<CtaBand t={t} bookHref={`${home}#book`} secondHref={`${home}#faq`} secondLabel={t.cta.question} />
+	<CtaBand t={t} bookHref={`${home}#book`} secondHref={features.faq ? `${home}#faq` : `${home}#routes`} secondLabel={features.faq ? t.cta.question : a.ctaRoutes} />
 </Base>

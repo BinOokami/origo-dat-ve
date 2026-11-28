@@ -13,23 +13,23 @@ export const vi = {
 	money,
 	price,
 	priceLong,
-	brandLine: 'Vé xe giá rẻ',
+	brandLine: 'Dịch vụ đưa đón tiết kiệm',
 	slogan: 'Giải pháp tiết kiệm cho chuyến đi của bạn',
 	// Từ khóa theo trang (đưa vào meta keywords và JSON-LD). Từ khóa chính đứng đầu.
 	meta: {
 		home: {
-			title: 'Vé xe sân bay Cam Ranh - Nha Trang, trả tận khách sạn | Origo',
-			description: `Vé xe từ sân bay Cam Ranh về Nha Trang, trả tận khách sạn, chỉ từ ${price}/người. Hạ cánh là có xe trong 30 phút, biết trước tài xế và biển số, không mặc cả. Đặt vé 1 phút.`,
-			keywords: ['xe sân bay Cam Ranh Nha Trang', 'vé xe sân bay Cam Ranh', 'xe từ sân bay Cam Ranh về Nha Trang', 'xe đưa đón sân bay Cam Ranh giá rẻ', 'xe Nha Trang đi sân bay Cam Ranh'],
+			title: 'Dịch vụ đưa đón sân bay Cam Ranh - Nha Trang, trả tận khách sạn | Origo',
+			description: `Dịch vụ đưa đón tiết kiệm từ sân bay Cam Ranh về Nha Trang, trả tận khách sạn, chỉ từ ${price}/người. Hạ cánh là có xe trong 30 phút, biết trước tài xế và biển số, không mặc cả. Đặt xe 1 phút.`,
+			keywords: ['đưa đón sân bay Cam Ranh Nha Trang', 'dịch vụ đưa đón sân bay Cam Ranh', 'xe đưa đón sân bay Cam Ranh giá rẻ', 'đưa đón từ sân bay Cam Ranh về Nha Trang'],
 		},
 		about: {
-			title: 'Giới thiệu Origo – Vé xe sân bay Cam Ranh, trả tận khách sạn',
+			title: 'Giới thiệu Origo – Dịch vụ đưa đón sân bay Cam Ranh, trả tận khách sạn',
 			description: 'Origo đưa bạn từ sân bay Cam Ranh về thẳng khách sạn ở Nha Trang, tiết kiệm, an toàn và nhanh chóng: giá rõ ràng, biết trước tài xế, có xe trong 30 phút.',
-			keywords: ['Origo', 'vé xe sân bay Cam Ranh', 'xe sân bay Cam Ranh uy tín'],
+			keywords: ['Origo', 'dịch vụ đưa đón sân bay Cam Ranh', 'đưa đón sân bay Cam Ranh uy tín'],
 		},
 		blog: {
 			title: 'Tin tức, dịch vụ và cẩm nang du lịch Nha Trang | Origo',
-			description: 'Bản tin dịch vụ xe sân bay Cam Ranh – Nha Trang, cẩm nang du lịch và tin tức Nha Trang do Origo tổng hợp.',
+			description: 'Bản tin dịch vụ đưa đón sân bay Cam Ranh – Nha Trang, cẩm nang du lịch và tin tức Nha Trang do Origo tổng hợp.',
 			keywords: ['cẩm nang du lịch Nha Trang', 'tin tức Nha Trang', 'kinh nghiệm đi sân bay Cam Ranh'],
 		},
 	},
@@ -39,23 +39,23 @@ export const vi = {
 		about: 'Giới thiệu',
 		blog: 'Tin tức',
 		faq: 'Hỏi đáp',
-		book: 'Đặt vé',
+		book: 'Đặt xe',
 		menu: 'Mở menu',
 		close: 'Đóng menu',
 		language: 'Ngôn ngữ',
 	},
 	hero: {
 		kicker: 'Giải pháp tiết kiệm cho chuyến đi của bạn',
-		titleTop: 'Vé xe giá rẻ',
+		titleTop: 'Dịch vụ đưa đón tiết kiệm',
 		title: 'Sân bay Cam Ranh – Nha Trang',
 		titleAccent: 'trả tận khách sạn',
 		// Cỡ chữ từng dòng tiêu đề (đơn vị cqw = % bề rộng khung) để 3 dòng dài gần bằng nhau. Đổi chữ thì chỉnh lại cho khớp.
-		fit: [13.2, 6.0, 8.9],
+		fit: [7.1, 6.0, 8.9],
 		priceFrom: 'Chỉ từ',
 		priceUnit: '/ người',
-		cta: 'Đặt vé ngay',
+		cta: 'Đặt xe ngay',
 		chips: ['Hạ cánh là có xe đón ngay', 'Trả khách tận khách sạn', 'Giá rõ ràng, không mặc cả'],
-		imgAlt: 'Xe đưa khách từ sân bay Cam Ranh về tận khách sạn ở Nha Trang',
+		imgAlt: 'Xe đón khách từ sân bay Cam Ranh về tận khách sạn ở Nha Trang',
 	},
 	routeInfo: {
 		'cxr-to-nha-trang': { from: 'Sân bay Cam Ranh', to: 'Nha Trang' },
@@ -63,12 +63,12 @@ export const vi = {
 	routes: {
 		eyebrow: 'Điểm trả',
 		title: 'Các điểm trả tại Nha Trang',
-		sub: 'Trả tận khách sạn của bạn, hoặc xuống tại văn phòng Origo. Nhân viên sẽ trao đổi địa điểm trả với bạn sau khi đặt vé.',
+		sub: 'Trả tận khách sạn của bạn, hoặc xuống tại văn phòng Origo. Nhân viên sẽ trao đổi địa điểm trả với bạn sau khi đặt xe.',
 		dropTag: 'Điểm trả',
 		distBeach: 'Cách biển Trần Phú',
 		distCenter: 'Cách trung tâm',
 		map: 'Xem bản đồ',
-		book: 'Đặt vé điểm này',
+		book: 'Chọn điểm này',
 	},
 	// Id khớp với stops trong site.ts
 	stopInfo: {
@@ -91,23 +91,8 @@ export const vi = {
 	mission: {
 		eyebrow: 'Sứ mệnh Origo',
 		title: 'Kết nối hành trình sân bay, để mỗi chuyến đi nhẹ nhàng hơn.',
-		text: 'Origo hướng đến việc giúp hành khách di chuyển giữa sân bay Cam Ranh và Nha Trang một cách thuận tiện, rõ ràng và an tâm hơn. Thông qua giải pháp đi chung và lên kế hoạch trước, Origo mong muốn tạo thêm một lựa chọn di chuyển với chi phí hợp lý, đồng thời đồng hành cùng hành khách từ lúc tìm hiểu đến khi hoàn thành chuyến đi.',
+		text: 'Origo hướng đến việc giúp hành khách di chuyển giữa sân bay Cam Ranh và Nha Trang một cách thuận tiện, rõ ràng và an tâm hơn. Thông qua dịch vụ đưa đón được sắp xếp trước, Origo mong muốn tạo thêm một lựa chọn di chuyển với chi phí hợp lý, đồng thời đồng hành cùng hành khách từ lúc tìm hiểu đến khi hoàn thành chuyến đi.',
 		more: 'Xem thêm về Origo',
-	},
-	process: {
-		eyebrow: 'Quy trình',
-		title: 'Đặt vé 1 phút, phần còn lại Origo lo',
-		sub: 'Có nhân viên đồng hành từ lúc bạn đặt vé đến khi bước xuống xe.',
-		booking: {
-			title: 'Khi đặt vé',
-			steps: [
-				{ title: 'Đặt vé online', text: 'Để lại tên, số điện thoại, mã chuyến bay và giờ hạ cánh. Chưa đến 1 phút.' },
-				{ title: 'Nhân viên liên hệ tư vấn', text: 'Nhân viên Origo gọi hoặc nhắn tin cho bạn.' },
-				{ title: 'Xác nhận thông tin', text: 'Chốt giờ đón, số người, điểm trả (khách sạn của bạn hoặc văn phòng Origo) và các yêu cầu khác.' },
-				{ title: 'Thanh toán và nhận mã vé', text: 'Thanh toán theo hướng dẫn, nhận mã vé ngay.' },
-			],
-		},
-		cta: 'Liên hệ tư vấn',
 	},
 	why: {
 		eyebrow: 'Vì sao chọn Origo',
@@ -116,16 +101,16 @@ export const vi = {
 		items: [
 			{ icon: 'price', title: 'Giá rẻ, rõ ràng', text: `Chỉ từ ${price} mỗi người, rẻ hơn nhiều so với taxi truyền thống. Giá báo trước, không mặc cả.` },
 			{ icon: 'pin', title: 'Trả tận khách sạn', text: 'Xe đưa bạn thẳng đến khách sạn ở Nha Trang, hoặc xuống tại văn phòng Origo nếu bạn muốn. Không lo lạc đường.' },
-			{ icon: 'fast', title: 'Hạ cánh là có xe', text: 'Xe chạy liên tục. Chắc chắn có xe trong vòng 30 phút kể từ khi máy bay hạ cánh.' },
+			{ icon: 'fast', title: 'Hạ cánh là có xe', text: 'Chắc chắn có xe đón trong vòng 30 phút kể từ khi máy bay hạ cánh.' },
 			{ icon: 'trust', title: 'Minh bạch, uy tín', text: 'Tên tài xế, biển số gửi trước giờ đón. Origo là đơn vị trung gian xác nhận và đồng hành suốt chuyến.' },
 		],
 		cta: 'Đặt ngay',
 	},
 	form: {
-		eyebrow: 'Đặt vé',
+		eyebrow: 'Đặt xe',
 		title: 'Xuống sân bay, xe đưa bạn về tận khách sạn',
 		sub: 'Nhân viên Origo sẽ liên hệ trong vài phút để xác nhận và trao đổi địa điểm trả tại khách sạn với quý khách.',
-		priceLine: 'Giá vé',
+		priceLine: 'Giá dịch vụ',
 		priceUnit: '/người',
 		route: 'Chiều đi',
 		origin: 'Nơi cất cánh',
@@ -149,7 +134,7 @@ export const vi = {
 		hotlineCta: 'Liên hệ hotline để được tư vấn thêm',
 		timeHint: 'Nhân viên sẽ kiểm tra chuyến bay và xếp xe đón bạn.',
 		honeypot: 'Để trống',
-		submit: 'Gửi yêu cầu đặt vé',
+		submit: 'Gửi yêu cầu đặt xe',
 		sending: 'Đang gửi...',
 		processing: 'Thông tin đang được xử lý...',
 		processingHint: 'Vui lòng không đóng hoặc tải lại trang.',
@@ -159,7 +144,7 @@ export const vi = {
 		ok: 'Nhân viên Origo sẽ liên hệ với bạn trong ít phút.',
 		demo: 'Chế độ demo: form chạy được nhưng chưa nối Google Sheet.',
 		err: 'Chưa gửi được. Vui lòng thử lại hoặc liên hệ trực tiếp.',
-		privacy: 'Mã vé và thông tin xe sẽ được nhân viên tư vấn và gửi cho bạn qua Zalo.\nThông tin liên hệ chỉ được chia sẻ với đơn vị vận chuyển để đón bạn.',
+		privacy: 'Mã đặt xe và thông tin xe sẽ được nhân viên tư vấn và gửi cho bạn qua Zalo.\nThông tin liên hệ chỉ được chia sẻ với đơn vị vận chuyển để đón bạn.',
 	},
 	blog: {
 		eyebrow: 'Tin tức',
@@ -171,7 +156,7 @@ export const vi = {
 			news: 'Tin tức Nha Trang',
 		} as Record<string, string>,
 		catDesc: {
-			service: 'Thông báo, cập nhật và hướng dẫn sử dụng dịch vụ xe sân bay Cam Ranh – Nha Trang của Origo.',
+			service: 'Thông báo, cập nhật và hướng dẫn sử dụng dịch vụ đưa đón sân bay Cam Ranh – Nha Trang của Origo.',
 			guide: 'Kinh nghiệm du lịch Nha Trang: di chuyển, lịch trình, ăn chơi và mẹo hay cho chuyến đi.',
 			news: 'Tin tức, sự kiện mới tại Nha Trang hữu ích cho du khách.',
 		} as Record<string, string>,
@@ -181,8 +166,8 @@ export const vi = {
 		back: 'Tất cả bài viết',
 		published: 'Đăng ngày',
 		ctaTitle: `Về tận khách sạn ở Nha Trang chỉ từ ${price}`,
-		ctaText: 'Đặt vé trước, hạ cánh là có xe trong 30 phút.',
-		ctaBtn: 'Đặt vé ngay',
+		ctaText: 'Đặt xe trước, hạ cánh là có xe trong 30 phút.',
+		ctaBtn: 'Đặt xe ngay',
 		related: 'Bài viết khác',
 	},
 	faq: {
@@ -190,12 +175,12 @@ export const vi = {
 		title: 'Câu hỏi thường gặp',
 		// TODO: các câu về thanh toán, hành lý, trẻ em, trễ chuyến, thời gian đi là tạm, chủ xác nhận
 		items: [
-			{ q: 'Giá vé xe sân bay Cam Ranh về Nha Trang là bao nhiêu?', a: `Chỉ từ ${price} mỗi người. Nhân viên xác nhận giá cuối cùng khi liên hệ với bạn.` },
-			{ q: 'Sau khi hạ cánh bao lâu thì có xe?', a: 'Xe chạy liên tục. Bạn chắc chắn có xe trong vòng 30 phút kể từ khi máy bay hạ cánh.' },
+			{ q: 'Giá dịch vụ đưa đón từ sân bay Cam Ranh về Nha Trang là bao nhiêu?', a: `Chỉ từ ${price} mỗi người. Nhân viên xác nhận giá cuối cùng khi liên hệ với bạn.` },
+			{ q: 'Sau khi hạ cánh bao lâu thì có xe?', a: 'Bạn chắc chắn có xe trong vòng 30 phút kể từ khi máy bay hạ cánh.' },
 			{ q: 'Từ sân bay Cam Ranh về trung tâm Nha Trang bao xa?', a: 'Khoảng 35 km. Thời gian đi tùy giao thông và điểm trả bạn chọn.' },
 			{ q: 'Làm sao nhận ra xe và tài xế?', a: 'Trước giờ đón 15 phút, nhân viên gửi bạn tên tài xế, biển số xe và khu vực đón. Hãy đối chiếu trước khi lên xe.' },
-			{ q: 'Thanh toán như thế nào?', a: 'Sau khi nhân viên xác nhận thông tin chuyến đi, bạn thanh toán theo hướng dẫn và nhận mã vé.' },
-			{ q: 'Xe trả khách ở đâu tại Nha Trang?', a: 'Tại khách sạn của bạn hoặc tại văn phòng Origo, xem mục Điểm trả. Nhân viên sẽ trao đổi với bạn sau khi đặt vé.' },
+			{ q: 'Thanh toán như thế nào?', a: 'Sau khi nhân viên xác nhận thông tin chuyến đi, bạn thanh toán theo hướng dẫn và nhận mã đặt xe.' },
+			{ q: 'Xe trả khách ở đâu tại Nha Trang?', a: 'Tại khách sạn của bạn hoặc tại văn phòng Origo, xem mục Điểm trả. Nhân viên sẽ trao đổi với bạn sau khi đặt xe.' },
 			{ q: 'Chuyến bay bị trễ thì sao?', a: 'Hãy nhắn cho nhân viên số hiệu chuyến bay và giờ hạ cánh mới, chúng tôi sẽ sắp xếp lại.' },
 			{ q: 'Mang nhiều hành lý hoặc đi cùng trẻ em?', a: 'Hãy báo khi nhân viên liên hệ xác nhận, chúng tôi sẽ tư vấn phù hợp.' },
 		],
@@ -203,8 +188,8 @@ export const vi = {
 	about: {
 		eyebrow: 'Về Origo',
 		title: 'Giới thiệu về Origo',
-		sub: 'Vé xe sân bay Cam Ranh – Nha Trang giá tiết kiệm, trả tận khách sạn',
-		intro: 'Origo là dịch vụ vé xe từ sân bay quốc tế Cam Ranh về Nha Trang, trả khách tận khách sạn. Chúng tôi giúp bạn về thành phố với chi phí hợp lý, thông tin minh bạch và có người đồng hành từ lúc đặt vé đến khi xuống xe.',
+		sub: 'Dịch vụ đưa đón sân bay Cam Ranh – Nha Trang tiết kiệm, trả tận khách sạn',
+		intro: 'Origo là dịch vụ đưa đón từ sân bay quốc tế Cam Ranh về Nha Trang, trả khách tận khách sạn. Chúng tôi giúp bạn về thành phố với chi phí hợp lý, thông tin minh bạch và có người đồng hành từ lúc đặt xe đến khi xuống xe.',
 		highlights: [
 			{ icon: 'price', title: 'Giá tiết kiệm', text: `Chỉ từ ${price} mỗi người.` },
 			{ icon: 'trust', title: 'An toàn', text: 'Biết trước tài xế và biển số xe.' },
@@ -212,17 +197,17 @@ export const vi = {
 			{ icon: 'pin', title: 'Tận nơi', text: 'Trả tận khách sạn, hoặc tại văn phòng Origo.' },
 		],
 		missionTitle: 'Kết nối hành trình sân bay, để mỗi chuyến đi nhẹ nhàng hơn.',
-		missionText: 'Origo hướng đến việc giúp hành khách di chuyển giữa sân bay Cam Ranh và Nha Trang một cách thuận tiện, rõ ràng và an tâm hơn. Thông qua giải pháp đi chung và lên kế hoạch trước, Origo mong muốn tạo thêm một lựa chọn di chuyển với chi phí hợp lý, đồng thời đồng hành cùng hành khách từ lúc tìm hiểu đến khi hoàn thành chuyến đi.',
+		missionText: 'Origo hướng đến việc giúp hành khách di chuyển giữa sân bay Cam Ranh và Nha Trang một cách thuận tiện, rõ ràng và an tâm hơn. Thông qua dịch vụ đưa đón được sắp xếp trước, Origo mong muốn tạo thêm một lựa chọn di chuyển với chi phí hợp lý, đồng thời đồng hành cùng hành khách từ lúc tìm hiểu đến khi hoàn thành chuyến đi.',
 		values: [
-			{ title: 'Tiết kiệm', text: 'Giá vé rõ ràng ngay từ đầu, thấp hơn nhiều so với taxi truyền thống, không mặc cả.' },
+			{ title: 'Tiết kiệm', text: 'Giá rõ ràng ngay từ đầu, thấp hơn nhiều so với taxi truyền thống, không mặc cả.' },
 			{ title: 'An toàn', text: 'Thông tin tài xế và xe được xác nhận, gửi trước. Origo hỗ trợ bạn suốt chuyến đi.' },
-			{ title: 'Nhanh chóng', text: 'Xe chạy liên tục, bạn không phải chờ lâu sau chuyến bay dài.' },
+			{ title: 'Nhanh chóng', text: 'Hạ cánh là có xe đón, bạn không phải chờ lâu sau chuyến bay dài.' },
 		],
 		ctaRoutes: 'Xem điểm trả',
 	},
-	cta: { title: 'Hạ cánh rồi, về khách sạn thôi!', text: `Chỉ từ ${price} mỗi người. Đặt vé chưa đến một phút.`, book: 'Đặt vé ngay', question: 'Câu hỏi thường gặp' },
+	cta: { title: 'Hạ cánh rồi, về khách sạn thôi!', text: `Chỉ từ ${price} mỗi người. Đặt xe chưa đến một phút.`, book: 'Đặt xe ngay', question: 'Câu hỏi thường gặp' },
 	footer: {
-		about: 'Origo – vé xe từ sân bay Cam Ranh về Nha Trang, trả tận khách sạn: tiết kiệm, an toàn, nhanh chóng.',
+		about: 'Origo – dịch vụ đưa đón từ sân bay Cam Ranh về Nha Trang, trả tận khách sạn: tiết kiệm, an toàn, nhanh chóng.',
 		routes: 'Chiều đi',
 		info: 'Thông tin',
 		cats: 'Chuyên mục',
@@ -234,7 +219,7 @@ export const vi = {
 		contactSoon: 'Thông tin liên hệ sẽ sớm cập nhật.',
 		rights: 'Bảo lưu mọi quyền.',
 	},
-	mobileBar: { from: 'Chỉ từ', book: 'Đặt vé' },
+	mobileBar: { from: 'Chỉ từ', book: 'Đặt xe' },
 };
 
 export type Dict = typeof vi;
